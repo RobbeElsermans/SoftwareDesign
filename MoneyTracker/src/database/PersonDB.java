@@ -2,7 +2,7 @@ package database;
 
 import person.Person;
 
-public class PersonDB extends Database<Person>{
+public class PersonDB extends ADatabase<Person> {
 
 
     @Override

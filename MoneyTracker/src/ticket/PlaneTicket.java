@@ -1,11 +1,11 @@
 package ticket;
 
-public class PlaneTicket extends Ticket{
-    public PlaneTicket(String id, double price, String payerId, String spenderId) {
+public class PlaneTicket extends ATicket {
+    public PlaneTicket(int id, double price, int payerId, int spenderId) {
         super(id, price, payerId, spenderId);
     }
 
-    public PlaneTicket(String id, double price, String payerId, String spenderId, String text) {
+    public PlaneTicket(int id, double price, int payerId, int spenderId, String text) {
         super(id, price, payerId, spenderId, text);
     }
 }

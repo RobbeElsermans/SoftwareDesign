@@ -1,14 +1,12 @@
 package database;
 
-import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.HashMap;
 
-public abstract class Database<T> {
+public abstract class ADatabase<T> {
     protected T value;
     //protected HashMap<String, T> db;
     protected PropertyChangeSupport support;
-    public Database() { }
+    public ADatabase() { }
 
     public void setValue(T value) {
         support.firePropertyChange("RegisterEntry", this.value, value);

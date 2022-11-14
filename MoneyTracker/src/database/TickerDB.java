@@ -1,12 +1,12 @@
 package database;
 
-import ticket.Ticket;
+import ticket.ATicket;
 
-public class TickerDB extends Database<Ticket>{
+public class TickerDB extends ADatabase<ATicket> {
 
 
     @Override
-    public void addValue(Ticket value) {
+    public void addValue(ATicket value) {
 
     }
 }
