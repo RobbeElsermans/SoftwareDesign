@@ -1,19 +1,17 @@
 package person;
 
 public class Person implements IPerson{
-    private int id;
     private String name;
     private String surname;
     private int fallGuyId;
 
     //TODO Gen een ID en validate of dat ze niet bestaat in de database voor alle constructors. Best buiten deze classe halen (Single-responsiblity Principle)
     //De base person methode die iedere constructor moet aanroepen
-    public Person(){
-        //Gen een ID en validate of dat ze niet bestaat in de database
 
-    }
     //We kunnen een user maken zonder fallguy
     public Person(String name, String surname){
+        this.name = name;
+        this.surname = surname;
     }
     //We kunnen een user maken met een fallguy
     public Person(String name, String surname, int fallGuyId){
@@ -31,16 +29,6 @@ public class Person implements IPerson{
     }
 
     @Override
-    public String getFullName() {
-        return this.name + " " + this.surname;
-    }
-
-    @Override
-    public int getId() {
-        return this.id;
-    }
-
-    @Override
     public int getFallguyId() {
         return this.fallGuyId;
     }
@@ -53,5 +41,10 @@ public class Person implements IPerson{
 
 
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return this.name + " " + this.surname;
     }
 }

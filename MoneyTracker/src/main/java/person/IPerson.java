@@ -19,18 +19,6 @@ public interface IPerson {
     String getSurname();
 
     /**
-     * Get the persons Fullname
-     * @return "{name} {surname}"
-     */
-    String getFullName();
-
-    /**
-     * Get the persons ID
-     * @return The persons ID
-     */
-    int getId();
-
-    /**
      * Get the fallguys ID
      * @return The fallguys ID
      */

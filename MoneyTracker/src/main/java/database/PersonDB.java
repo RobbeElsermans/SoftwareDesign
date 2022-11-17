@@ -2,15 +2,13 @@ package database;
 
 import person.IPerson;
 
-import java.util.HashMap;
+import java.util.Map;
 
 public class PersonDB extends ADatabase<IPerson> {
 
     private static ADatabase<IPerson> personDB;
-    private final HashMap<Integer, IPerson> db;
 
     public PersonDB() {
-        this.db = new HashMap<>();
         // this.support = new PropertyChangeSupport(this);
     }
 
@@ -19,24 +17,12 @@ public class PersonDB extends ADatabase<IPerson> {
         return personDB;
     }
 
-    @Override
-    public void addValue(IPerson value) {
-        int id = this.createId();
-        boolean uploading = true;
-        while (uploading){
-            if (this.db.get(id) == null){
-                this.db.put(id, value);
-                this.setValue(value);
-                uploading = false;
-            } else {
-                id = this.createId();
-            }
+    public int getIdByName(String name, String lastname){
+        for(Map.Entry<Integer, IPerson> entry : db.entrySet()) {
+            if (getValue().toString().equals(name + " " + lastname)) return entry.getKey();
+            //  Integer key = entry.getKey();
+            //  IPerson value = entry.getValue();
         }
-
-    }
-
-    @Override
-    public IPerson getValue(IPerson value) {
-        return this.db.getOrDefault(value, this.getValue());
+        return 0;
     }
 }
