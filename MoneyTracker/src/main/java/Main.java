@@ -1,14 +1,21 @@
+import controller.PersonController;
+import controller.TicketController;
 import database.ADatabase;
 import database.PersonDB;
 import database.TicketDB;
 import factory.FactoryProvider;
+import factory.FactoryType;
+import factory.ITicketFactory;
 import javafx.stage.Stage;
 import person.IPerson;
 import person.Person;
 import ticket.ITicket;
+import ticket.TicketType;
+import ticket.object.plane.PlaneTicket;
 import view.Application;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,10 +26,9 @@ public class Main {
     }
     public void run(){
         System.out.println("Wazaaa");
-        FactoryProvider provider = new FactoryProvider();
 
         // person db test
-        PersonDB personDB = (PersonDB) PersonDB.getInstance();
+        PersonController pController = new PersonController(PersonDB.getInstance());
         List<String> names = new ArrayList<String>();
         names.add("Kai");
         names.add("Zion");
@@ -33,12 +39,19 @@ public class Main {
         names.add("Maeve");
         names.add("Aaliyah");
         for (String name: names) {
-            personDB.addValue(new Person(name, "Richards"));
+            pController.addValue(new Person(name, "Richards"));
         }
-        int id = personDB.getIdByName(names.get(3), "Richards");
-        System.out.printf("GET - ID: %d\n", id);
         // ticket db test
-        ADatabase<ITicket> ticketDB = TicketDB.getInstance();
+        ITicketFactory factory = FactoryProvider.getFactory(FactoryType.PLANE);
+        TicketController tController = new TicketController(TicketDB.getInstance());
+        int payerId = pController.getIdByName(names.get(3), "Richards");
+        HashMap<Integer, Double> debts = new HashMap<>();
+        for (String name: names) {
+            int spenderId = pController.getIdByName(name, "Richards");
+            ITicket ticket = factory.getUniformTicket(payerId, new HashMap<Integer, Double>(){{ put(spenderId, 10.0); }});
+            tController.addValue(ticket);
+        }
+        //System.out.printf("GET - ID: %d\n", id);
 
         //Application app = new Application();
     }

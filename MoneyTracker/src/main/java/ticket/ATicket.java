@@ -25,4 +25,9 @@ public abstract class ATicket implements ITicket{
     }
     public int getPayerId() { return payerId; }
     public String getText() { return text; }
+
+    /*@Override
+    public String toString() {
+        return this.name + " " + this.surname;
+    }*/
 }

@@ -16,13 +16,4 @@ public class PersonDB extends ADatabase<IPerson> {
         if (personDB == null) personDB = new PersonDB();
         return personDB;
     }
-
-    public int getIdByName(String name, String lastname){
-        for(Map.Entry<Integer, IPerson> entry : db.entrySet()) {
-            if (getValue().toString().equals(name + " " + lastname)) return entry.getKey();
-            //  Integer key = entry.getKey();
-            //  IPerson value = entry.getValue();
-        }
-        return 0;
-    }
 }
