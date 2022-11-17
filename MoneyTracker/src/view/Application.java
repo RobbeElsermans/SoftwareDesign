@@ -1,5 +1,7 @@
 package view;
 
+import ticket.TicketType;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -10,7 +12,6 @@ import java.awt.event.ActionListener;
 public class Application extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
-
         //Ik ben hier wat aant spelen met deze action listener
         this.e = e;
         System.out.println("An action has occurred!");
@@ -18,11 +19,7 @@ public class Application extends JFrame implements ActionListener {
         System.out.println(e.getSource().getClass().getCanonicalName());
     }
     ActionEvent e;
-    enum TicketType{
-        Uniform,
-        Variable
-    }
-    TicketType ticketType = TicketType.Uniform; //Eerst met uniforme tickets werken
+    TicketType ticketType = TicketType.UNIFORM; //Eerst met uniforme tickets werken
 
     public Application(){
 

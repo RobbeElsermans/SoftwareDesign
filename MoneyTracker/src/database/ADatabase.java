@@ -15,6 +15,7 @@ public abstract class ADatabase<T> {
 
     public T getValue() { return this.value; }
     public abstract void addValue(T value);
+    public abstract T getEntry(T value);
 
     /*public void addPropertyChangeListener(PropertyChangeListener pcl) {
         support.addPropertyChangeListener(pcl);
