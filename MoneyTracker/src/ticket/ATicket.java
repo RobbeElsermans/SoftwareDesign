@@ -1,32 +1,28 @@
 package ticket;
 
+import person.IPerson;
+
+import java.util.HashMap;
+
 public abstract class ATicket implements ITicket{
     protected int id;
+    // Contains spenderID en debt of spender
+    protected final HashMap<Integer, Double> debts;
     protected double price;
     protected int payerId;
     protected int spenderId;
     protected String text;
 
-    public ATicket(int id, double price, int payerId, int spenderId){
-        this.id = id;
-        this.price = price;
+    public ATicket(int payerId, HashMap<Integer, Double> debts){
         this.payerId = payerId;
-        this.spenderId = spenderId;
+        this.debts = debts;
     }
 
-    public ATicket(int id, double price, int payerId, int spenderId, String text){
-        this.id = id;
-        this.price = price;
+    public ATicket(int payerId, HashMap<Integer, Double> debts, String text){
         this.payerId = payerId;
-        this.spenderId = spenderId;
         this.text = text;
-    }
-
-    public int getId() { return id; }
-    public double getPrice() { return price; }
-    public void setPrice(double price) {
+        this.debts = debts;
     }
     public int getPayerId() { return payerId; }
-    public int getSpenderId() { return spenderId; }
     public String getText() { return text; }
 }

@@ -1,13 +1,12 @@
 package factory;
 
 public class FactoryProvider {
-    // Zet string om naar een enum
-    public static ITicketFactory getFactory(String type)
+    public static ITicketFactory getFactory(FactoryType type)
     {
         switch (type){
-            case "Plane":   return new PlaneTicketFactory();
-            case "Dinner":  return new DinnerTicketFactory();
-            default:    return null;
+            case DINNER:    return new DinnerTicketFactory();
+            case PLANE:     return new PlaneTicketFactory();
+            default:        return null;
         }
     }
 }

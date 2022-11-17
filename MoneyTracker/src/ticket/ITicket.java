@@ -7,36 +7,10 @@ package ticket;
 
 public interface ITicket {
     /**
-     * Get the ticket ID
-     * @return
-     */
-    int getId();
-
-    /**
-     * Get the total price of the ticket
-     * @return the total price of the ticket in euro
-     */
-    double getPrice();
-
-    /**
-     * Set the total price of the ticket
-     * @param price in euro
-     */
-    void setPrice(double price);
-
-    /**
      * Get the person ID from the payer
      * @return The persons ID of the payer
      */
     int getPayerId(); //De betaler
-
-    //TODO: getSpenderId() Moet dit geen list zijn van meerdere Persons?
-
-    /**
-     * Get the collection of persons wo didn't pay
-     * @return ArrayList of persons ID's
-     */
-    int getSpenderId();  //De mensen die niet hebben betaald
 
     /**
      * Get the free text
