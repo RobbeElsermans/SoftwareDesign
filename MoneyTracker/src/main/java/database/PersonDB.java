@@ -21,14 +21,22 @@ public class PersonDB extends ADatabase<IPerson> {
 
     @Override
     public void addValue(IPerson value) {
-        // TODO: Change after ID maker is created
-        int id = (int)(Math.random() * Math.pow(10, 9));
-        this.db.put(id, value);
-        this.setValue(value);
+        int id = this.createId();
+        boolean uploading = true;
+        while (uploading){
+            if (this.db.get(id) == null){
+                this.db.put(id, value);
+                this.setValue(value);
+                uploading = false;
+            } else {
+                id = this.createId();
+            }
+        }
+
     }
 
     @Override
-    public IPerson getEntry(IPerson value) {
+    public IPerson getValue(IPerson value) {
         return this.db.getOrDefault(value, this.getValue());
     }
 }

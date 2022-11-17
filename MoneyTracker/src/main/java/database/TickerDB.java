@@ -29,7 +29,7 @@ public class TickerDB extends ADatabase<ITicket> {
     }
 
     @Override
-    public ITicket getEntry(ITicket value) {
+    public ITicket getValue(ITicket value) {
         return null;
     }
 }
