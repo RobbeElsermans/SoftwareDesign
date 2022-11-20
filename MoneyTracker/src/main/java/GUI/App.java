@@ -9,18 +9,17 @@ import javafx.stage.Stage;
 public class App extends Application {
 
     public static void App(){
-        launch();
+        Application.launch();
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         try{
             //TODO de FXML abstract maken
-            Parent root = FXMLLoader.load(getClass().getResource("UniformTicket.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/fxml/UniformTicket.fxml"));
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
             primaryStage.show();
-
         }
         catch (Exception e)
         {

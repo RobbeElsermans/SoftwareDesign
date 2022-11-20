@@ -18,13 +18,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Main  extends Application {
+public class Main{
     public static void main(String[] args)  {
         Main main = new Main();
         main.run();
 
         //Applicatie stuff
-        Application.launch(args);
+        App.App();
     }
     public void run() {
         System.out.println("Wazaaa");
@@ -55,21 +55,5 @@ public class Main  extends Application {
         }
         //System.out.printf("GET - ID: %d\n", id);
 
-    }
-
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        try{
-            //TODO de FXML abstract maken
-            Parent root = FXMLLoader.load(getClass().getResource("test.fxml"));
-            Scene scene = new Scene(root);
-            primaryStage.setScene(scene);
-            primaryStage.show();
-
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
     }
 }
