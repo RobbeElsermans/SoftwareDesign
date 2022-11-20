@@ -1,30 +1,32 @@
+import GUI.App;
 import controller.PersonController;
 import controller.TicketController;
-import database.ADatabase;
 import database.PersonDB;
 import database.TicketDB;
 import factory.FactoryProvider;
 import factory.FactoryType;
 import factory.ITicketFactory;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
-import person.IPerson;
 import person.Person;
 import ticket.ITicket;
-import ticket.TicketType;
-import ticket.object.plane.PlaneTicket;
-import view.Application;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class Main {
-    public static void main(String[] args) {
+public class Main  extends Application {
+    public static void main(String[] args)  {
         Main main = new Main();
         main.run();
+
+        //Applicatie stuff
+        Application.launch(args);
     }
-    public void run(){
+    public void run() {
         System.out.println("Wazaaa");
 
         // person db test
@@ -53,6 +55,21 @@ public class Main {
         }
         //System.out.printf("GET - ID: %d\n", id);
 
-        //Application app = new Application();
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        try{
+            //TODO de FXML abstract maken
+            Parent root = FXMLLoader.load(getClass().getResource("test.fxml"));
+            Scene scene = new Scene(root);
+            primaryStage.setScene(scene);
+            primaryStage.show();
+
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 }
