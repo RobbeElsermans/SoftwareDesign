@@ -1,6 +1,8 @@
 package GUI.controller;
 
 import database.PersonDB;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -10,28 +12,18 @@ import javafx.scene.layout.AnchorPane;
 import person.IPerson;
 
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 
+public class ControllerGui implements Initializable, ChangeListener<Double> {
 
-public class ControllerGui implements Initializable {
-
-    @FXML
-    protected Spinner<Double> spinnerAmount;
-    @FXML
-    protected AnchorPane paneVariable;
-    @FXML
-    protected AnchorPane paneUniform;
     @FXML
     protected Label labelPriceType;
     @FXML
     protected Button buttonSaveTicket;
-    @FXML
-    protected Button buttonUniform;
-    @FXML
-    protected Button buttonVariable;
     @FXML
     protected ComboBox<String> dropDownTicketType;
     @FXML
@@ -51,7 +43,10 @@ public class ControllerGui implements Initializable {
     private final List<String> personsDataNames = new ArrayList<>();    //Opslag van .toString IPerson
     private int fromPersonId = -1;                                           //Opslag van id van de from person. -1 is geen id
     private List<Integer> forPersonIdList = new ArrayList<>();         //Opslag van id's van de geselecteerde for personen
-    private double totAmount;                                           //totaal bedrag
+    private List<String> forPersonNamesList = new ArrayList<>();         //Opslag van names van de geselecteerde for personen
+    private double totAmount = 0.0;                                           //totaal bedrag
+    private List<Double> forPersonAmount = new ArrayList<>();
+    private static final DecimalFormat decimalFormat = new DecimalFormat("0.00");
 
     /**
      * Een ticket opslaan
@@ -119,10 +114,14 @@ public class ControllerGui implements Initializable {
             if (forPersonIdList.size() > 0){
                 forPersonIdList = new ArrayList<>();    //instantieer de lijst, als deze ingevuld is, zodat alles verwijderd is van voorgaande lijst
 
-                List<String> temp_forPersonListView = new ArrayList<>();
-                temp_forPersonListView = listViewForPersons.getItems();
-                listViewForPersons.getItems().removeAll(temp_forPersonListView);
+                removeAllItemsInListView();
             }
+    }
+
+    private void removeAllItemsInListView() {
+        List<String> temp_forPersonListView = new ArrayList<>();
+        temp_forPersonListView = listViewForPersons.getItems();
+        listViewForPersons.getItems().removeAll(temp_forPersonListView);
     }
 
     private void getData(){
@@ -136,7 +135,15 @@ public class ControllerGui implements Initializable {
     }
 
     private void updateForPersonListView(String temp_forPerson) {
-        listViewForPersons.getItems().add(temp_forPerson + " is in depth");
+        forPersonNamesList.add(temp_forPerson);
+        updateAmountPerPersonInList();
+    }
+
+    private void updateAmountPerPersonInList() {
+        removeAllItemsInListView();
+        forPersonNamesList.forEach((value) -> {
+            listViewForPersons.getItems().add(value + " is in depth: " + decimalFormat.format(totAmount/forPersonNamesList.size()));
+        });
     }
 
     /**
@@ -151,8 +158,12 @@ public class ControllerGui implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        getData();
+        getData();          //get data from database
+        initDropdowns();    //dropdown initialize
+        initSpinner();      //Spinner initialize
+    }
 
+    private void initDropdowns() {
         //De lijsten toevoegen aan de respectievelijke dropdowns(combobox)
         dropDownTicketType.getItems().addAll(ticketTypes);
 
@@ -164,5 +175,20 @@ public class ControllerGui implements Initializable {
 
         //De acties implementeren
         dropDownFromPerson.setOnAction(this::addFromPerson);
+    }
+
+    private void initSpinner() {
+        SpinnerValueFactory<Double> valueFactory = new SpinnerValueFactory.DoubleSpinnerValueFactory(0,999);
+        valueFactory.setValue(totAmount);
+        spinnerTotAmount.setValueFactory(valueFactory);
+
+        spinnerTotAmount.valueProperty().addListener(this); //add Observer
+    }
+
+    @Override
+    public void changed(ObservableValue<? extends Double> observable, Double oldValue, Double newValue) {
+        this.totAmount = spinnerTotAmount.getValue();
+        System.out.println(totAmount);
+        updateAmountPerPersonInList();
     }
 }
