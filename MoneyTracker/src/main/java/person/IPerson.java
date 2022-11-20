@@ -34,4 +34,10 @@ public interface IPerson {
      * Als dit ID hetzelfde is als de persoon, dan is de persoon zelf de fallguy.
      */
     boolean setFallguyId(int id);
+
+    /**
+     * Gets the predefined "name + lastname" format
+     * @return String "[name] [lastname]"
+     */
+    String toString();
 }

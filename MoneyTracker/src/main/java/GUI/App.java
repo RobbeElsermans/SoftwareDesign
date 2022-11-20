@@ -18,6 +18,7 @@ public class App extends Application {
             //TODO de FXML abstract maken
             Parent root = FXMLLoader.load(getClass().getResource("/fxml/UniformTicket.fxml"));
             Scene scene = new Scene(root);
+            primaryStage.setResizable(false);
             primaryStage.setScene(scene);
             primaryStage.show();
         }
