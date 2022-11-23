@@ -17,7 +17,7 @@
       <Label layoutX="20.0" layoutY="132.0" text="Ticket:" />
       <Label layoutX="20.0" layoutY="162.0" text="Person who paid:" />
       <Label layoutX="20.0" layoutY="192.0" text="For person:" />
-      <ComboBox fx:id="dropDownFactoryType" layoutX="143.0" layoutY="128.0" onAction="#setFactoryType" prefHeight="24.0" prefWidth="180.0" />
+      <ComboBox fx:id="dropDownFactoryType" layoutX="143.0" layoutY="128.0" onAction="#setTicketType" prefHeight="24.0" prefWidth="180.0" />
       <ComboBox fx:id="dropDownFromPerson" layoutX="143.0" layoutY="158.0" prefHeight="24.0" prefWidth="180.0" />
       <ComboBox fx:id="dropDownForPerson" layoutX="143.0" layoutY="188.0" prefHeight="24.0" prefWidth="180.0" />
       <Button fx:id="buttonAddForPerson" layoutX="143.0" layoutY="250.0" mnemonicParsing="false" onAction="#addForPerson" prefHeight="24.0" prefWidth="180.0" text="ADD PERSON" />

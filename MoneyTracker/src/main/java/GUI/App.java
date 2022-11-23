@@ -6,7 +6,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.util.Objects;
+
 public class App extends Application {
+
+    private StatesGUI statesGUI = StatesGUI.TICKET_CREATION;
 
     public static void App(){
         Application.launch();
@@ -15,8 +19,17 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         try{
+            Parent root = null;
+            switch (statesGUI){
+                case PERSON_CREATION:
+                    break;
+                case TICKET_CREATION:
+                    root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/UniformTicket.fxml")));
+                    break;
+                case CALCULATION:
+                    break;
+            }
             //TODO de FXML abstract maken
-            Parent root = FXMLLoader.load(getClass().getResource("/fxml/UniformTicket.fxml"));
             Scene scene = new Scene(root);
             primaryStage.setResizable(false);
             primaryStage.setScene(scene);

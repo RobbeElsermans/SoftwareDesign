@@ -1,4 +1,4 @@
-package factory;
+package factory.facts;
 
 import ticket.ITicket;
 import ticket.object.plane.UniPlaneTicket;

@@ -1,8 +1,6 @@
-package controller;
+package database.dbController;
 
 import database.ADatabase;
-
-import java.util.Map;
 
 public abstract class AController<T> {
     protected ADatabase<T> db;

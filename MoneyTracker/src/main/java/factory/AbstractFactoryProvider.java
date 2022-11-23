@@ -1,6 +1,10 @@
 package factory;
 
-public class FactoryProvider {
+import factory.facts.DinnerTicketFactory;
+import factory.facts.ITicketFactory;
+import factory.facts.PlaneTicketFactory;
+
+public class AbstractFactoryProvider {
     public static ITicketFactory getFactory(FactoryType type)
     {
         switch (type){

@@ -1,16 +1,11 @@
 import GUI.App;
-import controller.PersonController;
-import controller.TicketController;
+import database.dbController.PersonController;
+import database.dbController.TicketController;
 import database.PersonDB;
 import database.TicketDB;
-import factory.FactoryProvider;
+import factory.AbstractFactoryProvider;
 import factory.FactoryType;
-import factory.ITicketFactory;
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import factory.facts.ITicketFactory;
 import person.Person;
 import ticket.ITicket;
 
@@ -44,7 +39,7 @@ public class Main{
             pController.addValue(new Person(name, "Richards"));
         }
         // ticket db test
-        ITicketFactory factory = FactoryProvider.getFactory(FactoryType.PLANE);
+        ITicketFactory factory = AbstractFactoryProvider.getFactory(FactoryType.PLANE);
         TicketController tController = new TicketController(TicketDB.getInstance());
         int payerId = pController.getIdByName(names.get(3), "Richards");
         HashMap<Integer, Double> debts = new HashMap<>();

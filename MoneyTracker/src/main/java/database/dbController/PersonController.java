@@ -1,4 +1,4 @@
-package controller;
+package database.dbController;
 
 import database.ADatabase;
 import person.IPerson;
