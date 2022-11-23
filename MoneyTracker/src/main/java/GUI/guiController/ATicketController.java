@@ -108,6 +108,9 @@ public abstract class ATicketController {
      */
     protected static final DecimalFormat decimalFormat = new DecimalFormat("0.00");
 
+    //TODO eruit halen
+    protected double totAmount;
+
     /**
      * Method to save a ticket.
      *
@@ -120,6 +123,7 @@ public abstract class ATicketController {
      */
     protected void saveTicket(ActionEvent event) {
         //Check if the input fields are filled in
+        //TODO set amount to List
         if (!this.ticketType.isEmpty() && this.forPersonIdList.size() > 0 && this.forPersonAmount.size() > 0) {
 
             //Get the factory for the ticket type
@@ -152,48 +156,79 @@ public abstract class ATicketController {
      */
     public void setFromPerson(ActionEvent event) {
         try {
-                // Get the selected persons fill name and store it temporary
-                String temp_fromPerson = dropDownFromPerson.getValue();
+            // Get the selected persons fill name and store it temporary
+            String temp_fromPerson = dropDownFromPerson.getValue();
 
-                // Search for the key in the local stored database personsData
-                // If found, store this key in fromPersonId
-                personsData.forEach((key, value) -> {
-                    if (value.toString().equalsIgnoreCase(temp_fromPerson)) {
-                        fromPersonId = key;
-                    }
-                });
+            // Search for the key in the local stored database personsData
+            // If found, store this key in fromPersonId
+            personsData.forEach((key, value) -> {
+                if (value.toString().equalsIgnoreCase(temp_fromPerson)) {
+                    fromPersonId = key;
+                }
+            });
 
-                // Remove From person out of the For persons list
-                // Remove all the persons out of the Combobox. We do not know if it was complete.
-                dropDownForPerson.getItems().removeAll(personsDataNames);
-                // Add a fresh new list
-                dropDownForPerson.getItems().addAll(personsDataNames);
-                // Remove the selected from person
-                dropDownForPerson.getItems().remove(temp_fromPerson);
+            // Remove From person out of the For persons list
+            // Remove all the persons out of the Combobox. We do not know if it was complete.
+            dropDownForPerson.getItems().removeAll(personsDataNames);
+            // Add a fresh new list
+            dropDownForPerson.getItems().addAll(personsDataNames);
+            // Remove the selected from person
+            dropDownForPerson.getItems().remove(temp_fromPerson);
 
             //if there were for persons selected for a specific from person, we need to clear the list.
-                if (this.forPersonIdList.size() > 0) {
-                    // Delete the list by instantiate it
-                    this.forPersonIdList = new ArrayList<>();
-                    this.forPersonNamesList = new ArrayList<>();
+            if (this.forPersonIdList.size() > 0) {
+                // Delete the list by instantiate it
+                this.forPersonIdList = new ArrayList<>();
+                this.forPersonNamesList = new ArrayList<>();
 
-                    List<String> temp_forPersonListView = this.listViewForPersons.getItems();
-                    this.listViewForPersons.getItems().removeAll(temp_forPersonListView);
-                }
-        }
-        catch (Exception e)
-        {
+                List<String> temp_forPersonListView = this.listViewForPersons.getItems();
+                this.listViewForPersons.getItems().removeAll(temp_forPersonListView);
+            }
+        } catch (Exception e) {
             System.out.println(e);
         }
 
 
     }
-    /*
+
+    /**
+     * Method to set a for person.
+     *
+     * @param event ActionEvent
+     *              This method only can continue if the from person, the combobox and the for persons list is not empty
+     */
     public void setForPerson(ActionEvent event) {
+        // See if the fromPerson is selected
+        // And the Combobox is not empty
+        // And the list of Combobox is not empty
+        if (this.fromPersonId != -1 &&
+                this.dropDownForPerson.getValue() != null &&
+                this.dropDownForPerson.getItems().size() > 0) {
+
+            //Get the selected value
+            String temp_forPerson = dropDownForPerson.getValue();
+
+            //Add the id of the selected for person to the forPersonIdList
+            this.personsData.forEach((key, value) ->{
+                if(value.toString().equalsIgnoreCase(temp_forPerson))
+                    this.forPersonIdList.add(key);
+            });
+
+            //Add the selected person to the ListView and update the listView
+            updateForPersonListView(temp_forPerson);
+            //TODO set amount to List
+
+            //Remove person from dropDownForPersons
+            this.dropDownForPerson.getItems().remove(temp_forPerson);
+        }
+        else
+        {
+            //Warn the user
+            System.out.println("Select a from person first! or the list is empty");
+        }
 
     }
 
-     */
 
     private HashMap<Integer, Double> formatForPersonData(List<Integer> forPersonIdList, List<Double> forPersonAmount) {
 
@@ -229,5 +264,19 @@ public abstract class ATicketController {
                 break;
         }
         return tempTicket;
+    }
+
+    private void updateForPersonListView(String temp_forPerson) {
+        forPersonNamesList.add(temp_forPerson);
+        updateAmountPerPersonInList();
+    }
+
+    private void updateAmountPerPersonInList() {
+        List<String> temp_forPersonListView = listViewForPersons.getItems();
+        listViewForPersons.getItems().removeAll(temp_forPersonListView);
+
+        forPersonNamesList.forEach((value) -> {
+            listViewForPersons.getItems().add(value + " is in depth: " + decimalFormat.format(totAmount / forPersonIdList.size()));
+        });
     }
 }

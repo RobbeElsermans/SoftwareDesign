@@ -24,7 +24,6 @@ import java.util.ResourceBundle;
 public class ControllerSetUTicket extends ATicketController implements Initializable, ChangeListener<Double> {
 
 //TODO nog wegwerken naar forPersonAmount
-    double totAmount;
 
     //We had to do this
     //source: https://stackoverflow.com/questions/58552417/how-do-i-change-this-superclass-into-an-abstract-class-without-getting-an-instan
@@ -33,29 +32,9 @@ public class ControllerSetUTicket extends ATicketController implements Initializ
         super.saveTicket(event);
     }
 
+    @Override
     public void setForPerson(ActionEvent event) {
-        if (fromPersonId != -1 && dropDownForPerson.getValue() != null && dropDownForPerson.getItems().size() > 0) {
-            //get the selected person's id.
-            String temp_forPerson = dropDownForPerson.getValue();
-            System.out.println("Add Person: " + temp_forPerson);
-
-            //Add id to forPersonIdList
-            if (forPersonIdList != null) {
-                personsData.forEach((key, value) -> {
-                    if (value.toString().equalsIgnoreCase(temp_forPerson)) {
-                        forPersonIdList.add(key);
-                    }
-                });
-            }
-
-            //Add person to forPersonListView and update forPersonListView
-            updateForPersonListView(temp_forPerson);
-
-            //Remove person from dropDownForPersons
-            dropDownForPerson.getItems().remove(temp_forPerson);
-        } else {
-            System.out.println("Select a from person first! or the list is empty");
-        }
+        super.setForPerson(event);
     }
 
     public void setFactoryType(ActionEvent event) {
