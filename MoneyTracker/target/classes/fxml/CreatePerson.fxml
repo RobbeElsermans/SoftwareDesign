@@ -20,7 +20,7 @@
       <ComboBox fx:id="dropDownFactoryType" layoutX="143.0" layoutY="128.0" onAction="#setTicketType" prefHeight="24.0" prefWidth="180.0" />
       <ComboBox fx:id="dropDownFromPerson" layoutX="143.0" layoutY="158.0" prefHeight="24.0" prefWidth="180.0" />
       <ComboBox fx:id="dropDownForPerson" layoutX="143.0" layoutY="188.0" prefHeight="24.0" prefWidth="180.0" />
-      <Button fx:id="buttonAddForPerson" layoutX="143.0" layoutY="250.0" mnemonicParsing="false" onAction="#addForPerson" prefHeight="24.0" prefWidth="180.0" text="ADD PERSON" />
+      <Button fx:id="buttonAddForPerson" layoutX="143.0" layoutY="250.0" mnemonicParsing="false" onAction="#setForPerson" prefHeight="24.0" prefWidth="180.0" text="ADD PERSON" />
       <Label fx:id="labelPriceType" layoutX="8.0" layoutY="97.0" text="Uniform Price">
          <font>
             <Font size="20.0" />

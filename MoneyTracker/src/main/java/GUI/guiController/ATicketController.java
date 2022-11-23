@@ -9,6 +9,7 @@ import factory.facts.ITicketFactory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import person.IPerson;
 import ticket.ITicket;
 import ticket.TicketType;
@@ -24,7 +25,7 @@ public abstract class ATicketController {
     @FXML
     protected Button buttonSaveTicket;
     @FXML
-    protected ComboBox<String> dropDownTicketType;
+    protected ComboBox<String> dropDownFactoryType;
     @FXML
     protected ComboBox<String> dropDownFromPerson;
     @FXML
@@ -42,49 +43,49 @@ public abstract class ATicketController {
      *
      * @used to populate the dropdown (Combobox) tables
      */
-    private TicketType currentTicketType = TicketType.UNIFORM;
+    protected TicketType currentTicketType = TicketType.UNIFORM;
 
     /**
      * Factory types (FactoryType) converted to string names
      *
      * @used to populate the dropdown (Combobox) tables
      */
-    private final List<String> factoryType = new ArrayList<>();
+    protected final List<String> factoryType = new ArrayList<>();
 
     /**
      * Storage of the person database. We create a local copy of it.
      *
      * @used to search through the database locally
      */
-    private HashMap<Integer, IPerson> personsData = new HashMap<>();
+    protected HashMap<Integer, IPerson> personsData = new HashMap<>();
 
     /**
      * Storage of all the persons full names.
      *
      * @used to populate the ListView
      */
-    private final List<String> personsDataNames = new ArrayList<>();
+    protected final List<String> personsDataNames = new ArrayList<>();
 
     /**
      * Storage for the selected from person ID. It is default -1.
      *
      * @used in the creation of the ticket
      */
-    private int fromPersonId = -1;
+    protected int fromPersonId = -1;
 
     /**
      * Storage for the selected for persons ID's.
      *
      * @used in the creation of the ticket
      */
-    private List<Integer> forPersonIdList = new ArrayList<>();
+    protected List<Integer> forPersonIdList = new ArrayList<>();
 
     /**
      * Storage for the selected ticketType
      *
      * @used in the creation of the ticket
      */
-    private String ticketType = "";
+    protected String ticketType = "";
 
     /**
      * Storage for the amount of depth per for person
@@ -93,19 +94,19 @@ public abstract class ATicketController {
      * @extra The amount of depth depends on Uniform or Variable ticket.
      * It needs to be set differently in the underlying classes.
      */
-    private List<Double> forPersonAmount = new ArrayList<>();
+    protected List<Double> forPersonAmount = new ArrayList<>();
 
     /**
      * Storage for the selected for persons full names.
      *
      * @used to populate and recreate the dropdown (Combobox) tables
      */
-    private List<String> forPersonNamesList = new ArrayList<>();
+    protected List<String> forPersonNamesList = new ArrayList<>();
 
     /**
      * A specific format to show the depth in the ListView
      */
-    private static final DecimalFormat decimalFormat = new DecimalFormat("0.00");
+    protected static final DecimalFormat decimalFormat = new DecimalFormat("0.00");
 
     /**
      * Method to save a ticket.
@@ -117,7 +118,7 @@ public abstract class ATicketController {
      * Then we use the propper Uniform or Variable ticket receiving from the factory.
      * Final we save the created ticket, and we reset the GUI.
      */
-    public void saveTicket(ActionEvent event) {
+    protected void saveTicket(ActionEvent event) {
         //Check if the input fields are filled in
         if (!this.ticketType.isEmpty() && this.forPersonIdList.size() > 0 && this.forPersonAmount.size() > 0) {
 
@@ -139,6 +140,60 @@ public abstract class ATicketController {
             System.out.println("Fill everything in!");
         }
     }
+
+    /**
+     * Method to set a from person
+     *
+     * @param event ActionEvent
+     * @description When we select a person in the Combobox, we want to store the person's ID.
+     * The selected person should not be in the for person list.
+     * If we had selected a previous from person,
+     * this previously person may now be part of the for persons
+     */
+    public void setFromPerson(ActionEvent event) {
+        try {
+                // Get the selected persons fill name and store it temporary
+                String temp_fromPerson = dropDownFromPerson.getValue();
+
+                // Search for the key in the local stored database personsData
+                // If found, store this key in fromPersonId
+                personsData.forEach((key, value) -> {
+                    if (value.toString().equalsIgnoreCase(temp_fromPerson)) {
+                        fromPersonId = key;
+                    }
+                });
+
+                // Remove From person out of the For persons list
+                // Remove all the persons out of the Combobox. We do not know if it was complete.
+                dropDownForPerson.getItems().removeAll(personsDataNames);
+                // Add a fresh new list
+                dropDownForPerson.getItems().addAll(personsDataNames);
+                // Remove the selected from person
+                dropDownForPerson.getItems().remove(temp_fromPerson);
+
+            //if there were for persons selected for a specific from person, we need to clear the list.
+                if (this.forPersonIdList.size() > 0) {
+                    // Delete the list by instantiate it
+                    this.forPersonIdList = new ArrayList<>();
+                    this.forPersonNamesList = new ArrayList<>();
+
+                    List<String> temp_forPersonListView = this.listViewForPersons.getItems();
+                    this.listViewForPersons.getItems().removeAll(temp_forPersonListView);
+                }
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
+        }
+
+
+    }
+    /*
+    public void setForPerson(ActionEvent event) {
+
+    }
+
+     */
 
     private HashMap<Integer, Double> formatForPersonData(List<Integer> forPersonIdList, List<Double> forPersonAmount) {
 
@@ -163,7 +218,7 @@ public abstract class ATicketController {
      * @param forPersonData
      * @return A created object of ITicket
      */
-    public ITicket createTicket(ITicketFactory factory, int fromPersonId, HashMap<Integer, Double> forPersonData) {
+    private ITicket createTicket(ITicketFactory factory, int fromPersonId, HashMap<Integer, Double> forPersonData) {
         ITicket tempTicket = null;
         switch (currentTicketType) {
             case UNIFORM:

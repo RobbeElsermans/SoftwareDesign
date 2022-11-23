@@ -21,74 +21,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class ControllerSetUTicket implements Initializable, ChangeListener<Double> {
+public class ControllerSetUTicket extends ATicketController implements Initializable, ChangeListener<Double> {
 
-    @FXML
-    protected Label labelPriceType;
-    @FXML
-    protected Button buttonSaveTicket;
-    @FXML
-    protected ComboBox<String> dropDownFactoryType;
-    @FXML
-    protected ComboBox<String> dropDownFromPerson;
-    @FXML
-    protected ComboBox<String> dropDownForPerson;
-    @FXML
-    protected Button buttonAddForPerson;
-    @FXML
-    protected Spinner<Double> spinnerAmount;
-    @FXML
-    protected ListView<String> listViewForPersons;
+//TODO nog wegwerken naar forPersonAmount
+    double totAmount;
 
-
-    private final List<String> factoryTypes = new ArrayList<>();               //Ticket Types
-    private HashMap<Integer, IPerson> personsData = new HashMap<>();    //Opslag van id van person met IPerson
-    private final List<String> personsDataNames = new ArrayList<>();    //Opslag van .toString IPerson
-    private int fromPersonId = -1;                                           //Opslag van id van de from person. -1 is geen id
-    private List<Integer> forPersonIdList = new ArrayList<>();         //Opslag van id's van de geselecteerde for personen
-    private List<String> forPersonNamesList = new ArrayList<>();         //Opslag van names van de geselecteerde for personen
-    private double totAmount = 0.0;                                           //totaal bedrag
-    //private List<Double> forPersonAmount = new ArrayList<>();               //bedrag per person (enkel voor variabel)
-    private static final DecimalFormat decimalFormat = new DecimalFormat("0.00");
-    private String ticketType = "";
-
-    /**
-     * Een ticket opslaan
-     *
-     * @param event
-     */
-    public void saveTicket(ActionEvent event) {
-
-        //Kijken ofdat de factory selection is ingevuld
-        if (!this.ticketType.isEmpty() && forPersonIdList.size() > 0 && totAmount > 0 && fromPersonId != -1) {
-            ITicketFactory factory;
-            factory = AbstractFactoryProvider.getFactory(FactoryType.valueOf(this.ticketType));
-            //Save everything for Uniform Ticket
-            HashMap<Integer, Double> forData = new HashMap<>();
-            for (int i = 0; i < forPersonIdList.size(); i++) {
-                forData.put(forPersonIdList.get(i), (totAmount / forPersonIdList.size()));
-            }
-
-            ITicket ticket;
-            //Factory Provider aanspreken en soort ticket aanvragen
-            //Soort ticket hangt af van menu keuzen
-            if (true)//Starten met uniform ticket
-            {
-                //ticket = factory.getUniformTicket(fromPersonId, new HashMap<>(forPersonIdList));
-            } else {
-                //ticket = factory.getVariableTicket();
-            }
-
-            System.out.println("Ticket Saved");
-        } else {
-            System.out.println("Fill everything in!");
-        }
+    //We had to do this
+    //source: https://stackoverflow.com/questions/58552417/how-do-i-change-this-superclass-into-an-abstract-class-without-getting-an-instan
+    @Override
+    public void saveTicket(ActionEvent event){
+        super.saveTicket(event);
     }
 
-    /**
-     * We voegen een for persoon toe met de drukknop "ADD PERSON"
-     */
-    public void addForPerson() {
+    public void setForPerson(ActionEvent event) {
         if (fromPersonId != -1 && dropDownForPerson.getValue() != null && dropDownForPerson.getItems().size() > 0) {
             //get the selected person's id.
             String temp_forPerson = dropDownForPerson.getValue();
@@ -117,43 +62,9 @@ public class ControllerSetUTicket implements Initializable, ChangeListener<Doubl
         this.ticketType = this.dropDownFactoryType.getValue();
     }
 
-    /**
-     * Er wordt een from person geselecteerd
-     * De lijst van forPerson moet upgedated worden zonder de from person in
-     *
-     * @param event
-     */
-    public void addFromPerson(ActionEvent event) {
-
-        //Kijk welke persoon geselecteerd is
-        String temp_fromPerson = dropDownFromPerson.getValue();
-        //System.out.println(fromPerson);
-
-        //Haal de key uit de database
-        personsData.forEach((key, value) -> {
-            if (value.toString().equalsIgnoreCase(temp_fromPerson)) {
-                fromPersonId = key;
-            }
-        });
-        System.out.println("key: " + fromPersonId);
-
-
-        dropDownForPerson.getItems().removeAll(personsDataNames);   //Verwijder elke persoon. We weten niet of dat de lijst veranderd is of niet.
-        dropDownForPerson.getItems().addAll(personsDataNames);      //Voeg alle personen toe (fresh)
-        dropDownForPerson.getItems().remove(temp_fromPerson);       //Verwijder die 1ne persoon die geselecteerd is
-
-        //TODO Verwijder de personen die al eerder geselecteerd zijn. Met een popup bevestigen?
-        if (forPersonIdList.size() > 0) {
-            forPersonIdList = new ArrayList<>();    //instantieer de lijst, als deze ingevuld is, zodat alles verwijderd is van voorgaande lijst
-            forPersonNamesList = new ArrayList<>(); //instantieer de lijst, als deze ingevuld is, zodat alles verwijderd is van voorgaande lijst
-            removeAllItemsInListView();
-        }
-    }
-
-    private void removeAllItemsInListView() {
-        List<String> temp_forPersonListView = new ArrayList<>();
-        temp_forPersonListView = listViewForPersons.getItems();
-        listViewForPersons.getItems().removeAll(temp_forPersonListView);
+    @Override
+    public void setFromPerson(ActionEvent event){
+        super.setFromPerson(event);
     }
 
     private void getData() {
@@ -162,7 +73,7 @@ public class ControllerSetUTicket implements Initializable, ChangeListener<Doubl
 
         //De soorten Tickets opvragen en toevoegen in locale tabel
         for (FactoryType val : FactoryType.values()) {
-            factoryTypes.add(val.name());
+            factoryType.add(val.name());
         }
     }
 
@@ -172,7 +83,10 @@ public class ControllerSetUTicket implements Initializable, ChangeListener<Doubl
     }
 
     private void updateAmountPerPersonInList() {
-        removeAllItemsInListView();
+        List<String> temp_forPersonListView = new ArrayList<>();
+        temp_forPersonListView = listViewForPersons.getItems();
+        listViewForPersons.getItems().removeAll(temp_forPersonListView);
+
         forPersonNamesList.forEach((value) -> {
             listViewForPersons.getItems().add(value + " is in depth: " + decimalFormat.format(totAmount / forPersonIdList.size()));
         });
@@ -195,7 +109,7 @@ public class ControllerSetUTicket implements Initializable, ChangeListener<Doubl
 
     private void initDropdowns() {
         //De lijsten toevoegen aan de respectievelijke dropdowns(combobox)
-        dropDownFactoryType.getItems().addAll(factoryTypes);
+        dropDownFactoryType.getItems().addAll(factoryType);
 
         personsData.forEach((key, value) -> {
             personsDataNames.add(value.toString()); //Dit gebruiken we om later bij wijzigingen de names terug origineel te zetten.
@@ -204,7 +118,7 @@ public class ControllerSetUTicket implements Initializable, ChangeListener<Doubl
         });
 
         //De acties implementeren
-        dropDownFromPerson.setOnAction(this::addFromPerson);
+        dropDownFromPerson.setOnAction(this::setFromPerson);
     }
 
     private void initSpinner() {
