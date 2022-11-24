@@ -8,9 +8,7 @@ public abstract class ATicket implements ITicket{
     protected int id;
     // Contains spenderID en debt of spender
     protected final HashMap<Integer, Double> debts;
-    protected double price;
-    protected int payerId;
-    protected int spenderId;
+    private int payerId;
     protected String text;
 
     public ATicket(int payerId, HashMap<Integer, Double> debts){
@@ -25,9 +23,4 @@ public abstract class ATicket implements ITicket{
     }
     public int getPayerId() { return payerId; }
     public String getText() { return text; }
-
-    /*@Override
-    public String toString() {
-        return this.name + " " + this.surname;
-    }*/
 }

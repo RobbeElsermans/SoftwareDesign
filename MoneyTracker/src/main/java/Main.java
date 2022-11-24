@@ -19,13 +19,13 @@ public class Main{
         main.run();
 
         //Applicatie stuff
-        App.App();
+        // App.App();
     }
     public void run() {
         System.out.println("Wazaaa");
 
         // person db test
-        PersonController pController = new PersonController(PersonDB.getInstance());
+        PersonController pController = PersonController.getInstance();
         List<String> names = new ArrayList<String>();
         names.add("Kai");
         names.add("Zion");
@@ -40,7 +40,7 @@ public class Main{
         }
         // ticket db test
         ITicketFactory factory = AbstractFactoryProvider.getFactory(FactoryType.PLANE);
-        TicketController tController = new TicketController(TicketDB.getInstance());
+        TicketController tController = TicketController.getInstance();
         int payerId = pController.getIdByName(names.get(3) +  " Richards");
         HashMap<Integer, Double> debts = new HashMap<>();
         for (String name: names) {

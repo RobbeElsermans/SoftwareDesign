@@ -1,16 +1,24 @@
 package database.dbController;
 
 import database.ADatabase;
+import database.PersonDB;
 import person.IPerson;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class PersonController extends AController<IPerson>{
+public class PersonController extends AController<IPerson> {
+
+    private static AController<IPerson> personCTRL;
 
     public PersonController(ADatabase<IPerson> db) {
         super(db);
+    }
+
+    public static PersonController getInstance() {
+        if (personCTRL == null) personCTRL = new PersonController(PersonDB.getInstance());
+        return (PersonController) personCTRL;
     }
 
     public int getIdByName(String fullName){
@@ -29,5 +37,14 @@ public class PersonController extends AController<IPerson>{
             fullNames.add(value.toString());
         }
         return fullNames;
+    }
+
+    public List<Integer> getAllIds(){
+        List<Integer> ids = new ArrayList<>();
+        for(Map.Entry<Integer, IPerson> entry : db.getAll().entrySet()) {
+            int key = entry.getKey();
+            ids.add(key);
+        }
+        return ids;
     }
 }
