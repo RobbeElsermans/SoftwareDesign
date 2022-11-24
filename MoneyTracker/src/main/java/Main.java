@@ -41,10 +41,10 @@ public class Main{
         // ticket db test
         ITicketFactory factory = AbstractFactoryProvider.getFactory(FactoryType.PLANE);
         TicketController tController = new TicketController(TicketDB.getInstance());
-        int payerId = pController.getIdByName(names.get(3), "Richards");
+        int payerId = pController.getIdByName(names.get(3) +  " Richards");
         HashMap<Integer, Double> debts = new HashMap<>();
         for (String name: names) {
-            int spenderId = pController.getIdByName(name, "Richards");
+            int spenderId = pController.getIdByName(name + " Richards");
             ITicket ticket = factory.getUniformTicket(payerId, new HashMap<Integer, Double>(){{ put(spenderId, 10.0); }});
             tController.addValue(ticket);
         }
