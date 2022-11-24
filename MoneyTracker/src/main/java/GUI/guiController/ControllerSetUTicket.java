@@ -34,7 +34,6 @@ public class ControllerSetUTicket extends ATicketController implements Initializ
             this.forPersonNamesList.clear();
             this.ticketType = "";
 
-
             //initialize
             getDatabaseData();          //get data from database
             initDropdowns();            //dropdown initialize
@@ -58,6 +57,10 @@ public class ControllerSetUTicket extends ATicketController implements Initializ
 
             //Get the selected value
             String temp_forPerson = dropDownForPerson.getValue();
+
+            //keep track of person number
+            this.numberOfForPersons++;
+            System.out.println(this.numberOfForPersons);
 
             forPersonIdList.add(personController.getIdByName(temp_forPerson));
 
@@ -131,7 +134,7 @@ public class ControllerSetUTicket extends ATicketController implements Initializ
     }
 
     private void setAmountPerPerson(double temp_totAmount) {
-        for (int i = 0; i < this.forPersonIdList.size(); i++) {
+        for (int i = 0; i < this.numberOfForPersons; i++) {
             if (this.forPersonAmount.size() < i + 1)
                 this.forPersonAmount.add(temp_totAmount / this.forPersonIdList.size());
             else
@@ -150,15 +153,13 @@ public class ControllerSetUTicket extends ATicketController implements Initializ
     }
 
     protected void generateTextForPersonListView() {
-        for (int i = 0; i < this.forPersonNamesList.size(); i++) {
+        for (int i = 0; i < this.numberOfForPersons; i++) {
             this.listViewForPersons.getItems().add(this.forPersonNamesList.get(i) + " is in depth: " + decimalFormat.format(this.forPersonAmount.get(i)));
         }
     }
 
     protected void clearforPersonListView() {
-        List<String> temp_forPersonListView;
-        temp_forPersonListView = listViewForPersons.getItems();
-        listViewForPersons.getItems().removeAll(temp_forPersonListView);
+        listViewForPersons.getItems().clear();
     }
 
     protected void getDatabaseData() {

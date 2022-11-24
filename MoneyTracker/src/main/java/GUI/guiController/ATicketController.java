@@ -110,6 +110,8 @@ public abstract class ATicketController {
      */
     protected static final DecimalFormat decimalFormat = new DecimalFormat("0.00");
 
+    protected int numberOfForPersons = 0;
+
     /**
      * The controller for the personDB
      */
@@ -182,7 +184,7 @@ public abstract class ATicketController {
 
             // Remove From person out of the For persons list
             // Remove all the persons out of the Combobox. We do not know if it was complete.
-            dropDownForPerson.getItems().removeAll(personsDataNames);
+            dropDownForPerson.getItems().clear();
             // Add a fresh new list
             dropDownForPerson.getItems().addAll(personsDataNames);
             // Remove the selected from person
@@ -190,12 +192,11 @@ public abstract class ATicketController {
 
             //if there were for persons selected for a specific from person, we need to clear the list.
             if (this.forPersonIdList.size() > 0) {
-                // Delete the list by instantiate it
-                this.forPersonIdList = new ArrayList<>();
-                this.forPersonNamesList = new ArrayList<>();
-
-                List<String> temp_forPersonListView = this.listViewForPersons.getItems();
-                this.listViewForPersons.getItems().removeAll(temp_forPersonListView);
+                // Delete the lists
+                this.forPersonIdList.clear();
+                this.forPersonNamesList.clear();
+                this.listViewForPersons.getItems().clear();
+                this.numberOfForPersons = 0;
             }
         } catch (Exception e) {
             System.out.println(e);
