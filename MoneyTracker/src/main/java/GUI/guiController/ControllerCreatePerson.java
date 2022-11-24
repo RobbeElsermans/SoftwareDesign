@@ -28,7 +28,6 @@ public class ControllerCreatePerson {
     public void addPerson(ActionEvent event){
         //Check if the field are filled in.
 
-
     }
 
 
