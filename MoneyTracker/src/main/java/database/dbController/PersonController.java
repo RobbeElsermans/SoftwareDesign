@@ -3,6 +3,8 @@ package database.dbController;
 import database.ADatabase;
 import person.IPerson;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class PersonController extends AController<IPerson>{
@@ -11,12 +13,21 @@ public class PersonController extends AController<IPerson>{
         super(db);
     }
 
-    public int getIdByName(String name, String lastname){
+    public int getIdByName(String fullName){
         for(Map.Entry<Integer, IPerson> entry : db.getAll().entrySet()) {
-            if (entry.getValue().toString().equals(name + " " + lastname)) return entry.getKey();
-            //  Integer key = entry.getKey();
-            //  IPerson value = entry.getValue();
+            int key = entry.getKey();
+            IPerson value = entry.getValue();
+            if (value.toString().equals(fullName)) return key;
         }
         return 0;
+    }
+
+    public List<String> getAllFullNames(){
+        List<String> fullNames = new ArrayList<>();
+        for(Map.Entry<Integer, IPerson> entry : db.getAll().entrySet()) {
+            IPerson value = entry.getValue();
+            fullNames.add(value.toString());
+        }
+        return fullNames;
     }
 }
