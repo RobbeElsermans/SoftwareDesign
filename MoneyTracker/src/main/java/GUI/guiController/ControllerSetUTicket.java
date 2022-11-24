@@ -1,29 +1,19 @@
 package GUI.guiController;
 
 import database.PersonDB;
-import factory.AbstractFactoryProvider;
 import factory.FactoryType;
-import factory.facts.ITicketFactory;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
-import person.IPerson;
-import ticket.ITicket;
-
 import java.net.URL;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class ControllerSetUTicket extends ATicketController implements Initializable, ChangeListener<Double> {
-
-//TODO nog wegwerken naar forPersonAmount
 
     //We had to do this
     //source: https://stackoverflow.com/questions/58552417/how-do-i-change-this-superclass-into-an-abstract-class-without-getting-an-instan
@@ -48,27 +38,13 @@ public class ControllerSetUTicket extends ATicketController implements Initializ
 
     private void getData() {
         //De database persons items opvragen en toevoegen in locale tabel
+        //TODO USE THE PERSON CONTROLLER
         personsData = PersonDB.getInstance().getAll();
 
         //De soorten Tickets opvragen en toevoegen in locale tabel
         for (FactoryType val : FactoryType.values()) {
             factoryType.add(val.name());
         }
-    }
-
-    private void updateForPersonListView(String temp_forPerson) {
-        forPersonNamesList.add(temp_forPerson);
-        updateAmountPerPersonInList();
-    }
-
-    private void updateAmountPerPersonInList() {
-        List<String> temp_forPersonListView = new ArrayList<>();
-        temp_forPersonListView = listViewForPersons.getItems();
-        listViewForPersons.getItems().removeAll(temp_forPersonListView);
-
-        forPersonNamesList.forEach((value) -> {
-            listViewForPersons.getItems().add(value + " is in depth: " + decimalFormat.format(totAmount / forPersonIdList.size()));
-        });
     }
 
     /**
@@ -102,7 +78,7 @@ public class ControllerSetUTicket extends ATicketController implements Initializ
 
     private void initSpinner() {
         SpinnerValueFactory<Double> valueFactory = new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 999);
-        valueFactory.setValue(totAmount);
+        valueFactory.setValue(0.0);
         spinnerAmount.setValueFactory(valueFactory);
 
         spinnerAmount.valueProperty().addListener(this); //add Observer
@@ -110,8 +86,19 @@ public class ControllerSetUTicket extends ATicketController implements Initializ
 
     @Override
     public void changed(ObservableValue<? extends Double> observable, Double oldValue, Double newValue) {
-        this.totAmount = spinnerAmount.getValue();
-        System.out.println(totAmount);
-        updateAmountPerPersonInList();
+
+        //Temporarily total amount of money.
+        double temp_totAmount = spinnerAmount.getValue();
+
+        for(int i = 0; i < this.forPersonIdList.size(); i++)
+        {
+            if(this.forPersonAmount.size() < i+1)
+                this.forPersonAmount.add(temp_totAmount/this.forPersonIdList.size());
+            else
+                this.forPersonAmount.set(i, temp_totAmount/this.forPersonIdList.size());
+        }
+
+        System.out.println(forPersonAmount);
+        super.updateAmountPerPersonInList();
     }
 }

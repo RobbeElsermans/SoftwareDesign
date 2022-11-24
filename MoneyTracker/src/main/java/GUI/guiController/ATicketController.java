@@ -1,6 +1,8 @@
 package GUI.guiController;
 
+import database.PersonDB;
 import database.dbController.AController;
+import database.dbController.PersonController;
 import database.dbController.TicketController;
 import database.TicketDB;
 import factory.AbstractFactoryProvider;
@@ -9,7 +11,6 @@ import factory.facts.ITicketFactory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
 import person.IPerson;
 import ticket.ITicket;
 import ticket.TicketType;
@@ -57,6 +58,8 @@ public abstract class ATicketController {
      *
      * @used to search through the database locally
      */
+    //TODO wijzigen naar personNames
+            //En alles omzetten naar personsDataNames
     protected HashMap<Integer, IPerson> personsData = new HashMap<>();
 
     /**
@@ -64,6 +67,7 @@ public abstract class ATicketController {
      *
      * @used to populate the ListView
      */
+    //TODO wijzig personsData naar personsDataNames
     protected final List<String> personsDataNames = new ArrayList<>();
 
     /**
@@ -108,8 +112,20 @@ public abstract class ATicketController {
      */
     protected static final DecimalFormat decimalFormat = new DecimalFormat("0.00");
 
-    //TODO eruit halen
-    protected double totAmount;
+    /**
+     * The controller for the personDB
+     */
+    AController<IPerson> personController;
+
+    /**
+     * The constructor of an abstract ticket
+     */
+    public ATicketController() {
+        //Get the data
+
+    }
+
+
 
     /**
      * Method to save a ticket.
@@ -123,7 +139,6 @@ public abstract class ATicketController {
      */
     protected void saveTicket(ActionEvent event) {
         //Check if the input fields are filled in
-        //TODO set amount to List
         if (!this.ticketType.isEmpty() && this.forPersonIdList.size() > 0 && this.forPersonAmount.size() > 0) {
 
             //Get the factory for the ticket type
@@ -195,7 +210,9 @@ public abstract class ATicketController {
      * Method to set a for person.
      *
      * @param event ActionEvent
-     *              This method only can continue if the from person, the combobox and the for persons list is not empty
+     * @description This method only can continue if the from person,
+     * the combobox and the for persons list is not empty.
+     * Afterwards we set the ListView with new users, and we calculate the correct price per user
      */
     public void setForPerson(ActionEvent event) {
         // See if the fromPerson is selected
@@ -216,7 +233,6 @@ public abstract class ATicketController {
 
             //Add the selected person to the ListView and update the listView
             updateForPersonListView(temp_forPerson);
-            //TODO set amount to List
 
             //Remove person from dropDownForPersons
             this.dropDownForPerson.getItems().remove(temp_forPerson);
@@ -253,7 +269,7 @@ public abstract class ATicketController {
      * @param forPersonData
      * @return A created object of ITicket
      */
-    private ITicket createTicket(ITicketFactory factory, int fromPersonId, HashMap<Integer, Double> forPersonData) {
+    protected ITicket createTicket(ITicketFactory factory, int fromPersonId, HashMap<Integer, Double> forPersonData) {
         ITicket tempTicket = null;
         switch (currentTicketType) {
             case UNIFORM:
@@ -266,17 +282,41 @@ public abstract class ATicketController {
         return tempTicket;
     }
 
-    private void updateForPersonListView(String temp_forPerson) {
+    protected void updateForPersonListView(String temp_forPerson) {
         forPersonNamesList.add(temp_forPerson);
         updateAmountPerPersonInList();
     }
 
-    private void updateAmountPerPersonInList() {
-        List<String> temp_forPersonListView = listViewForPersons.getItems();
-        listViewForPersons.getItems().removeAll(temp_forPersonListView);
+    protected void updateAmountPerPersonInList() {
+        clearforPersonListView();
+        generateTextForPersonListView();
+    }
 
-        forPersonNamesList.forEach((value) -> {
-            listViewForPersons.getItems().add(value + " is in depth: " + decimalFormat.format(totAmount / forPersonIdList.size()));
-        });
+    private void generateTextForPersonListView(){
+        for (int i = 0; i < this.forPersonNamesList.size(); i++){
+            this.listViewForPersons.getItems().add(this.forPersonNamesList.get(i) + " is in depth: " + decimalFormat.format(this.forPersonAmount.get(i)));
+        }
+    }
+
+    private void clearforPersonListView() {
+        List<String> temp_forPersonListView;
+        temp_forPersonListView = listViewForPersons.getItems();
+        listViewForPersons.getItems().removeAll(temp_forPersonListView);
+    }
+
+    protected void getDatabaseData(){
+        //De database persons items opvragen en toevoegen in locale tabel
+        //TODO USE THE PERSON CONTROLLER
+        personsData = PersonDB.getInstance().getAll();
+
+
+        AController<IPerson> personController = new PersonController(PersonDB.getInstance());
+        this.personsDataNames = personController.getAllFullNames();
+
+        // All the FactoryTypes of tickets
+        for (FactoryType val : FactoryType.values()) {
+            factoryType.add(val.name());
+        }
+        }
     }
 }
