@@ -13,9 +13,9 @@ public class PersonController extends AController<IPerson>{
 
     public int getIdByName(String name, String lastname){
         for(Map.Entry<Integer, IPerson> entry : db.getAll().entrySet()) {
-            if (entry.getValue().toString().equals(name + " " + lastname)) return entry.getKey();
-            //  Integer key = entry.getKey();
-            //  IPerson value = entry.getValue();
+            int key = entry.getKey();
+            IPerson value = entry.getValue();
+            if (value.toString().equals(name + " " + lastname)) return key;
         }
         return 0;
     }
