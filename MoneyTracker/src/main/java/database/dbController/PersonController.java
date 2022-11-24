@@ -10,6 +10,7 @@ import java.util.Map;
 
 public class PersonController extends AController<IPerson> {
 
+    //TODO Maak gewoon de class PersonController static?
     private static AController<IPerson> personCTRL;
 
     public PersonController(ADatabase<IPerson> db) {

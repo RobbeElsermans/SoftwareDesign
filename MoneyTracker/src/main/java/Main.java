@@ -19,7 +19,7 @@ public class Main{
         main.run();
 
         //Applicatie stuff
-        // App.App();
+        App.App();
     }
     public void run() {
         System.out.println("Wazaaa");
