@@ -1,6 +1,5 @@
 package GUI.guiController;
 
-import database.PersonDB;
 import factory.FactoryType;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -16,9 +15,36 @@ public class ControllerSetUTicket extends ATicketController implements Initializ
 
     //We had to do this
     //source: https://stackoverflow.com/questions/58552417/how-do-i-change-this-superclass-into-an-abstract-class-without-getting-an-instan
-    @Override
-    public void saveTicket(ActionEvent event){
-        super.saveTicket(event);
+
+
+    public void saveTicket(ActionEvent event) {
+        if (super.saveATicket(event)) {
+            //Delete everything
+            this.listViewForPersons.getItems().clear();
+            this.dropDownFromPerson.getItems().clear();
+            this.dropDownForPerson.getItems().clear();
+            this.dropDownFactoryType.getItems().clear();
+
+            this.factoryType.clear();
+            this.personsDataNames.clear();
+
+            this.fromPersonId = -1;
+            this.forPersonAmount.clear();
+            this.forPersonIdList.clear();
+            this.forPersonNamesList.clear();
+            this.ticketType = "";
+
+
+            //initialize
+            getDatabaseData();          //get data from database
+            initDropdowns();            //dropdown initialize
+            initSpinner();              //Spinner initialize
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Ticket Created");
+            alert.setHeaderText("A Ticket has been created!");
+            alert.showAndWait();
+        }
     }
 
     @Override
@@ -52,7 +78,7 @@ public class ControllerSetUTicket extends ATicketController implements Initializ
     }
 
     @Override
-    public void setFromPerson(ActionEvent event){
+    public void setFromPerson(ActionEvent event) {
         super.setFromPerson(event);
     }
 
@@ -105,12 +131,11 @@ public class ControllerSetUTicket extends ATicketController implements Initializ
     }
 
     private void setAmountPerPerson(double temp_totAmount) {
-        for(int i = 0; i < this.forPersonIdList.size(); i++)
-        {
-            if(this.forPersonAmount.size() < i+1)
-                this.forPersonAmount.add(temp_totAmount /this.forPersonIdList.size());
+        for (int i = 0; i < this.forPersonIdList.size(); i++) {
+            if (this.forPersonAmount.size() < i + 1)
+                this.forPersonAmount.add(temp_totAmount / this.forPersonIdList.size());
             else
-                this.forPersonAmount.set(i, temp_totAmount /this.forPersonIdList.size());
+                this.forPersonAmount.set(i, temp_totAmount / this.forPersonIdList.size());
         }
     }
 

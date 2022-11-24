@@ -11,7 +11,6 @@ import factory.facts.ITicketFactory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import person.IPerson;
 import ticket.ITicket;
 import ticket.TicketType;
 
@@ -67,7 +66,6 @@ public abstract class ATicketController {
      *
      * @used to populate the ListView
      */
-    //TODO wijzig personsData naar personsDataNames
     protected List<String> personsDataNames = new ArrayList<>();
 
     /**
@@ -139,7 +137,7 @@ public abstract class ATicketController {
      * Then we use the propper Uniform or Variable ticket receiving from the factory.
      * Final we save the created ticket, and we reset the GUI.
      */
-    protected void saveTicket(ActionEvent event) {
+    protected boolean saveATicket(ActionEvent event) {
         //Check if the input fields are filled in
         if (!this.ticketType.isEmpty() && this.forPersonIdList.size() > 0 && this.forPersonAmount.size() > 0) {
 
@@ -156,10 +154,14 @@ public abstract class ATicketController {
             AController<ITicket> tController = new TicketController(TicketDB.getInstance());
             tController.addValue(createdTicket);
 
+            //Delete everything en start fresh
+            return true;
+
         } else {
             //Warn the user
             System.out.println("Fill everything in!");
         }
+        return false;
     }
 
     /**
