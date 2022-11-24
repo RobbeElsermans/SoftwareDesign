@@ -22,9 +22,4 @@ public abstract class AController<T> {
             }
         }
     }
-
-    // TODO Calculate debts between persons --> array
-
-    // TODO Use Splitwise Algorithm / Greedy Algorithm to minimise debs overall
-    // https://www.geeksforgeeks.org/minimize-cash-flow-among-given-set-friends-borrowed-money/
 }
