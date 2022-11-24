@@ -115,7 +115,7 @@ public abstract class ATicketController {
     /**
      * The controller for the personDB
      */
-    PersonController personController;
+     PersonController personController;
 
     /**
      * The constructor of an abstract ticket
