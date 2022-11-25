@@ -5,11 +5,10 @@ import person.IPerson;
 import java.util.HashMap;
 
 public abstract class ATicket implements ITicket{
-    protected int id;
     // Contains spenderID en debt of spender
-    protected final HashMap<Integer, Double> debts;
+    private final HashMap<Integer, Double> debts;
     private int payerId;
-    protected String text;
+    private String text;
 
     public ATicket(int payerId, HashMap<Integer, Double> debts){
         this.payerId = payerId;
@@ -21,6 +20,7 @@ public abstract class ATicket implements ITicket{
         this.text = text;
         this.debts = debts;
     }
+    public HashMap<Integer, Double> getDebs() { return debts; }
     public int getPayerId() { return payerId; }
     public String getText() { return text; }
 }

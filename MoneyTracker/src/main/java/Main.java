@@ -41,14 +41,16 @@ public class Main{
         // ticket db test
         ITicketFactory factory = AbstractFactoryProvider.getFactory(FactoryType.PLANE);
         TicketController tController = TicketController.getInstance();
-        int payerId = pController.getIdByName(names.get(3) +  " Richards");
-        HashMap<Integer, Double> debts = new HashMap<>();
-        for (String name: names) {
-            int spenderId = pController.getIdByName(name + " Richards");
-            ITicket ticket = factory.getUniformTicket(payerId, new HashMap<Integer, Double>(){{ put(spenderId, 10.0); }});
-            tController.addValue(ticket);
+        for (int i = 1; i <= names.size(); i++) {
+            int payerId = pController.getIdByName(names.get(i-1) +  " Richards");
+            HashMap<Integer, Double> debts = new HashMap<>();
+            for (String name: names) {
+                int spenderId = pController.getIdByName(name + " Richards");
+                double price = Math.round((37.0 / i) * 100.0) / 100.0;
+                ITicket ticket = factory.getUniformTicket(payerId, new HashMap<Integer, Double>(){{ put(spenderId, price); }});
+                tController.addValue(ticket);
+            }
         }
-        //System.out.printf("GET - ID: %d\n", id);
-
+        tController.CalculateTallyPairs();
     }
 }
