@@ -1,4 +1,5 @@
 import GUI.App;
+import calculator.Calculator;
 import database.dbController.PersonController;
 import database.dbController.TicketController;
 import database.PersonDB;
@@ -19,7 +20,7 @@ public class Main{
         main.run();
 
         //Applicatie stuff
-        App.App();
+        //App.App();
     }
     public void run() {
         System.out.println("Wazaaa");
@@ -51,6 +52,6 @@ public class Main{
                 tController.addValue(ticket);
             }
         }
-        tController.CalculateTallyPairs();
+        Calculator.CalculateTallyPairs();
     }
 }

@@ -22,6 +22,8 @@ public class PersonController extends AController<IPerson> {
         return (PersonController) personCTRL;
     }
 
+    public String getNameById(int id){ return db.getValue(id).getName(); }
+
     public int getIdByName(String fullName){
         for(Map.Entry<Integer, IPerson> entry : db.getAll().entrySet()) {
             int key = entry.getKey();

@@ -22,4 +22,7 @@ public abstract class AController<T> {
             }
         }
     }
+
+    // TODO: ask teacher if this is bad
+    public ADatabase<T> getDB() { return db; }
 }
