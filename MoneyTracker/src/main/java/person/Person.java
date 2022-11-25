@@ -37,9 +37,6 @@ public class Person implements IPerson{
     public boolean setFallguyId(int id) {
         //TODO: Checken ofdat het id bestaat in de database. Best buiten deze classe halen (Single-responsiblity Principle)
         //this.fallGuyId = id;
-
-
-
         return false;
     }
 

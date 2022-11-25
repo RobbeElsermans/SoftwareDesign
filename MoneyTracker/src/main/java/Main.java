@@ -7,6 +7,7 @@ import database.TicketDB;
 import factory.AbstractFactoryProvider;
 import factory.FactoryType;
 import factory.facts.ITicketFactory;
+import org.javatuples.Triplet;
 import person.Person;
 import ticket.ITicket;
 
@@ -23,8 +24,6 @@ public class Main{
         //App.App();
     }
     public void run() {
-        System.out.println("Wazaaa");
-
         // person db test
         PersonController pController = PersonController.getInstance();
         List<String> names = new ArrayList<String>();
@@ -42,16 +41,16 @@ public class Main{
         // ticket db test
         ITicketFactory factory = AbstractFactoryProvider.getFactory(FactoryType.PLANE);
         TicketController tController = TicketController.getInstance();
-        for (int i = 1; i <= names.size(); i++) {
-            int payerId = pController.getIdByName(names.get(i-1) +  " Richards");
-            HashMap<Integer, Double> debts = new HashMap<>();
+        for (int i = 0; i < names.size(); i++) {
+            int payerId = pController.getIdByName(names.get(i) +  " Richards");
             for (String name: names) {
                 int spenderId = pController.getIdByName(name + " Richards");
-                double price = Math.round((37.0 / i) * 100.0) / 100.0;
+                double price = Math.round((37.0 / (i + 1)) * 100.0) / 100.0;
                 ITicket ticket = factory.getUniformTicket(payerId, new HashMap<Integer, Double>(){{ put(spenderId, price); }});
                 tController.addValue(ticket);
             }
         }
-        Calculator.CalculateTallyPairs();
+        List<Triplet<Integer, Integer, Double>> tallies = Calculator.CalculateTallyPairs();
+        Calculator.CalculateFinalTallies(tallies);
     }
 }

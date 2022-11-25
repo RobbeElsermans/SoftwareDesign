@@ -14,7 +14,7 @@ public abstract class AController<T> {
         while (uploading){
             if (this.db.getValue(id) == null){
                 this.db.addValue(id, value);
-                System.out.printf("ADD - ID: %d, VALUE: %s\n", id, value);
+                // System.out.printf("ADD - ID: %d, VALUE: %s\n", id, value);
                 uploading = false;
             } else {
                 // System.out.printf("id %d is in use, create a new id\n", id);
