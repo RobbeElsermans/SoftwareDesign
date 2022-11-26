@@ -1,48 +1,20 @@
 package GUI.guiController;
 
-import factory.FactoryType;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.fxml.Initializable;
-import javafx.scene.control.*;
 
-import java.net.URL;
-import java.util.List;
-import java.util.ResourceBundle;
-
-public class ControllerSetUTicket extends ATicketController implements Initializable, ChangeListener<Double> {
+public class ControllerSetUTicket extends ATicketController implements ChangeListener<Double> {
 
     //We had to do this
     //source: https://stackoverflow.com/questions/58552417/how-do-i-change-this-superclass-into-an-abstract-class-without-getting-an-instan
 
-
-    public void saveTicket(ActionEvent event) {
-        if (super.saveATicket(event)) {
-            //Delete everything
-            this.listViewForPersons.getItems().clear();
-            this.dropDownFromPerson.getItems().clear();
-            this.dropDownForPerson.getItems().clear();
-            this.dropDownFactoryType.getItems().clear();
-
-            this.factoryType.clear();
-            this.personsDataNames.clear();
-
-            this.fromPersonId = -1;
-            this.forPersonAmount.clear();
-            this.forPersonIdList.clear();
-            this.forPersonNamesList.clear();
-            this.ticketType = "";
-
-            //initialize
-            getDatabaseData();          //get data from database
-            initDropdowns();            //dropdown initialize
-            initSpinner();              //Spinner initialize
-
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Ticket Created");
-            alert.setHeaderText("A Ticket has been created!");
-            alert.showAndWait();
+    @Override
+    public void saveATicket(ActionEvent event) {
+        if(spinnerAmount.getValue() > 0)
+            super.saveATicket(event);
+        else {
+            setError("Value is 0!");
         }
     }
 
@@ -53,7 +25,11 @@ public class ControllerSetUTicket extends ATicketController implements Initializ
         // And the list of Combobox is not empty
         if (this.fromPersonId != -1 &&
                 this.dropDownForPerson.getValue() != null &&
+                !this.dropDownForPerson.getValue().isEmpty() &&
                 this.dropDownForPerson.getItems().size() > 0) {
+
+            //reset labelError if it has been set
+            resetError();
 
             //Get the selected value
             String temp_forPerson = dropDownForPerson.getValue();
@@ -70,9 +46,33 @@ public class ControllerSetUTicket extends ATicketController implements Initializ
 
             //Remove person from dropDownForPersons
             this.dropDownForPerson.getItems().remove(temp_forPerson);
-        } else {
+
+            //clear dropdown for person
+            this.dropDownForPerson.setValue("");
+        }         else if (this.fromPersonId == -1) {
             //Warn the user
-            System.out.println("Select a from person first! or the list is empty");
+            setError("Select a from person first!");
+            //System.out.println("Select a from person first!");
+        }
+        else if (this.dropDownForPerson.getItems().size() == 0) {
+            //Warn the user
+            setError("The person list is empty!");
+            //System.out.println("The person list is empty!");
+        }
+        else if (this.dropDownForPerson.getValue() == null) {
+            //Warn the user
+            setError("Select a for person!");
+            //System.out.println("Select a for person!");
+        }
+        else if (this.dropDownForPerson.getValue().isEmpty()) {
+            //Warn the user
+            setError("Select a for person!");
+            //System.out.println("Select a for person!");
+        }
+        else{
+            //Warn the user
+            setError("Unknown error");
+            //System.out.println("Unknown error");
         }
     }
 
@@ -85,39 +85,9 @@ public class ControllerSetUTicket extends ATicketController implements Initializ
         super.setFromPerson(event);
     }
 
-    /**
-     * Een override functie die voor dat de root geladen is, afspeelt.
-     *
-     * @param location  The location used to resolve relative paths for the root object, or
-     *                  <tt>null</tt> if the location is not known.
-     * @param resources The resources used to localize the root object, or <tt>null</tt> if
-     *                  the root object was not localized.
-     */
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        getDatabaseData();          //get data from database
-        initDropdowns();    //dropdown initialize
-        initSpinner();      //Spinner initialize
-    }
-
-    private void initDropdowns() {
-        //De lijsten toevoegen aan de respectievelijke dropdowns(combobox)
-        dropDownFactoryType.getItems().addAll(factoryType);
-
-        personsDataNames.forEach(value -> {
-            dropDownForPerson.getItems().add(value);
-            dropDownFromPerson.getItems().add(value);
-        });
-
-        //De acties implementeren
-        dropDownFromPerson.setOnAction(this::setFromPerson);
-    }
-
-    private void initSpinner() {
-        SpinnerValueFactory<Double> valueFactory = new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 999);
-        valueFactory.setValue(0.0);
-        spinnerAmount.setValueFactory(valueFactory);
-
+    protected void initSpinner() {
+        super.initSpinner();
         spinnerAmount.valueProperty().addListener(this); //add Observer
     }
 
@@ -143,35 +113,19 @@ public class ControllerSetUTicket extends ATicketController implements Initializ
     }
 
     public void updateAmountPerPersonInList() {
-        clearforPersonListView();
+        listViewForPersons.getItems().clear();
         generateTextForPersonListView();
     }
 
     protected void updateForPersonListView(String temp_forPerson) {
-        forPersonNamesList.add(temp_forPerson);
+        super.updateForPersonListView(temp_forPerson);
         updateAmountPerPersonInList();
     }
 
+    @Override
     protected void generateTextForPersonListView() {
         for (int i = 0; i < this.numberOfForPersons; i++) {
             this.listViewForPersons.getItems().add(this.forPersonNamesList.get(i) + " is in depth: " + decimalFormat.format(this.forPersonAmount.get(i)));
-        }
-    }
-
-    protected void clearforPersonListView() {
-        listViewForPersons.getItems().clear();
-    }
-
-    protected void getDatabaseData() {
-        //De database persons items opvragen en toevoegen in locale tabel
-        //TODO USE THE PERSON CONTROLLER
-        //personsData = PersonDB.getInstance().getAll();
-
-        this.personsDataNames = personController.getAllFullNames();
-
-        // All the FactoryTypes of tickets
-        for (FactoryType val : FactoryType.values()) {
-            factoryType.add(val.name());
         }
     }
 }

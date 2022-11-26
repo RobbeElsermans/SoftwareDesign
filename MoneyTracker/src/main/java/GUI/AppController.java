@@ -8,9 +8,10 @@ import javafx.stage.Stage;
 
 import java.util.Objects;
 
-public class App extends Application {
+public class AppController extends Application {
 
-    private StatesGUI statesGUI = StatesGUI.TICKET_CREATION;
+    private StatesGUI statesGUI = StatesGUI.PERSON_CREATION;
+    
 
     public static void App(){
         Application.launch();
@@ -22,11 +23,16 @@ public class App extends Application {
             Parent root = null;
             switch (statesGUI){
                 case PERSON_CREATION:
+                    root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/CreatePerson.fxml")));
                     break;
-                case TICKET_CREATION:
+                case UNIFORM_TICKET_CREATION:
                     root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/UniformTicket.fxml")));
                     break;
+                case VALIABLE_TICKET_CREATION:
+                    root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/VariableTicket.fxml")));
+                    break;
                 case CALCULATION:
+                    root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/CalculateTicket.fxml")));
                     break;
             }
             //TODO de FXML abstract maken

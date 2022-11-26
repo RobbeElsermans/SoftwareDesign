@@ -1,9 +1,7 @@
-import GUI.App;
+import GUI.AppController;
 import calculator.Calculator;
 import database.dbController.PersonController;
 import database.dbController.TicketController;
-import database.PersonDB;
-import database.TicketDB;
 import factory.AbstractFactoryProvider;
 import factory.FactoryType;
 import factory.facts.ITicketFactory;
@@ -21,7 +19,7 @@ public class Main{
         main.run();
 
         //Applicatie stuff
-        //App.App();
+        AppController.App();
     }
     public void run() {
         // person db test
@@ -35,6 +33,10 @@ public class Main{
         names.add("Ezra");
         names.add("Maeve");
         names.add("Aaliyah");
+        names.add("Hupke");
+        names.add("Flupke");
+        names.add("Flipke");
+        names.add("Flapke");
         for (String name: names) {
             pController.addValue(new Person(name, "Richards"));
         }

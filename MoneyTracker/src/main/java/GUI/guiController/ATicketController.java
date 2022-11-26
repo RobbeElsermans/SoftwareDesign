@@ -10,16 +10,21 @@ import factory.FactoryType;
 import factory.facts.ITicketFactory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import ticket.ITicket;
 import ticket.TicketType;
 
+import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ResourceBundle;
 
-public abstract class ATicketController {
+public abstract class ATicketController implements Initializable {
+    @FXML
+    protected Label labelError;
     @FXML
     protected Label labelPriceType;
     @FXML
@@ -108,7 +113,7 @@ public abstract class ATicketController {
     /**
      * A specific format to show the depth in the ListView
      */
-    protected static final DecimalFormat decimalFormat = new DecimalFormat("0.00");
+    protected static final DecimalFormat decimalFormat = new DecimalFormat("0.##");
 
     protected int numberOfForPersons = 0;
 
@@ -139,9 +144,15 @@ public abstract class ATicketController {
      * Then we use the propper Uniform or Variable ticket receiving from the factory.
      * Final we save the created ticket, and we reset the GUI.
      */
-    protected boolean saveATicket(ActionEvent event) {
+    protected void saveATicket(ActionEvent event) {
         //Check if the input fields are filled in
-        if (!this.ticketType.isEmpty() && this.forPersonIdList.size() > 0 && this.forPersonAmount.size() > 0) {
+        if (!this.ticketType.isEmpty() &&
+                this.forPersonIdList.size() > 0 &&
+                this.forPersonAmount.size() > 0 &&
+                this.fromPersonId != -1) {
+
+            //reset labelError if it has been set
+            resetError();
 
             //Get the factory for the ticket type
             ITicketFactory factory = AbstractFactoryProvider.getFactory(FactoryType.valueOf(this.ticketType));
@@ -156,14 +167,52 @@ public abstract class ATicketController {
             AController<ITicket> tController = new TicketController(TicketDB.getInstance());
             tController.addValue(createdTicket);
 
-            //Delete everything en start fresh
-            return true;
+            //Delete everything
+            resetData();
 
-        } else {
-            //Warn the user
-            System.out.println("Fill everything in!");
+            //initialize
+            initData();
+
+            alertUser();
         }
-        return false;
+        else if(this.ticketType.isEmpty()) {
+            //Warn the user
+            setError("Select a ticket type!");
+        }
+        else if (this.fromPersonId == -1)
+        {
+            setError("No from person selected!");
+        }
+        else if(this.forPersonIdList.size() == 0 &&
+                this.forPersonAmount.size() == 0) {
+            //Warn the user
+            setError("No for person(s) are selected!");
+        }
+    }
+
+    protected void setError(String value) {
+        this.labelError.setText(value);
+    }
+
+    protected void resetError() {
+        if (!this.labelError.getText().isEmpty())
+            setError("");
+    }
+
+    protected void resetData() {
+        this.listViewForPersons.getItems().clear();
+        this.dropDownFromPerson.getItems().clear();
+        this.dropDownForPerson.getItems().clear();
+        this.dropDownFactoryType.getItems().clear();
+
+        this.factoryType.clear();
+        this.personsDataNames.clear();
+
+        this.fromPersonId = -1;
+        this.forPersonAmount.clear();
+        this.forPersonIdList.clear();
+        this.forPersonNamesList.clear();
+        this.ticketType = "";
     }
 
     /**
@@ -175,7 +224,7 @@ public abstract class ATicketController {
      * If we had selected a previous from person,
      * this previously person may now be part of the for persons
      */
-    public void setFromPerson(ActionEvent event) {
+    protected void setFromPerson(ActionEvent event) {
         try {
             // Get the selected persons fill name and store it temporary
             String temp_fromPerson = dropDownFromPerson.getValue();
@@ -190,7 +239,7 @@ public abstract class ATicketController {
             // Remove the selected from person
             dropDownForPerson.getItems().remove(temp_fromPerson);
 
-            //if there were for persons selected for a specific from person, we need to clear the list.
+            //if there were for persons selected for a specific from person, we need to clear the lists.
             if (this.forPersonIdList.size() > 0) {
                 // Delete the lists
                 this.forPersonIdList.clear();
@@ -201,8 +250,6 @@ public abstract class ATicketController {
         } catch (Exception e) {
             System.out.println(e);
         }
-
-
     }
 
     /**
@@ -214,8 +261,13 @@ public abstract class ATicketController {
      * Afterwards we set the ListView with new users, and we calculate the correct price per user
      */
 
-    public abstract void setForPerson(ActionEvent event);
+    protected abstract void setForPerson(ActionEvent event);
 
+    protected void updateForPersonListView(String temp_forPerson) {
+        forPersonNamesList.add(temp_forPerson);
+    }
+
+    protected abstract void generateTextForPersonListView();
 
     private HashMap<Integer, Double> formatForPersonData(List<Integer> forPersonIdList, List<Double> forPersonAmount) {
 
@@ -234,11 +286,10 @@ public abstract class ATicketController {
 
     /**
      * Method to create a ticket (Variable, Uniform, ...)
-     *
-     * @param factory       ITicketFactory
+     * @param factory
      * @param fromPersonId
      * @param forPersonData
-     * @return A created object of ITicket
+     * @return
      */
     protected ITicket createTicket(ITicketFactory factory, int fromPersonId, HashMap<Integer, Double> forPersonData) {
         ITicket tempTicket = null;
@@ -253,35 +304,59 @@ public abstract class ATicketController {
         return tempTicket;
     }
 
-//    protected void updateForPersonListView(String temp_forPerson) {
-//        forPersonNamesList.add(temp_forPerson);
-//        updateAmountPerPersonInList();
-//    }
-//    public abstract void updateAmountPerPersonInList();
-//
-//    protected void generateTextForPersonListView() {
-//        for (int i = 0; i < this.forPersonNamesList.size(); i++) {
-//            this.listViewForPersons.getItems().add(this.forPersonNamesList.get(i) + " is in depth: " + decimalFormat.format(this.forPersonAmount.get(i)));
-//        }
-//    }
-//
-//    protected void clearforPersonListView() {
-//        List<String> temp_forPersonListView;
-//        temp_forPersonListView = listViewForPersons.getItems();
-//        listViewForPersons.getItems().removeAll(temp_forPersonListView);
-//    }
-//
-//    protected void getDatabaseData() {
-//        //De database persons items opvragen en toevoegen in locale tabel
-//        //TODO USE THE PERSON CONTROLLER
-//        //personsData = PersonDB.getInstance().getAll();
-//
-//        this.personsDataNames = personController.getAllFullNames();
-//
-//        // All the FactoryTypes of tickets
-//        for (FactoryType val : FactoryType.values()) {
-//            factoryType.add(val.name());
-//        }
-//    }
+    protected void alertUser() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Ticket Created");
+        alert.setHeaderText("A Ticket has been created!");
+        alert.showAndWait();
+    }
+
+    /**
+     * Een override functie die voor dat de root geladen is, afspeelt.
+     *
+     * @param location  The location used to resolve relative paths for the root object, or
+     *                  <tt>null</tt> if the location is not known.
+     * @param resources The resources used to localize the root object, or <tt>null</tt> if
+     *                  the root object was not localized.
+     */
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        initData();
+    }
+
+    private void initData() {
+        getDatabaseData();          //get data from database
+        initDropdowns();    //dropdown initialize
+        initSpinner();      //Spinner initialize
+    }
+
+    protected void getDatabaseData() {
+        //De database persons items opvragen en toevoegen in locale tabel
+
+        this.personsDataNames = personController.getAllFullNames();
+
+        // All the FactoryTypes of tickets
+        for (FactoryType val : FactoryType.values()) {
+            factoryType.add(val.name());
+        }
+    }
+
+    protected void initDropdowns() {
+        //De lijsten toevoegen aan de respectievelijke dropdowns(combobox)
+        dropDownFactoryType.getItems().addAll(factoryType);
+
+        personsDataNames.forEach(value -> {
+            dropDownForPerson.getItems().add(value);
+            dropDownFromPerson.getItems().add(value);
+        });
+
+        //De acties implementeren
+        dropDownFromPerson.setOnAction(this::setFromPerson);
+    }
+
+    protected void initSpinner() {
+        SpinnerValueFactory<Double> valueFactory = new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 999,0,0.5);
+        spinnerAmount.setValueFactory(valueFactory);
+    }
 }
 
