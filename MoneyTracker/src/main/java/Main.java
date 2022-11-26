@@ -1,4 +1,4 @@
-import GUI.AppController;
+import GUI.App;
 import calculator.Calculator;
 import database.dbController.PersonController;
 import database.dbController.TicketController;
@@ -19,7 +19,7 @@ public class Main{
         main.run();
 
         //Applicatie stuff
-        AppController.App();
+        App.App();
     }
     public void run() {
         // person db test
@@ -43,6 +43,7 @@ public class Main{
         // ticket db test
         ITicketFactory factory = AbstractFactoryProvider.getFactory(FactoryType.PLANE);
         TicketController tController = TicketController.getInstance();
+
         for (int i = 0; i < names.size(); i++) {
             int payerId = pController.getIdByName(names.get(i) +  " Richards");
             for (String name: names) {
@@ -52,6 +53,8 @@ public class Main{
                 tController.addValue(ticket);
             }
         }
+
+
         List<Triplet<Integer, Integer, Double>> tallies = Calculator.CalculateTallyPairs();
         Calculator.CalculateFinalTallies(tallies);
     }

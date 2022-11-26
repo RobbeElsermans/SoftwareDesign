@@ -8,24 +8,19 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="374.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.guiController.ControllerSetUTicket">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="293.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.guiController.ControllerCalculate">
    <children>
-      <ListView fx:id="listViewForPersons" disable="true" layoutX="220.0" layoutY="157.0" prefHeight="210.0" prefWidth="373.0" />
-      <Button fx:id="buttonCalculate" layoutX="60.0" layoutY="206.0" mnemonicParsing="false" onAction="#calculateTicket" prefHeight="24.0" prefWidth="100.0" text="Calculate" />
-      <Label layoutX="348.0" layoutY="132.0" text="calculated Depths" />
-      <Label layoutX="20.0" layoutY="132.0" text="Person who paid" />
-      <ComboBox fx:id="dropDownFromPerson" layoutX="20.0" layoutY="157.0" prefHeight="24.0" prefWidth="180.0" />
-      <Label fx:id="labelPriceType" layoutX="8.0" layoutY="97.0" text="Calculate Price">
+      <ListView fx:id="listViewForPersons" disable="true" layoutX="220.0" layoutY="74.0" prefHeight="210.0" prefWidth="373.0" />
+      <Button fx:id="buttonCalculate" layoutX="60.0" layoutY="123.0" mnemonicParsing="false" onAction="#calculateTicket" prefHeight="24.0" prefWidth="100.0" text="Calculate" />
+      <Label layoutX="348.0" layoutY="49.0" text="calculated Depths" />
+      <Label layoutX="20.0" layoutY="49.0" text="Person who paid" />
+      <ComboBox fx:id="dropDownFromPerson" layoutX="20.0" layoutY="74.0" prefHeight="24.0" prefWidth="180.0" />
+      <Label fx:id="labelPriceType" layoutX="8.0" layoutY="14.0" text="Calculate Price">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Line endX="506.0" layoutX="94.0" layoutY="122.0" startX="-94.0" />
-      <Line endX="-100.0" endY="-118.0" layoutX="310.0" layoutY="241.0" startX="-100.0" startY="133.0" />
-      <Label layoutX="24.0" layoutY="21.0" text="Hier komt menu voor select U, V, C">
-         <font>
-            <Font size="30.0" />
-         </font>
-      </Label>
+      <Line endX="506.0" layoutX="94.0" layoutY="39.0" startX="-94.0" />
+      <Line endX="-100.0" endY="-118.0" layoutX="310.0" layoutY="158.0" startX="-100.0" startY="133.0" />
    </children>
 </AnchorPane>

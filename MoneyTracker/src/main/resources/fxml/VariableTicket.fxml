@@ -9,32 +9,27 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="374.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.guiController.ControllerSetVTicket">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="294.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.guiController.ControllerSetVTicket">
    <children>
-      <ListView fx:id="listViewForPersons" layoutX="333.0" layoutY="157.0" prefHeight="210.0" prefWidth="260.0" />
-      <Button fx:id="buttonSaveTicket" layoutX="26.0" layoutY="336.0" mnemonicParsing="false" onAction="#saveATicket" prefHeight="24.0" prefWidth="100.0" text="SaveTicket" />
-      <Label layoutX="333.0" layoutY="132.0" text="Persons in Depth" />
-      <Label layoutX="20.0" layoutY="132.0" text="Ticket:" />
-      <Label layoutX="20.0" layoutY="162.0" text="Person who paid:" />
-      <Label layoutX="20.0" layoutY="192.0" text="For person:" />
-      <ComboBox fx:id="dropDownFactoryType" layoutX="143.0" layoutY="130.0" onAction="#setFactoryType" prefHeight="24.0" prefWidth="180.0" />
-      <ComboBox fx:id="dropDownFromPerson" layoutX="143.0" layoutY="160.0" prefHeight="24.0" prefWidth="180.0" />
-      <ComboBox fx:id="dropDownForPerson" layoutX="143.0" layoutY="190.0" prefHeight="24.0" prefWidth="180.0" />
-      <Button fx:id="buttonAddForPerson" layoutX="143.0" layoutY="250.0" mnemonicParsing="false" onAction="#setForPerson" prefHeight="24.0" prefWidth="180.0" text="ADD PERSON" />
-      <Label fx:id="labelPriceType" layoutX="8.0" layoutY="97.0" text="Variable Price">
+      <ListView fx:id="listViewForPersons" layoutX="333.0" layoutY="74.0" prefHeight="210.0" prefWidth="260.0" />
+      <Button fx:id="buttonSaveTicket" layoutX="26.0" layoutY="253.0" mnemonicParsing="false" onAction="#saveATicket" prefHeight="24.0" prefWidth="100.0" text="SaveTicket" />
+      <Label layoutX="333.0" layoutY="49.0" text="Persons in Depth" />
+      <Label layoutX="20.0" layoutY="49.0" text="Ticket:" />
+      <Label layoutX="20.0" layoutY="79.0" text="Person who paid:" />
+      <Label layoutX="20.0" layoutY="109.0" text="For person:" />
+      <ComboBox fx:id="dropDownFactoryType" layoutX="143.0" layoutY="47.0" onAction="#setFactoryType" prefHeight="24.0" prefWidth="180.0" />
+      <ComboBox fx:id="dropDownFromPerson" layoutX="143.0" layoutY="77.0" prefHeight="24.0" prefWidth="180.0" />
+      <ComboBox fx:id="dropDownForPerson" layoutX="143.0" layoutY="107.0" prefHeight="24.0" prefWidth="180.0" />
+      <Button fx:id="buttonAddForPerson" layoutX="143.0" layoutY="167.0" mnemonicParsing="false" onAction="#setForPerson" prefHeight="24.0" prefWidth="180.0" text="ADD PERSON" />
+      <Label fx:id="labelPriceType" layoutX="8.0" layoutY="14.0" text="Variable Price">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Label layoutX="18.0" layoutY="226.0" text="Amount for person:" />
-      <Spinner fx:id="spinnerAmount" editable="true" layoutX="143.0" layoutY="220.0" prefHeight="24.0" prefWidth="180.0" />
-      <Line endX="506.0" layoutX="94.0" layoutY="122.0" startX="-94.0" />
-      <Line endX="-100.0" endY="-118.0" layoutX="428.0" layoutY="241.0" startX="-100.0" startY="133.0" />
-      <Label layoutX="24.0" layoutY="21.0" text="Hier komt menu voor select U, V, C">
-         <font>
-            <Font size="30.0" />
-         </font>
-      </Label>
-      <Label fx:id="labelError" layoutX="24.0" layoutY="299.0" textFill="RED" />
+      <Label layoutX="18.0" layoutY="143.0" text="Amount for person:" />
+      <Spinner fx:id="spinnerAmount" editable="true" layoutX="143.0" layoutY="137.0" prefHeight="24.0" prefWidth="180.0" />
+      <Line endX="506.0" layoutX="94.0" layoutY="39.0" startX="-94.0" />
+      <Line endX="-100.0" endY="-118.0" layoutX="428.0" layoutY="158.0" startX="-100.0" startY="133.0" />
+      <Label fx:id="labelError" layoutX="24.0" layoutY="216.0" textFill="RED" />
    </children>
 </AnchorPane>

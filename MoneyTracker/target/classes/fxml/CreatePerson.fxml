@@ -8,27 +8,22 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="374.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.guiController.ControllerCreatePerson">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="293.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.guiController.ControllerCreatePerson">
    <children>
-      <ListView fx:id="listViewPersons" layoutX="333.0" layoutY="157.0" prefHeight="210.0" prefWidth="260.0" />
-      <Label layoutX="333.0" layoutY="132.0" text="Persons in database" />
-      <Label layoutX="20.0" layoutY="132.0" text="Name:" />
-      <Label layoutX="20.0" layoutY="162.0" text="Last name:" />
-      <Button fx:id="buttonAddPerson" layoutX="146.0" layoutY="188.0" mnemonicParsing="false" onAction="#addPerson" prefHeight="24.0" prefWidth="171.0" text="ADD PERSON" />
-      <Label layoutX="8.0" layoutY="97.0" text="Create Person">
+      <ListView fx:id="listViewPersons" layoutX="333.0" layoutY="74.0" prefHeight="210.0" prefWidth="260.0" />
+      <Label layoutX="333.0" layoutY="49.0" text="Persons in database" />
+      <Label layoutX="20.0" layoutY="49.0" text="Name:" />
+      <Label layoutX="20.0" layoutY="79.0" text="Last name:" />
+      <Button fx:id="buttonAddPerson" layoutX="146.0" layoutY="105.0" mnemonicParsing="false" onAction="#addPerson" prefHeight="24.0" prefWidth="171.0" text="ADD PERSON" />
+      <Label layoutX="8.0" layoutY="14.0" text="Create Person">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Line endX="506.0" layoutX="94.0" layoutY="122.0" startX="-94.0" />
-      <Line endX="-100.0" endY="-118.0" layoutX="428.0" layoutY="241.0" startX="-100.0" startY="133.0" />
-      <Label layoutX="24.0" layoutY="21.0" prefHeight="25.0" prefWidth="699.0" text="Hier komt menu voor Create, Ticket, Calculate">
-         <font>
-            <Font size="19.0" />
-         </font>
-      </Label>
-      <TextField fx:id="textFieldName" layoutX="146.0" layoutY="128.0" />
-      <TextField fx:id="textFieldLastName" layoutX="146.0" layoutY="158.0" />
-      <Label fx:id="labelError" layoutX="24.0" layoutY="241.0" text="" textFill="RED" />
+      <Line endX="506.0" layoutX="94.0" layoutY="39.0" startX="-94.0" />
+      <Line endX="-100.0" endY="-118.0" layoutX="428.0" layoutY="158.0" startX="-100.0" startY="133.0" />
+      <TextField fx:id="textFieldName" layoutX="146.0" layoutY="45.0" />
+      <TextField fx:id="textFieldLastName" layoutX="146.0" layoutY="75.0" />
+      <Label fx:id="labelError" layoutX="24.0" layoutY="158.0" text="" textFill="RED" />
    </children>
 </AnchorPane>
