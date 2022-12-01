@@ -58,13 +58,22 @@ public class Calculator {
         return tallies;
     }
 
-    public static void PrintTallies(List<Triplet<Integer, Integer, Double>> tallies){
+    public static List<String> TalliesToString(List<Triplet<Integer, Integer, Double>> tallies){
         // Print all tallies
         PersonController pCtrl = PersonController.getInstance();
-        System.out.printf("\nTally-size: %s\n", tallies.size());
+        List<String> output = new ArrayList<>();
+        output.add(String.format("\nTally-size: %s\n", tallies.size()));
         for (Triplet<Integer, Integer, Double> tally: tallies) {
-            System.out.printf("%s owes %s €%.2f\n", pCtrl.getNameById(tally.getValue1()),
-                    pCtrl.getNameById(tally.getValue0()), tally.getValue2());
+            output.add(String.format("%s owes %s €%.2f\n", pCtrl.getNameById(tally.getValue1()),
+                    pCtrl.getNameById(tally.getValue0()), tally.getValue2()));
+        }
+        return output;
+    }
+
+    public static void PrintTallies(List<Triplet<Integer, Integer, Double>> tallies){
+        // Print all tallies
+        for (String tally: TalliesToString(tallies)) {
+            System.out.printf(tally);
         }
     }
 
@@ -128,9 +137,9 @@ public class Calculator {
             // Only store people who are owed money
             if (debt != 0.0) { amounts.put(id, debt); }
         }
-        /*for(Map.Entry<Integer, Double> entry : amounts.entrySet()) {
-            System.out.printf("%s is owed €%.2f\n", pCtrl.getNameById(entry.getKey()), entry.getValue());
-        }*/
+        for(Map.Entry<Integer, Double> entry : amounts.entrySet()) {
+            // System.out.printf("%s is owed €%.2f\n", pCtrl.getNameById(entry.getKey()), entry.getValue());
+        }
         return amounts;
     }
 
