@@ -26,7 +26,6 @@ public class ControllerMain implements Initializable {
         }
         mainPane.setCenter(view);
     }
-
     @FXML
     void setPersonView(ActionEvent event) {
         Pane view = null;

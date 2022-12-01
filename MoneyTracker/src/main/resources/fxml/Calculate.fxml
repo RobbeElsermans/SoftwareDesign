@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -10,12 +9,10 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="293.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.guiController.ControllerCalculate">
    <children>
-      <ListView fx:id="listViewForPersons" disable="true" layoutX="220.0" layoutY="74.0" prefHeight="210.0" prefWidth="373.0" />
-      <Button fx:id="buttonCalculate" layoutX="60.0" layoutY="123.0" mnemonicParsing="false" onAction="#calculateTicket" prefHeight="24.0" prefWidth="100.0" text="Calculate" />
+      <ListView fx:id="listViewForPersons" layoutX="220.0" layoutY="74.0" prefHeight="210.0" prefWidth="373.0" />
+      <Button fx:id="buttonCalculate" layoutX="57.0" layoutY="147.0" mnemonicParsing="false" onAction="#calculateTicket" prefHeight="24.0" prefWidth="100.0" text="Calculate" />
       <Label layoutX="348.0" layoutY="49.0" text="calculated Depths" />
-      <Label layoutX="20.0" layoutY="49.0" text="Person who paid" />
-      <ComboBox fx:id="dropDownFromPerson" layoutX="20.0" layoutY="74.0" prefHeight="24.0" prefWidth="180.0" />
-      <Label fx:id="labelPriceType" layoutX="8.0" layoutY="14.0" text="Calculate Price">
+      <Label layoutX="8.0" layoutY="14.0" text="Calculate Price">
          <font>
             <Font size="20.0" />
          </font>
