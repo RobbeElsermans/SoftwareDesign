@@ -1,5 +1,7 @@
 package GUI.guiController;
 
+import GUI.helperClass.dropdownControl;
+import GUI.helperClass.errorControl;
 import javafx.event.ActionEvent;
 
 public class ControllerSetVTicket extends ATicketController{
@@ -20,10 +22,11 @@ public class ControllerSetVTicket extends ATicketController{
                 this.spinnerAmount.getValue() != 0.0) {
 
             //reset labelError if it has been set
-            resetError();
+            errorControl.clearError(this.labelError);
 
             //Get the selected value
-            String temp_forPerson = dropDownForPerson.getValue();
+
+            String temp_forPerson = dropdownControl.getDropdownListValue(this.dropDownForPerson);
 
             //Get the selected amount
             double temp_amountForPerson = this.spinnerAmount.getValue();
@@ -43,42 +46,36 @@ public class ControllerSetVTicket extends ATicketController{
             generateTextForPersonListView();
 
             //Remove person from dropDownForPersons
-            this.dropDownForPerson.getItems().remove(temp_forPerson);
+            dropdownControl.deleteAnElementFromDropdownList(this.dropDownForPerson, temp_forPerson);
 
             //clear amount and dropdown for person
             this.spinnerAmount.getValueFactory().setValue(0.0);
-            this.dropDownForPerson.setValue("");
 
+            dropdownControl.clearDropdownListValue(this.dropDownForPerson);
         }
         else if (this.fromPersonId == -1) {
             //Warn the user
-            setError("Select a from person first!");
-            //System.out.println("Select a from person first!");
+            errorControl.setError(this.labelError, "Select a from person first!");
         }
         else if (this.dropDownForPerson.getItems().size() == 0) {
             //Warn the user
-            setError("The person list is empty!");
-            //System.out.println("The person list is empty!");
+            errorControl.setError(this.labelError, "The person list is empty!");
         }
         else if (this.dropDownForPerson.getValue() == null) {
             //Warn the user
-            setError("Select a for person!");
-            //System.out.println("Select a for person!");
+            errorControl.setError(this.labelError, "Select a for person!");
         }
         else if (this.dropDownForPerson.getValue().isEmpty()) {
             //Warn the user
-            setError("Select a for person!");
-            //System.out.println("Select a for person!");
+            errorControl.setError(this.labelError, "Select a for person!");
         }
         else if (this.spinnerAmount.getValue() == 0.0){
             //Warn the user
-            setError("Select an amount greater than 0!");
-            //System.out.println("Select an amount greater than 0!");
+            errorControl.setError(this.labelError, "Select an amount greater than 0!");
         }
         else{
             //Warn the user
-            setError("Unknown error");
-            //System.out.println("Unknown error");
+            errorControl.setError(this.labelError, "Unknown error");
         }
     }
 
@@ -88,7 +85,7 @@ public class ControllerSetVTicket extends ATicketController{
     }
 
     public void setFactoryType(ActionEvent event) {
-        this.ticketType = this.dropDownFactoryType.getValue();
+        this.ticketType = dropdownControl.getDropdownListValue(this.dropDownFactoryType);
     }
 
     @Override

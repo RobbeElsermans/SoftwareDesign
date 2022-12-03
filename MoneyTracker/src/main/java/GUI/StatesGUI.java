@@ -1,8 +1,0 @@
-package GUI;
-
-public enum StatesGUI {
-    PERSON_CREATION,
-    VALIABLE_TICKET_CREATION,
-    UNIFORM_TICKET_CREATION,
-    CALCULATION
-}

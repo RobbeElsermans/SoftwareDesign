@@ -1,5 +1,7 @@
 package GUI.guiController;
 
+import GUI.helperClass.dropdownControl;
+import GUI.helperClass.errorControl;
 import database.PersonDB;
 import database.dbController.AController;
 import database.dbController.PersonController;
@@ -58,15 +60,6 @@ public abstract class ATicketController implements Initializable {
     protected final List<String> factoryType = new ArrayList<>();
 
     /**
-     * Storage of the person database. We create a local copy of it.
-     *
-     * @used to search through the database locally
-     */
-    //TODO wijzigen naar personNames
-    //En alles omzetten naar personsDataNames
-    //protected HashMap<Integer, IPerson> personsData = new HashMap<>();
-
-    /**
      * Storage of all the persons full names.
      *
      * @used to populate the ListView
@@ -115,24 +108,18 @@ public abstract class ATicketController implements Initializable {
      */
     protected static final DecimalFormat decimalFormat = new DecimalFormat("0.##");
 
+
+    /**
+     * Storage for the amount of for persons added
+     *
+     * @used to iterate
+     */
     protected int numberOfForPersons = 0;
 
     /**
      * The controller for the personDB
      */
      PersonController personController;
-
-    /**
-     * The constructor of an abstract ticket
-     */
-    public ATicketController() {
-        //Init person Controller
-        personController = new PersonController(PersonDB.getInstance());
-
-        //Get the data
-        //getDatabaseData();
-    }
-
 
     /**
      * Method to save a ticket.
@@ -152,7 +139,7 @@ public abstract class ATicketController implements Initializable {
                 this.fromPersonId != -1) {
 
             //reset labelError if it has been set
-            resetError();
+            errorControl.clearError(this.labelError);
 
             //Get the factory for the ticket type
             ITicketFactory factory = AbstractFactoryProvider.getFactory(FactoryType.valueOf(this.ticketType));
@@ -177,37 +164,29 @@ public abstract class ATicketController implements Initializable {
         }
         else if(this.ticketType.isEmpty()) {
             //Warn the user
-            setError("Select a ticket type!");
+            errorControl.setError(this.labelError, "Select a ticket type!");
         }
         else if (this.fromPersonId == -1)
         {
-            setError("No from person selected!");
+            errorControl.setError(this.labelError, "No from person selected!");
         }
         else if(this.forPersonIdList.size() == 0 &&
                 this.forPersonAmount.size() == 0) {
             //Warn the user
-            setError("No for person(s) are selected!");
+            errorControl.setError(this.labelError, "No for person(s) are selected!");
         }
     }
 
-    protected void setError(String value) {
-        this.labelError.setText(value);
-    }
-
-    protected void resetError() {
-        if (!this.labelError.getText().isEmpty())
-            setError("");
-    }
-    //TODO implement betere error methodes
-    private boolean errorPresent(Label label) {
-        return !this.labelError.getText().isEmpty();
-    }
-
+    /**
+     * reset the form to te initial state
+     *
+     * @description We use this method to clear the form, so we can fill in a clean empty form.
+     */
     protected void resetData() {
         this.listViewForPersons.getItems().clear();
-        this.dropDownFromPerson.getItems().clear();
-        this.dropDownForPerson.getItems().clear();
-        this.dropDownFactoryType.getItems().clear();
+        dropdownControl.clearDropdownList(this.dropDownFromPerson);
+        dropdownControl.clearDropdownList(this.dropDownForPerson);
+        dropdownControl.clearDropdownList(this.dropDownFactoryType);
 
         this.factoryType.clear();
         this.personsDataNames.clear();
@@ -231,20 +210,16 @@ public abstract class ATicketController implements Initializable {
     protected void setFromPerson(ActionEvent event) {
         try {
             // Get the selected persons fill name and store it temporary
-            String temp_fromPerson = dropDownFromPerson.getValue();
+            String temp_fromPerson = dropdownControl.getDropdownListValue(this.dropDownFromPerson);
 
             fromPersonId = personController.getIdByName(temp_fromPerson);
 
-            // Remove From person out of the For persons list
-            // Remove all the persons out of the Combobox. We do not know if it was complete.
-            dropDownForPerson.getItems().clear();
-            // Add a fresh new list
-            dropDownForPerson.getItems().addAll(personsDataNames);
-            // Remove the selected from person
-            dropDownForPerson.getItems().remove(temp_fromPerson);
+            dropdownControl.resetDropdownList(this.dropDownForPerson, this.personsDataNames);
+            dropdownControl.deleteAnElementFromDropdownList(this.dropDownForPerson, temp_fromPerson);
 
             //if there were for persons selected for a specific from person, we need to clear the lists.
-            if (this.forPersonIdList.size() > 0) {
+            //this.forPersonIdList.size() > 0
+            if (this.numberOfForPersons > 0) {
                 // Delete the lists
                 this.forPersonIdList.clear();
                 this.forPersonNamesList.clear();
@@ -268,7 +243,10 @@ public abstract class ATicketController implements Initializable {
     protected abstract void setForPerson(ActionEvent event);
 
     protected void updateForPersonListView(String temp_forPerson) {
-        forPersonNamesList.add(temp_forPerson);
+
+        errorControl.clearError(this.labelError);
+
+        this.forPersonNamesList.add(temp_forPerson);
     }
 
     protected abstract void generateTextForPersonListView();
@@ -325,6 +303,10 @@ public abstract class ATicketController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        //add the person controller
+        personController = new PersonController(PersonDB.getInstance());
+
+        //initialize the data
         initData();
     }
 
@@ -345,17 +327,15 @@ public abstract class ATicketController implements Initializable {
         }
     }
 
+
+
     protected void initDropdowns() {
         //De lijsten toevoegen aan de respectievelijke dropdowns(combobox)
-        dropDownFactoryType.getItems().addAll(factoryType);
 
-        personsDataNames.forEach(value -> {
-            dropDownForPerson.getItems().add(value);
-            dropDownFromPerson.getItems().add(value);
-        });
-
-        //De acties implementeren
-        dropDownFromPerson.setOnAction(this::setFromPerson);
+        dropdownControl.setDropdownList(this.dropDownFactoryType, this.factoryType);
+        dropdownControl.setDropdownList(this.dropDownForPerson, this.personsDataNames);
+        dropdownControl.setDropdownList(this.dropDownFromPerson, this.personsDataNames);
+        dropdownControl.setDropdownListAction(this.dropDownFromPerson, this::setFromPerson);
     }
 
     protected void initSpinner() {

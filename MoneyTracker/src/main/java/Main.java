@@ -54,7 +54,6 @@ public class Main{
             }
         }
 
-
         List<Triplet<Integer, Integer, Double>> tallies = Calculator.CalculateTallyPairs();
         Calculator.CalculateFinalTallies(tallies);
     }

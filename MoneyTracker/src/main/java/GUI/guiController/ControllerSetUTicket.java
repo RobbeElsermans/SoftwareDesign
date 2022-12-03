@@ -1,5 +1,7 @@
 package GUI.guiController;
 
+import GUI.helperClass.dropdownControl;
+import GUI.helperClass.errorControl;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -14,7 +16,7 @@ public class ControllerSetUTicket extends ATicketController implements ChangeLis
         if(spinnerAmount.getValue() > 0)
             super.saveATicket(event);
         else {
-            setError("Value is 0!");
+            errorControl.setError(this.labelError, "Value is 0!");
         }
     }
 
@@ -29,10 +31,11 @@ public class ControllerSetUTicket extends ATicketController implements ChangeLis
                 this.dropDownForPerson.getItems().size() > 0) {
 
             //reset labelError if it has been set
-            resetError();
+            errorControl.clearError(this.labelError);
 
             //Get the selected value
-            String temp_forPerson = dropDownForPerson.getValue();
+
+            String temp_forPerson = dropdownControl.getDropdownListValue(this.dropDownForPerson);
 
             //keep track of person number
             this.numberOfForPersons++;
@@ -45,39 +48,41 @@ public class ControllerSetUTicket extends ATicketController implements ChangeLis
             updateForPersonListView(temp_forPerson);
 
             //Remove person from dropDownForPersons
-            this.dropDownForPerson.getItems().remove(temp_forPerson);
+            dropdownControl.deleteAnElementFromDropdownList(this.dropDownForPerson, temp_forPerson);
 
             //clear dropdown for person
-            this.dropDownForPerson.setValue("");
-        }         else if (this.fromPersonId == -1) {
+            dropdownControl.clearDropdownListValue(this.dropDownForPerson);
+        }
+        else if (this.fromPersonId == -1) {
             //Warn the user
-            setError("Select a from person first!");
+            errorControl.setError(this.labelError, "Select a from person first!");
+
             //System.out.println("Select a from person first!");
         }
         else if (this.dropDownForPerson.getItems().size() == 0) {
             //Warn the user
-            setError("The person list is empty!");
+            errorControl.setError(this.labelError, "The person list is empty!");
             //System.out.println("The person list is empty!");
         }
-        else if (this.dropDownForPerson.getValue() == null) {
+        else if (dropdownControl.getDropdownListValue(this.dropDownForPerson) == null) {
             //Warn the user
-            setError("Select a for person!");
+            errorControl.setError(this.labelError, "Select a for person!");
             //System.out.println("Select a for person!");
         }
-        else if (this.dropDownForPerson.getValue().isEmpty()) {
+        else if (dropdownControl.isDropdownListEmpty(this.dropDownForPerson)) {
             //Warn the user
-            setError("Select a for person!");
+            errorControl.setError(this.labelError, "Select a for person!");
             //System.out.println("Select a for person!");
         }
         else{
             //Warn the user
-            setError("Unknown error");
+            errorControl.setError(this.labelError, "Unknown error");
             //System.out.println("Unknown error");
         }
     }
 
     public void setFactoryType(ActionEvent event) {
-        this.ticketType = this.dropDownFactoryType.getValue();
+        this.ticketType = dropdownControl.getDropdownListValue(this.dropDownFactoryType);
     }
 
     @Override
