@@ -198,6 +198,10 @@ public abstract class ATicketController implements Initializable {
         if (!this.labelError.getText().isEmpty())
             setError("");
     }
+    //TODO implement betere error methodes
+    private boolean errorPresent(Label label) {
+        return !this.labelError.getText().isEmpty();
+    }
 
     protected void resetData() {
         this.listViewForPersons.getItems().clear();

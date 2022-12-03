@@ -28,10 +28,10 @@ public class ControllerPersonPage implements Initializable {
     private Label labelError2;
 
     @FXML
-    private ComboBox<String> checkBoxDeletePerson;
+    private ComboBox<String> comboBoxDeletePerson;
 
     @FXML
-    private ComboBox<String> checkBoxDepthPerson;
+    private ComboBox<String> comboBoxDepthPerson;
 
     private PersonController personController;
 
@@ -56,24 +56,65 @@ public class ControllerPersonPage implements Initializable {
             //Add to database
             this.personController.addValue(new Person(temp_name, temp_lastName));
 
-            //Refresh ListView
-            setListViewPersons(getPersonData());
-
-            //refresh delete Dropdowns
-            setDropdownLists(getPersonData());
+            refreshPage();
         }
         else{
             this.labelError.setText("Fill everything in!");
         }
     }
 
+    private void refreshPage() {
+        //Refresh ListView
+        setListViewPersons(getPersonData());
+
+        //refresh delete Dropdowns
+        setDropdownListsDeletePerson(getPersonData());
+        setDropdownListsDepthPerson(getPersonData());
+    }
+
     @FXML
     void deletePerson(ActionEvent event) {
         //Check inputs
 
+        //local used variables
+        int deleteID = -1;
+        int depthID = -1;
 
-        //verwijder persoon in personDB
-        //de kosten verdelen in Ticket Controller
+
+        if(this.comboBoxDeletePerson.getValue() != null && this.comboBoxDepthPerson.getValue() != null){
+            if(errorPresent(labelError2)){
+                resetError(labelError2);
+            }
+
+            //get the id's from database
+            deleteID = personController.getIdByName(this.comboBoxDeletePerson.getValue());
+            depthID = personController.getIdByName(this.comboBoxDepthPerson.getValue());
+
+            //verwijder persoon in personDB
+
+            //de kosten verdelen in Ticket Controller
+
+
+            //System.out.println("Verwijderen persoon");
+
+            //refresh page
+            refreshPage();
+        }
+        else if(this.comboBoxDeletePerson.getValue() == null)
+        {
+            //warn the user
+            setError(labelError2,"Fill delete person in!");
+        }
+
+        else if(this.comboBoxDepthPerson.getValue() == null)
+        {
+            //alert the user
+            /*Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Delete user without fall guy");
+            alert.setHeaderText("No fall guy selected!");
+            alert.setContentText("Are you sure to discard your depths?");*/
+            setError(labelError2,"Fill depth person in!");
+        }
 
     }
 
@@ -85,15 +126,42 @@ public class ControllerPersonPage implements Initializable {
         this.listViewPersons.getItems().addAll(temp_personNames);
     }
 
-    private void setDropdownLists(List<String> temp_personNames) {
+    private void setDropdownListsDeletePerson(List<String> temp_personNames) {
 
-        if(!this.checkBoxDeletePerson.getItems().isEmpty())
-            this.checkBoxDeletePerson.getItems().clear(); //zal al leeg zijn bij init
-        this.checkBoxDeletePerson.getItems().addAll(temp_personNames);
+        if(!this.comboBoxDeletePerson.getItems().isEmpty())
+            this.comboBoxDeletePerson.getItems().clear(); //zal al leeg zijn bij init
+        this.comboBoxDeletePerson.getItems().addAll(temp_personNames);
+    }
 
-        if(!this.checkBoxDepthPerson.getItems().isEmpty())
-            this.checkBoxDepthPerson.getItems().clear(); //zal al leeg zijn bij init
-        this.checkBoxDepthPerson.getItems().addAll(temp_personNames);
+    private void setDropdownListsDepthPerson(List<String> temp_personNames) {
+        if(!this.comboBoxDepthPerson.getItems().isEmpty())
+            this.comboBoxDepthPerson.getItems().clear(); //zal al leeg zijn bij init
+        this.comboBoxDepthPerson.getItems().addAll(temp_personNames);
+    }
+
+    private void refreshDepthsPersonList(ActionEvent event) {
+        //reset the dropdown
+        setDropdownListsDepthPerson(getPersonData());
+
+        //Delete the selected person from "fall guy" dropdown
+        this.comboBoxDepthPerson.getItems().remove(this.comboBoxDeletePerson.getValue());
+    }
+
+    private List<String> getPersonData() {
+        return this.personController.getAllFullNames();
+    }
+
+    private void setError(Label label ,String value) {
+        label.setText(value);
+    }
+
+    private void resetError(Label label) {
+        if(errorPresent(label))
+            label.setText("");
+    }
+
+    private boolean errorPresent(Label label) {
+        return this.labelError.getText().isEmpty();
     }
 
     @Override
@@ -102,22 +170,9 @@ public class ControllerPersonPage implements Initializable {
         personController = new PersonController(PersonDB.getInstance());
 
         //Set the ListViews
-        setListViewPersons(getPersonData());
-        setDropdownLists(getPersonData());
+        refreshPage();
 
         //Set onAction for deletePerson dropdown
-        this.checkBoxDepthPerson.setOnAction(this::setDeletePerson);
-    }
-
-    private void setDeletePerson(ActionEvent event) {
-        //reset the
-        setDropdownLists(getPersonData());
-        //Delete the selected person from "fall guy" dropdown
-        this.checkBoxDepthPerson.getItems().remove(this.checkBoxDeletePerson.getValue());
-
-    }
-
-    private List<String> getPersonData() {
-        return this.personController.getAllFullNames();
+        this.comboBoxDeletePerson.setOnAction(this::refreshDepthsPersonList);
     }
 }

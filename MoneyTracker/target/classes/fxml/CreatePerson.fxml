@@ -25,7 +25,10 @@
       <Line endX="-100.0" endY="-118.0" layoutX="428.0" layoutY="158.0" startX="-100.0" startY="133.0" />
       <TextField fx:id="textFieldName" layoutX="146.0" layoutY="45.0" />
       <TextField fx:id="textFieldLastName" layoutX="146.0" layoutY="75.0" />
-      <Label fx:id="labelError" layoutX="14.0" layoutY="109.0" prefHeight="16.0" prefWidth="20.0" text="" textFill="RED" />
+      <Label fx:id="labelError" layoutX="14.0" layoutY="109.0" prefHeight="16.0" prefWidth="123.0" text="" textFill="RED">
+         <font>
+            <Font size="10.0" />
+         </font></Label>
       <Line endX="-337.0" endY="133.0" layoutX="337.0" layoutY="13.0" startX="-8.5" startY="133.5" />
       <Label layoutX="9.0" layoutY="153.0" text="Delete Person">
          <font>
@@ -35,8 +38,11 @@
       <Label layoutX="24.0" layoutY="191.0" text="delete person:" />
       <Label layoutX="24.0" layoutY="220.0" text="fuck who?" />
       <Button fx:id="buttonDeletePerson" layoutX="146.0" layoutY="244.0" mnemonicParsing="false" onAction="#deletePerson" prefHeight="24.0" prefWidth="171.0" text="FINISH HIM" />
-      <ComboBox fx:id="checkBoxDeletePerson" layoutX="146.0" layoutY="187.0" prefHeight="24.0" prefWidth="171.0" />
-      <ComboBox fx:id="checkBoxDepthPerson" layoutX="146.0" layoutY="216.0" prefHeight="24.0" prefWidth="171.0" />
-      <Label fx:id="labelError2" layoutX="14.0" layoutY="248.0" prefHeight="16.0" prefWidth="20.0" text="" textFill="RED" />
+      <ComboBox fx:id="comboBoxDeletePerson" layoutX="146.0" layoutY="187.0" prefHeight="24.0" prefWidth="171.0" />
+      <ComboBox fx:id="comboBoxDepthPerson" layoutX="146.0" layoutY="216.0" prefHeight="24.0" prefWidth="171.0" />
+      <Label fx:id="labelError2" layoutX="14.0" layoutY="248.0" prefHeight="16.0" prefWidth="123.0" text="" textFill="RED">
+         <font>
+            <Font size="10.0" />
+         </font></Label>
    </children>
 </AnchorPane>
