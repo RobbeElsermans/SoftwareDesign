@@ -10,14 +10,14 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Calculator {
-    // TODO Calculate debts between persons --> array
+    // Calculate debts between persons --> array
     public static List<Triplet<Integer, Integer, Double>> CalculateTallyPairs(){
         // https://www.geeksforgeeks.org/javatuples-introduction/
         List<Triplet<Integer, Integer, Double>> tallies = new ArrayList<>();
         TicketController tCtrl = TicketController.getInstance();
 
         // Loop through all tickets
-        for(Map.Entry<Integer, ITicket> entry : tCtrl.getDB().getAll().entrySet()) {
+        for(Map.Entry<Integer, ITicket> entry : tCtrl.getAllEntries().entrySet()) {
             ITicket value = entry.getValue();
             int payer = value.getPayerId();
 
@@ -55,6 +55,7 @@ public class Calculator {
             }
         }
         ReverseNegativeTallies(tallies);
+        // PrintTallies(tallies);
         return tallies;
     }
 
@@ -62,7 +63,6 @@ public class Calculator {
         // Print all tallies
         PersonController pCtrl = PersonController.getInstance();
         List<String> output = new ArrayList<>();
-        output.add(String.format("\nTally-size: %s\n", tallies.size()));
         for (Triplet<Integer, Integer, Double> tally: tallies) {
             output.add(String.format("%s owes %s €%.2f\n", pCtrl.getNameById(tally.getValue1()),
                     pCtrl.getNameById(tally.getValue0()), tally.getValue2()));
@@ -72,6 +72,7 @@ public class Calculator {
 
     public static void PrintTallies(List<Triplet<Integer, Integer, Double>> tallies){
         // Print all tallies
+        System.out.printf("\nTally-size: %s\n", tallies.size());
         for (String tally: TalliesToString(tallies)) {
             System.out.printf(tally);
         }
@@ -87,12 +88,12 @@ public class Calculator {
         // PrintTallies(tallies);
     }
 
-    // TODO Use Splitwise Algorithm / Greedy Algorithm to minimise debs overall
-    //  Step 1) Check for dual step debts (person1 -> person2 -> person3) -> (person1 -> person3 and person2 -> person3)
-    //          https://www.geeksforgeeks.org/minimize-cash-flow-among-given-set-friends-borrowed-money/
-    //  Step 2) Find the persons who are owed the most and least amount of money
-    //  Step 3) Start eliminating debts between the highest and lowest debtors.
-    //  Step 4) Restart the process
+    // Use Splitwise Algorithm / Greedy Algorithm to minimise debs overall
+    // Step 1) Check for dual step debts (person1 -> person2 -> person3) -> (person1 -> person3 and person2 -> person3)
+    //         https://www.geeksforgeeks.org/minimize-cash-flow-among-given-set-friends-borrowed-money/
+    // Step 2) Find the persons who are owed the most and least amount of money
+    // Step 3) Start eliminating debts between the highest and lowest debtors.
+    // Step 4) Restart the process
     public static List<Triplet<Integer, Integer, Double>> CalculateFinalTallies(List<Triplet<Integer, Integer, Double>> tallies) {
         System.out.print("\n");
         if (CheckForDualStepDebts(tallies)) {   // Step 1

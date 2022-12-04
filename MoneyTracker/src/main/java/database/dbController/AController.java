@@ -2,6 +2,11 @@ package database.dbController;
 
 import database.ADatabase;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public abstract class AController<T> {
     protected ADatabase<T> db;
     public AController(ADatabase<T> db) { this.db = db; }
@@ -23,6 +28,16 @@ public abstract class AController<T> {
         }
     }
 
-    // TODO: ask teacher if this is bad
-    public ADatabase<T> getDB() { return db; }
+    public HashMap<Integer,T> getAllEntries() { return db.getAll(); }
+
+    public List<Integer> getAllIds(){
+        List<Integer> ids = new ArrayList<>();
+        for(Map.Entry<Integer, T> entry : db.getAll().entrySet()) {
+            int key = entry.getKey();
+            ids.add(key);
+        }
+        return ids;
+    }
+
+    public void delValue(int id){ db.delValue(id); }
 }

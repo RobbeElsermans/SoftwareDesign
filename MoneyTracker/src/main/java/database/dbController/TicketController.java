@@ -3,10 +3,9 @@ package database.dbController;
 import database.ADatabase;
 import database.TicketDB;
 import ticket.ITicket;
-import org.javatuples.Triplet;
-
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,5 +27,30 @@ public class TicketController extends AController<ITicket>{
             if (value.getPayerId() == payerId) tickets.add(value);
         }
         return tickets;
+    }
+
+    public void distributeDebts(int deletedPersonId, int fallGuyId) {
+        if (deletedPersonId == fallGuyId) return;   // do nothing if deleted person = fall guy
+        List<Integer> ticketsToRemove = new ArrayList<>();
+        for(Map.Entry<Integer, ITicket> entry : db.getAll().entrySet()) {
+            ITicket value = entry.getValue();
+            int payerId = value.getPayerId();
+
+            // If the person who paid falls away, then those who owed them money lose their debt to that person
+            if (payerId == deletedPersonId) {
+                int ticketId = entry.getKey();
+                ticketsToRemove.add(ticketId);
+            } else {
+                // If the person who paid is the fall guy, remove the debt of the deleted person
+                // Since the debt will be placed on themselves
+                if (payerId == fallGuyId) { value.getDebs().remove(deletedPersonId); }
+                // If the person who owes money falls away, then the fall guy must take over their debt
+                if (value.getDebs().get(deletedPersonId) != null) {
+                    double debt = value.getDebs().remove(deletedPersonId);
+                    value.getDebs().put(fallGuyId, debt);
+                }
+            }
+        }
+        for (int ticketId: ticketsToRemove) { delValue(ticketId); }
     }
 }

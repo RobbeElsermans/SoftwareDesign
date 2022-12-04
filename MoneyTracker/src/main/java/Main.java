@@ -19,7 +19,7 @@ public class Main{
         main.run();
 
         //Applicatie stuff
-        App.App();
+        // App.App();
     }
     public void run() {
         // person db test
@@ -28,15 +28,9 @@ public class Main{
         names.add("Kai");
         names.add("Zion");
         names.add("Jayden");
-        names.add("Eliana");
-        names.add("Luca");
         names.add("Ezra");
         names.add("Maeve");
         names.add("Aaliyah");
-        names.add("Hupke");
-        names.add("Flupke");
-        names.add("Flipke");
-        names.add("Flapke");
         for (String name: names) {
             pController.addValue(new Person(name, "Richards"));
         }
@@ -53,6 +47,8 @@ public class Main{
                 tController.addValue(ticket);
             }
         }
+
+        // tController.distributeDebts(pController.getIdByName("Kai Richards"), pController.getIdByName("Aaliyah Richards"));
 
         List<Triplet<Integer, Integer, Double>> tallies = Calculator.CalculateTallyPairs();
         Calculator.CalculateFinalTallies(tallies);

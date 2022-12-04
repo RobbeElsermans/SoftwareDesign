@@ -30,13 +30,5 @@ public abstract class ADatabase<T> {
 
     public HashMap<Integer, T> getAll() { return new HashMap<>(db); }
 
-    /*public abstract void addValue(T value);
-    public abstract T getValue(int id);*/
-
-    /*public void addPropertyChangeListener(PropertyChangeListener pcl) {
-        support.addPropertyChangeListener(pcl);
-    }
-    public void removePropertyChangeListener(PropertyChangeListener pcl) {
-        support.removePropertyChangeListener(pcl);
-    }*/
+    public void delValue(int id) { this.db.remove(id); }
 }

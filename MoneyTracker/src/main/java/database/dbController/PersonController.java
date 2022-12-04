@@ -41,13 +41,4 @@ public class PersonController extends AController<IPerson> {
         }
         return fullNames;
     }
-
-    public List<Integer> getAllIds(){
-        List<Integer> ids = new ArrayList<>();
-        for(Map.Entry<Integer, IPerson> entry : db.getAll().entrySet()) {
-            int key = entry.getKey();
-            ids.add(key);
-        }
-        return ids;
-    }
 }

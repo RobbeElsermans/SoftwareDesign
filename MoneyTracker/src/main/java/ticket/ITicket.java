@@ -12,7 +12,7 @@ public interface ITicket {
      * Get the debts of a ticket to a specific payer
      * @return The hashmap of the spender id and the amount they owe the payer
      */
-    public HashMap<Integer, Double> getDebs();
+    HashMap<Integer, Double> getDebs();
 
     /**
      * Get the person ID from the payer
