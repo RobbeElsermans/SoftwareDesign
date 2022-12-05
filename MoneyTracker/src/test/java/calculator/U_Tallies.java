@@ -28,9 +28,7 @@ public class U_Tallies {
 
         //Add to database
         PersonController personController = new PersonController(PersonDB.getInstance());
-        personList.forEach(value -> {
-            personController.addValue(value);
-        });
+        personList.forEach(personController::addValue);
 
 
         //Create tickets
@@ -62,6 +60,57 @@ public class U_Tallies {
         assertEquals(tallies.get(0).getValue0(), personController.getIdByName(personList.get(0).toString()));
         assertEquals(tallies.get(0).getValue1(), personController.getIdByName(personList.get(1).toString()));
         assertEquals(tallies.get(0).getValue2(), 10.0);
+    }
+
+    @Test
+    public void testTreeTallies(){
+        //Create 2 persons
+        List<IPerson> personList = createPersons(3);
+
+        //Add to database
+        PersonController personController = new PersonController(PersonDB.getInstance());
+        personList.forEach(personController::addValue);
+
+
+        //Create tickets
+        List<ITicket> ticketList = new ArrayList<>();
+        ITicketFactory ticketFactory = new DinnerTicketFactory();
+        //Add to database
+        TicketController ticketController = new TicketController(TicketDB.getInstance());
+
+        //Create depth with dinner and unifrom between 0 -> 1 for € 20.0
+        ticketFactory = new DinnerTicketFactory();
+        HashMap<Integer, Double> hashMap = new HashMap<>();
+        hashMap.put(personController.getIdByName(personList.get(1).toString()), 20.0);
+        ticketList.add(ticketFactory.getUniformTicket(personController.getIdByName(personList.get(0).toString()), hashMap));
+
+        //Create depth with dinner and unifrom between 1 -> 0 for € 10.0
+        hashMap = new HashMap<>();
+        hashMap.put(personController.getIdByName(personList.get(0).toString()), 10.0);
+        ticketList.add(ticketFactory.getUniformTicket(personController.getIdByName(personList.get(1).toString()), hashMap));
+
+        //Create depth with dinner and unifrom between 1 -> 2 for € 30.0
+        hashMap = new HashMap<>();
+        hashMap.put(personController.getIdByName(personList.get(2).toString()), 30.0);
+        ticketList.add(ticketFactory.getUniformTicket(personController.getIdByName(personList.get(1).toString()), hashMap));
+
+        //save to the database
+        ticketList.forEach(ticketController::addValue);
+
+
+        //Calculate the tallies. It should be 0 -> 1 with 10.0
+
+        List<Triplet<Integer, Integer, Double>> tallies = Calculator.CalculateFinalTallies(Calculator.CalculateTallyPairs());
+
+        assertEquals(tallies.get(0).getValue0(), personController.getIdByName(personList.get(0).toString()));
+        assertEquals(tallies.get(0).getValue1(), personController.getIdByName(personList.get(1).toString()));
+        assertEquals(tallies.get(0).getValue2(), 10.0);
+
+        //AND 1 -> 2 with 30?
+        //TODO Tom kijk dit eens na
+        assertEquals(tallies.get(1).getValue0(), personController.getIdByName(personList.get(1).toString()));
+        assertEquals(tallies.get(1).getValue1(), personController.getIdByName(personList.get(2).toString()));
+        assertEquals(tallies.get(1).getValue2(), 30.0);
     }
 
     private List<IPerson> createPersons(int amount){
