@@ -16,10 +16,10 @@ import java.util.List;
 public class Main{
     public static void main(String[] args)  {
         Main main = new Main();
-        main.run();
+        //main.run();
 
         //Applicatie stuff
-        // App.App();
+        App.App();
     }
     public void run() {
         // person db test
@@ -52,5 +52,6 @@ public class Main{
 
         List<Triplet<Integer, Integer, Double>> tallies = Calculator.CalculateTallyPairs();
         Calculator.CalculateFinalTallies(tallies);
+
     }
 }

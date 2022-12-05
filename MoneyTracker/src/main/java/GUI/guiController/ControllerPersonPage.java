@@ -3,12 +3,16 @@ package GUI.guiController;
 import GUI.helperClass.dropdownControl;
 import GUI.helperClass.errorControl;
 import database.PersonDB;
+import database.TicketDB;
+import database.dbController.AController;
 import database.dbController.PersonController;
+import database.dbController.TicketController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import person.Person;
+import ticket.ITicket;
 
 import java.net.URL;
 import java.util.List;
@@ -37,6 +41,8 @@ public class ControllerPersonPage implements Initializable {
 
     private PersonController personController;
 
+    private TicketController ticketController;
+
     /**
      * Add a person
      */
@@ -44,8 +50,7 @@ public class ControllerPersonPage implements Initializable {
         //Check if the field are filled in.
 
         if(!this.textFieldName.getText().isEmpty() && !this.textFieldLastName.getText().isEmpty()){
-            if(!this.labelError.getText().isEmpty())
-                this.labelError.setText("");
+            errorControl.clearError(this.labelError);
 
             String temp_name = this.textFieldName.getText();
             String temp_lastName = this.textFieldLastName.getText();
@@ -74,7 +79,6 @@ public class ControllerPersonPage implements Initializable {
         int deleteID = -1;
         int depthID = -1;
 
-
         if(dropdownControl.getDropdownListValue(this.comboBoxDeletePerson) != null && dropdownControl.getDropdownListValue(this.comboBoxDepthPerson) != null){
 
             errorControl.clearError(labelError2);
@@ -84,11 +88,10 @@ public class ControllerPersonPage implements Initializable {
             depthID = personController.getIdByName(dropdownControl.getDropdownListValue(this.comboBoxDepthPerson));
 
             //verwijder persoon in personDB
-            //TODO verwijder persoon
-            //de kosten verdelen in Ticket Controller
-            //TODO verdeel de kosten van het ticket
+            this.personController.delValue(deleteID);
 
-            //System.out.println("Verwijderen persoon");
+            //de kosten verdelen in Ticket Controller
+            this.ticketController.distributeDebts(deleteID, depthID);
 
             //refresh page
             refreshPage();
@@ -115,10 +118,10 @@ public class ControllerPersonPage implements Initializable {
 
     private void refreshDepthsPersonList(ActionEvent event) {
         // Reset the dropdown
-        dropdownControl.setDropdownList(this.comboBoxDepthPerson, getPersonData());
+        dropdownControl.resetDropdownList(this.comboBoxDepthPerson, getPersonData());
 
         // Delete the selected person from "fall guy" dropdown
-        this.comboBoxDepthPerson.getItems().remove(this.comboBoxDeletePerson.getValue());
+        dropdownControl.deleteAnElementFromDropdownList(this.comboBoxDepthPerson, dropdownControl.getDropdownListValue(this.comboBoxDeletePerson));
     }
 
     private List<String> getPersonData() {
@@ -138,6 +141,7 @@ public class ControllerPersonPage implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         //Init and get the person data
         personController = new PersonController(PersonDB.getInstance());
+        ticketController = new TicketController(TicketDB.getInstance());
 
         //Set the ListViews
         refreshPage();
