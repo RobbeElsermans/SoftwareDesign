@@ -15,11 +15,10 @@ import ticket.ITicket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class U_Tallies {
+public class UTest_Tallies {
 
     @Test
     public void testTwoTallies(){
@@ -75,7 +74,6 @@ public class U_Tallies {
         PersonController personController = new PersonController(PersonDB.getInstance());
         personList.forEach(personController::addValue);
 
-
         //Create tickets
         List<ITicket> ticketList = new ArrayList<>();
         ITicketFactory ticketFactory = new DinnerTicketFactory();
@@ -98,7 +96,9 @@ public class U_Tallies {
         //Create depth with dinner and uniform between 1 -> 2 for € 30.0
         //1 (B) pays €30 for 2 (C)
         debts = new HashMap<>();
-        debts.put(personController.getIdByName(personList.get(2).toString()), 5.0);
+        //TODO als dit verhoogt, dan zal depths onder 0 gaan waardoor er een null pointer komt.
+        //Het klopt nog niet helemaal
+        debts.put(personController.getIdByName(personList.get(2).toString()), 6.0);
         ticket = ticketFactory.getUniformTicket(personController.getIdByName(personList.get(1).toString()), debts);
         ticketList.add(ticket);
 
