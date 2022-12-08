@@ -29,7 +29,6 @@ public class UTest_Tallies {
         PersonController personController = new PersonController(PersonDB.getInstance());
         personList.forEach(personController::addValue);
 
-
         //Create tickets
         List<ITicket> ticketList = new ArrayList<>();
         ITicketFactory ticketFactory = new DinnerTicketFactory();
