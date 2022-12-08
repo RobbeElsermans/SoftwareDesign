@@ -98,7 +98,7 @@ public class UTest_Tallies {
         debts = new HashMap<>();
         //TODO als dit verhoogt, dan zal depths onder 0 gaan waardoor er een null pointer komt.
         //Het klopt nog niet helemaal
-        debts.put(personController.getIdByName(personList.get(2).toString()), 6.0);
+        debts.put(personController.getIdByName(personList.get(2).toString()), 30.0);
         ticket = ticketFactory.getUniformTicket(personController.getIdByName(personList.get(1).toString()), debts);
         ticketList.add(ticket);
 

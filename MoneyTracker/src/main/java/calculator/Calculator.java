@@ -107,7 +107,8 @@ public class Calculator {
                     if ((maxEntry == null || entry.getValue().compareTo(maxEntry.getValue()) > 0) && entry != minEntry) maxEntry = entry;
                 }
             }
-            if (minEntry != null) PassDebts(minEntry.getKey(), maxEntry.getKey(), tallies); // Step 3
+            if (minEntry != null && maxEntry != null) PassDebts(minEntry.getKey(), maxEntry.getKey(), tallies); // Step 3
+            else return tallies;
             ReverseNegativeTallies(tallies);
             tallies = CalculateFinalTallies(tallies);   // Step 4
         }
