@@ -31,7 +31,6 @@ public class ControllerCalculate implements Initializable {
             //get a list of the tallies
             List<String> output = Calculator.TalliesToString(tallies);
 
-
             //set the list
             output.forEach(value -> {
                 this.listViewForPersons.getItems().add(value);

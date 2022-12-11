@@ -47,9 +47,7 @@ public class Calculator {
                         double tallyPrice = tally.getValue2();
                         if (tally.getValue0() == payer) tallyPrice += price;    // Add if values match normally
                         if (tally.getValue0() == spender) tallyPrice -= price;  // Subtract if values are reversed
-                        tallies.set(tallyIndex, tally.setAt2(tallyPrice));
-                        // tally = tally.setAt2(tallyPrice);   // creates new tally with changed price
-                        // System.out.printf("Update Tally: %s\n", tally);
+                        tallies.set(tallyIndex, tally.setAt2(tallyPrice));      // creates new tally with changed price
                     }
                 }
             }
@@ -88,7 +86,7 @@ public class Calculator {
         // PrintTallies(tallies);
     }
 
-    // Use Splitwise Algorithm / Greedy Algorithm to minimise debs overall
+    // Use Split-wise Algorithm / Greedy Algorithm to minimise debs overall
     // Step 1) Check for dual step debts (person1 -> person2 -> person3) -> (person1 -> person3 and person2 -> person3)
     //         https://www.geeksforgeeks.org/minimize-cash-flow-among-given-set-friends-borrowed-money/
     // Step 2) Find the persons who are owed the most and least amount of money
@@ -96,6 +94,7 @@ public class Calculator {
     // Step 4) Restart the process
     public static List<Triplet<Integer, Integer, Double>> CalculateFinalTallies(List<Triplet<Integer, Integer, Double>> tallies) {
         System.out.print("\n");
+        // while(CheckForDualStepDebts(tallies)){ // --> doesn't work: will infinitely loop or stop prematurely
         if (CheckForDualStepDebts(tallies)) {   // Step 1
             // https://stackoverflow.com/a/5911199
             Map.Entry<Integer, Double> minEntry = null, maxEntry = null;
@@ -127,17 +126,25 @@ public class Calculator {
     }
 
     private static HashMap<Integer, Double> GetTotalDebtToPerson(List<Triplet<Integer, Integer, Double>> tallies) {
-        // Returns a HashMap with a id and all the money they are owed
+        // Returns a HashMap with an id and all the money they are owed
         HashMap<Integer, Double> amounts = new HashMap<>();
         PersonController pCtrl = PersonController.getInstance();
         for (int id: pCtrl.getAllIds()) {
-            double debt = 0.0;
+            double owed = 0.0;
+
+            /*for (Triplet<Integer, Integer, Double> tally: tallies) {
+                // Add all debt as a payer
+                if (tally.getValue0() == id) debt += tally.getValue2();
+                // Subtract all debts as a spender
+                if (tally.getValue1() == id) debt -= tally.getValue2();
+            } --> works only in debug */
+
             // Get all tallies owed to a payer
             Stream<Triplet<Integer, Integer, Double>> stream = tallies.stream().filter(tally -> tally.getValue0() == id);
 
             // Add up all tallies to that payer
             for (Triplet<Integer, Integer, Double> tally: stream.collect(Collectors.toList())) {
-                debt += tally.getValue2();
+                owed += tally.getValue2();
             }
 
             // Get all debts of a payer
@@ -145,23 +152,14 @@ public class Calculator {
 
             // Add up all tallies to that payer
             for (Triplet<Integer, Integer, Double> tally: stream.collect(Collectors.toList())) {
-                debt -= tally.getValue2();
+                owed -= tally.getValue2();
             }
 
-            amounts.put(id, debt);
+            amounts.put(id, owed);
         }
-        for(Map.Entry<Integer, Double> entry : amounts.entrySet()) {
-            // System.out.printf("%s is owed €%.2f\n", pCtrl.getNameById(entry.getKey()), entry.getValue());
-        }
+        // for(Map.Entry<Integer, Double> entry : amounts.entrySet()) { System.out.printf("%s is owed €%.2f\n", pCtrl.getNameById(entry.getKey()), entry.getValue()); }
         return amounts;
     }
-
-    private static Triplet<Integer, Integer, Double> getTallyFromTallies(int payerId, int spenderId,
-                                                                         List<Triplet<Integer, Integer, Double>> tallies){
-        return tallies.stream().filter(tally ->
-                tally.getValue0().equals(payerId) && tally.getValue1().equals(spenderId)
-        ).findFirst().orElse(null);
-    };
 
     private static void PassDebts(int minEntryPayerId, int maxEntryPayerId, List<Triplet<Integer, Integer, Double>> tallies) {
         // Since a tally contains all debts between 2 people:
@@ -189,7 +187,7 @@ public class Calculator {
         // Loop through the entire list until the debt is clear or there are no people to give the debt to
         for (Triplet<Integer, Integer, Double> toPayEntry: toPayList) {
             // Check for an existing tally where the external payer owes the spender
-            Triplet<Integer, Integer, Double> debtReceiver = getTallyFromTallies(toPayEntry.getValue0(), spenderId, tallies);
+            Triplet<Integer, Integer, Double> debtReceiver = getTallyFromTallies(spenderId, toPayEntry.getValue0(), tallies);
             if (debtReceiver == null) {
                 // Check for an existing tally where the spender owes the external payer
                 debtReceiver = getTallyFromTallies(toPayEntry.getValue0(), spenderId, tallies);
@@ -214,7 +212,6 @@ public class Calculator {
 
                 // Remove the (spender -> payer debt)
                 tallies.remove(debtGiver);
-                break;
             } else if (externalDebt < internalDebt) {
                 // Part of the debt will be transferred to the new tally
                 newLinkedDebt = externalDebt;
@@ -233,7 +230,6 @@ public class Calculator {
                 // Remove both the (spender -> payer debt) & (payer -> external payer debt)
                 tallies.remove(toPayEntry);
                 tallies.remove(debtGiver);
-                break;
             }
 
             // add the debt to the debt receiver
@@ -245,9 +241,12 @@ public class Calculator {
             // Remove all tallies with a 0.0 debt
             tallies.remove(tallies.stream().filter(tally2 -> tally2.getValue2() == 0.0).findFirst().orElse(null));
         }
+    }
 
-        // PrintTallies(tallies.stream().filter(tally -> tally.getValue0() == minEntryId).collect(Collectors.toList()));
-        // PrintTallies(tallies.stream().filter(tally -> tally.getValue0() == maxEntryId).collect(Collectors.toList()));
-
+    private static Triplet<Integer, Integer, Double> getTallyFromTallies(int payerId, int spenderId,
+                                                                         List<Triplet<Integer, Integer, Double>> tallies){
+        return tallies.stream().filter(tally ->
+                tally.getValue0().equals(payerId) && tally.getValue1().equals(spenderId)
+        ).findFirst().orElse(null);
     }
 }
