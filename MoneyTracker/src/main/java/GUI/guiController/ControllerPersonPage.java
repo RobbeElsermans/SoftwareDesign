@@ -46,7 +46,8 @@ public class ControllerPersonPage implements Initializable {
     /**
      * Add a person
      */
-    public void addPerson(){
+    @FXML
+    private void addPerson(){
         //Check if the field are filled in.
 
         if(!this.textFieldName.getText().isEmpty() && !this.textFieldLastName.getText().isEmpty()){
@@ -72,7 +73,7 @@ public class ControllerPersonPage implements Initializable {
 
 
     @FXML
-    void deletePerson(ActionEvent event) {
+    private void deletePerson(ActionEvent event) {
         //Check inputs
 
         //local used variables
