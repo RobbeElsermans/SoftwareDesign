@@ -9,6 +9,7 @@ import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class ControllerMain implements Initializable {
@@ -20,7 +21,7 @@ public class ControllerMain implements Initializable {
     void setCalculateView(ActionEvent event) {
         Pane view = null;
         try {
-            view = FXMLLoader.load(getClass().getResource("/fxml/Calculate.fxml"));
+            view = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/Calculate.fxml")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -30,7 +31,7 @@ public class ControllerMain implements Initializable {
     void setPersonView(ActionEvent event) {
         Pane view = null;
         try {
-            view = FXMLLoader.load(getClass().getResource("/fxml/CreatePerson.fxml"));
+            view = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/CreatePerson.fxml")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -41,7 +42,7 @@ public class ControllerMain implements Initializable {
     void setUniformView(ActionEvent event) {
         Pane view = null;
         try {
-            view = FXMLLoader.load(getClass().getResource("/fxml/UniformTicket.fxml"));
+            view = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/UniformTicket.fxml")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -52,7 +53,7 @@ public class ControllerMain implements Initializable {
     void setVariableView(ActionEvent event) {
         Pane view = null;
         try {
-            view = FXMLLoader.load(getClass().getResource("/fxml/VariableTicket.fxml"));
+            view = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/VariableTicket.fxml")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -63,7 +64,7 @@ public class ControllerMain implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         Pane view = null;
         try {
-            view = FXMLLoader.load(getClass().getResource("/fxml/CreatePerson.fxml"));
+            view = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/CreatePerson.fxml")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
