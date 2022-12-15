@@ -165,7 +165,8 @@ public abstract class AAddTicketController implements Initializable, IObserver {
             //initialize
             initData();
 
-            alertUser();
+            //set by observer
+            //alertUser();
         }
         else if(this.ticketType.isEmpty()) {
             //Warn the user
@@ -348,6 +349,7 @@ public abstract class AAddTicketController implements Initializable, IObserver {
     }
 
     public void update(String text){
+        alertUser();
         System.out.println(text);
     }
 }
