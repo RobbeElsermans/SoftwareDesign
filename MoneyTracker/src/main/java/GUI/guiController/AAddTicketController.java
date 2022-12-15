@@ -7,6 +7,7 @@ import database.dbController.AController;
 import database.dbController.PersonController;
 import database.dbController.TicketController;
 import database.TicketDB;
+import database.observer.IObserver;
 import factory.AbstractFactoryProvider;
 import factory.FactoryType;
 import factory.facts.ITicketFactory;
@@ -24,7 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public abstract class AAddTicketController implements Initializable {
+public abstract class AAddTicketController implements Initializable, IObserver {
     @FXML
     protected Label labelError;
     @FXML
@@ -122,6 +123,11 @@ public abstract class AAddTicketController implements Initializable {
      protected PersonController personController;
 
     /**
+     * The controller for the ticket
+     */
+    AController<ITicket> tController;
+
+    /**
      * Method to save a ticket.
      *
      * @param event ActionEvent
@@ -151,7 +157,6 @@ public abstract class AAddTicketController implements Initializable {
             ITicket createdTicket = createTicket(factory, this.fromPersonId, forPersonData);
 
             //Save the ticket with use of the ticket controller
-            AController<ITicket> tController = new TicketController(TicketDB.getInstance());
             tController.addValue(createdTicket);
 
             //Delete everything
@@ -160,7 +165,8 @@ public abstract class AAddTicketController implements Initializable {
             //initialize
             initData();
 
-            alertUser();
+            //set by observer
+            //alertUser();
         }
         else if(this.ticketType.isEmpty()) {
             //Warn the user
@@ -305,7 +311,8 @@ public abstract class AAddTicketController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         //add the person controller
         personController = new PersonController(PersonDB.getInstance());
-
+        tController = new TicketController(TicketDB.getInstance());
+        tController.addObserver(this);  //only add observer to a ticketController
         //initialize the data
         initData();
     }
@@ -339,6 +346,11 @@ public abstract class AAddTicketController implements Initializable {
     protected void initSpinner() {
         SpinnerValueFactory<Double> valueFactory = new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 999,0,0.5);
         spinnerAmount.setValueFactory(valueFactory);
+    }
+
+    public void update(String text){
+        alertUser();
+        System.out.println(text);
     }
 }
 

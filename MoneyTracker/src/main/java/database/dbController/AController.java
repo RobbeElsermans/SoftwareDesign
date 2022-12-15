@@ -1,19 +1,23 @@
 package database.dbController;
 
 import database.ADatabase;
+import database.observer.IObservable;
+import database.observer.IObserver;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class AController<T> {
+public abstract class AController<T> implements IObservable {
     protected ADatabase<T> db;
     public AController(ADatabase<T> db) { this.db = db; }
-
+    //Observers
+    private List<IObserver> observers = new ArrayList<>();
     private int createId() { return (int)(Math.random() * Math.pow(10, 9)); }
 
     public void addValue(T value) {
+        notifyObserver("Value added to database!");
         int id = this.createId();
         boolean uploading = true;
         while (uploading){
@@ -40,4 +44,18 @@ public abstract class AController<T> {
     }
 
     public void delValue(int id){ db.delValue(id); }
+
+    public void addObserver(IObserver obj){
+        this.observers.add(obj);
+    }
+
+    public void removeObserver(IObserver obj){
+        this.observers.remove(obj);
+    }
+
+    public void notifyObserver(String text){
+        for(IObserver observer: this.observers){
+            observer.update(text);
+        }
+    }
 }
