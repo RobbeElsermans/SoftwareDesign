@@ -1,12 +1,11 @@
-# functionaliteiten
+# overview
 
-##Database
+## Database
 
 > We hebben een persoon die een
 * ID
 * Naam
 * Achternaam heeft.
-* Fall guy (iemand die instaat voor de schulden)
 
 > We hebben een ticket dat een
 * ID
@@ -15,14 +14,12 @@
 * De verbruiker
 * Mogelijks extra uitleg
 
-##GUI
+## GUI
 
 * persoon toevoegen
-* persoon bewerken
-* persoon verwijderen
-* ticket toevoegen met personen
-* ticket bewerken
-* ticket verwijderen
+* persoon verwijderen en schulden droppen/ doorgeven
+* uniform ticket toevoegen met personen
+* variabel ticket toevoegen met personen
 * bereken al de kosten
 
 
@@ -36,21 +33,18 @@
 		Fernando geeft shulden van Tom aan robbe
 		Robbe->Fernando = 15 & Robbe->Tom = 5
 	ZIE WHATSAPP
-	
-* Verschillende soorten 
 
 
-##design patterns
-* Singleton:	Database en controller van database
-* Observer:	Ticket tonen wanneer deze gemaakt wordt (Zie LAB5)
-* Factory:	De tickets (airplane, resto, vervoer, ...)
-* Abstract Factory: Het soort ticket (normale verdeling, of specifieke verdeling)
-* MVC:		GUI
-
+## design patterns
+* OK Singleton:	Database en controller van database
+* OK Observer:	Alert tonen wanneer de database geupdated wordt
+* OK Factory:	De tickets (airplane, resto, vervoer, ...)
+* OK Abstract Factory: Het soort ticket (normale verdeling, of specifieke verdeling)
+* OK MVC:		GUI
 
 * Proxy: Wanneer we een ticket aanmaken, deze sturen naar de proxy zodat de proxy de data verder afhandeld 
-* Startegy:	De basis van ticketen (parent->Ticket, childs->restoTicket, AirplaneTicket, ...)
+* OK Startegy:	De basis van ticketen (parent->Ticket, childs->restoTicket, AirplaneTicket, ...)
 * Facade:	De eindberekening afzonderne van het programma (Black box)
-* Iterator: 	Mischien voor tickets?
-* Template Method:	Database abstractie
+* Iterator: 	Misschien voor tickets?
+* OK Template Method:	Database abstractie
 * Composite:	Berekenen van de schulden
