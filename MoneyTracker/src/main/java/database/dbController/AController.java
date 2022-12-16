@@ -17,7 +17,6 @@ public abstract class AController<T> implements IObservable {
     private int createId() { return (int)(Math.random() * Math.pow(10, 9)); }
 
     public void addValue(T value) {
-        notifyObserver("Value added to database!");
         int id = this.createId();
         boolean uploading = true;
         while (uploading){
@@ -30,6 +29,7 @@ public abstract class AController<T> implements IObservable {
                 id = this.createId();
             }
         }
+        notifyObserver("Value added to database!");
     }
 
     public HashMap<Integer,T> getAllEntries() { return db.getAll(); }
@@ -44,6 +44,10 @@ public abstract class AController<T> implements IObservable {
     }
 
     public void delValue(int id){ db.delValue(id); }
+    public void delAllValue(){
+        db.delAllValue();
+        this.notifyObserver("All values have been deleted!");
+    }
 
     public void addObserver(IObserver obj){
         this.observers.add(obj);

@@ -1,6 +1,10 @@
 package GUI.guiController;
 
+import GUI.helperClass.informUser;
 import calculator.Calculator;
+import database.TicketDB;
+import database.dbController.TicketController;
+import database.observer.IObserver;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,7 +18,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class ControllerCalculate implements Initializable {
+public class ControllerCalculate implements Initializable, IObserver {
 
     @FXML
     private Button buttonCalculate;
@@ -22,8 +26,10 @@ public class ControllerCalculate implements Initializable {
     @FXML
     private ListView<String> listViewForPersons;
 
+    private TicketController ticketController;
+
     @FXML
-    void calculateTicket(ActionEvent event) {
+    private void calculateTicket(ActionEvent event) {
         //Calculate everything
         if(this.listViewForPersons.getItems().isEmpty()) {
             List<Triplet<Integer, Integer, Double>> tallies = Calculator.CalculateFinalTallies(Calculator.CalculateTallyPairs()); //Calculate the depths
@@ -39,9 +45,21 @@ public class ControllerCalculate implements Initializable {
 
     }
 
+    @FXML
+    private void clearAllTickets(ActionEvent event){
+        this.listViewForPersons.getItems().clear();
+        this.ticketController.delAllValue();
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        //Get the users wo have a ticket stored
+        //Get the ticketController initialized
+        this.ticketController = new TicketController(TicketDB.getInstance());
+        this.ticketController.addObserver(this);
+    }
 
+    @Override
+    public void update(String text) {
+        informUser.inform("Database changed", text);
     }
 }

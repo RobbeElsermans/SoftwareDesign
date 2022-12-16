@@ -31,4 +31,8 @@ public abstract class ADatabase<T> {
     public HashMap<Integer, T> getAll() { return new HashMap<>(db); }
 
     public void delValue(int id) { this.db.remove(id); }
+    public void delAllValue() {
+        this.db.clear();
+
+    }
 }

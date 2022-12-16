@@ -2,6 +2,7 @@ package GUI.guiController;
 
 import GUI.helperClass.dropdownControl;
 import GUI.helperClass.errorControl;
+import GUI.helperClass.informUser;
 import database.PersonDB;
 import database.dbController.AController;
 import database.dbController.PersonController;
@@ -125,7 +126,7 @@ public abstract class AAddTicketController implements Initializable, IObserver {
     /**
      * The controller for the ticket
      */
-    AController<ITicket> tController;
+    AController<ITicket> ticketController;
 
     /**
      * Method to save a ticket.
@@ -157,7 +158,7 @@ public abstract class AAddTicketController implements Initializable, IObserver {
             ITicket createdTicket = createTicket(factory, this.fromPersonId, forPersonData);
 
             //Save the ticket with use of the ticket controller
-            tController.addValue(createdTicket);
+            ticketController.addValue(createdTicket);
 
             //Delete everything
             resetData();
@@ -292,13 +293,6 @@ public abstract class AAddTicketController implements Initializable, IObserver {
         return tempTicket;
     }
 
-    private void alertUser() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Ticket Created");
-        alert.setHeaderText("A Ticket has been created!");
-        alert.showAndWait();
-    }
-
     /**
      * Een override functie die voor dat de root geladen is, afspeelt.
      *
@@ -311,8 +305,8 @@ public abstract class AAddTicketController implements Initializable, IObserver {
     public void initialize(URL location, ResourceBundle resources) {
         //add the person controller
         personController = new PersonController(PersonDB.getInstance());
-        tController = new TicketController(TicketDB.getInstance());
-        tController.addObserver(this);  //only add observer to a ticketController
+        ticketController = new TicketController(TicketDB.getInstance());
+        ticketController.addObserver(this);  //only add observer to a ticketController
         //initialize the data
         initData();
     }
@@ -349,7 +343,7 @@ public abstract class AAddTicketController implements Initializable, IObserver {
     }
 
     public void update(String text){
-        alertUser();
+        informUser.inform("Database changed", text);
         System.out.println(text);
     }
 }

@@ -19,5 +19,6 @@
       </Label>
       <Line endX="506.0" layoutX="94.0" layoutY="39.0" startX="-94.0" />
       <Line endX="-100.0" endY="-118.0" layoutX="310.0" layoutY="158.0" startX="-100.0" startY="133.0" />
+      <Button layoutX="56.0" layoutY="231.0" mnemonicParsing="false" onAction="#clearAllTickets" text="Clear Tickets" />
    </children>
 </AnchorPane>
