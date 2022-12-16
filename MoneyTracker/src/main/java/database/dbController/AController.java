@@ -11,9 +11,11 @@ import java.util.Map;
 
 public abstract class AController<T> implements IObservable {
     protected ADatabase<T> db;
-    public AController(ADatabase<T> db) { this.db = db; }
     //Observers
-    private List<IObserver> observers = new ArrayList<>();
+    private final List<IObserver> observers = new ArrayList<>();
+
+    public AController(ADatabase<T> db) { this.db = db; }
+
     private int createId() { return (int)(Math.random() * Math.pow(10, 9)); }
 
     public void addValue(T value) {

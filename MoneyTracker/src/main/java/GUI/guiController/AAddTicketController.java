@@ -120,7 +120,7 @@ public abstract class AAddTicketController implements Initializable, IObserver {
     /**
      * The controller for the ticket
      */
-    protected AController<ITicket> ticketController;
+    protected TicketController ticketController;
 
     /**
      * Method to save a ticket.
@@ -132,6 +132,7 @@ public abstract class AAddTicketController implements Initializable, IObserver {
      * Then we use the propper Uniform or Variable ticket receiving from the factory.
      * Final we save the created ticket, and we reset the GUI.
      */
+    @FXML
     protected void saveATicket(ActionEvent event) {
         //Check if the input fields are filled in
         if (!this.ticketType.isEmpty() &&

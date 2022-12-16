@@ -83,7 +83,7 @@ public class ControllerSetUAddTicket extends AAddTicketController implements Cha
     }
 
     @Override
-    public void setFromPerson(ActionEvent event) {
+    protected void setFromPerson(ActionEvent event) {
         super.setFromPerson(event);
     }
 

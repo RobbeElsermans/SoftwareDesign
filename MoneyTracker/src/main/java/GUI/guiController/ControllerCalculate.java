@@ -19,10 +19,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class ControllerCalculate implements Initializable, IObserver {
-
-    @FXML
-    private Button buttonCalculate;
-
     @FXML
     private ListView<String> listViewForPersons;
 

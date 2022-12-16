@@ -102,7 +102,6 @@ public class ControllerPersonPage implements Initializable {
     }
 
     private void setListViewPersons(List<String> temp_personNames) {
-
         if (!this.listViewPersons.getItems().isEmpty())
             this.listViewPersons.getItems().clear();
 

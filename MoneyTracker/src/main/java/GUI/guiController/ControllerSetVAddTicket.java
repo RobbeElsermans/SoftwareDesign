@@ -7,12 +7,12 @@ import javafx.fxml.FXML;
 
 public class ControllerSetVAddTicket extends AAddTicketController {
     @Override
-    public void setFromPerson(ActionEvent event) {
+    protected void setFromPerson(ActionEvent event) {
         super.setFromPerson(event);
     }
 
     @Override
-    public void setForPerson(ActionEvent event) {
+    protected void setForPerson(ActionEvent event) {
         // See if the fromPerson is selected
         // And the Combobox is not empty
         // And the list of Combobox is not empty
@@ -85,7 +85,7 @@ public class ControllerSetVAddTicket extends AAddTicketController {
     }
 
     @Override
-    public void saveATicket(ActionEvent event) {
+    protected void saveATicket(ActionEvent event) {
         super.saveATicket(event);
     }
 

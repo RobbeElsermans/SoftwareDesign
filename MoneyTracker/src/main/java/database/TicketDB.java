@@ -9,7 +9,7 @@ public class TicketDB extends ADatabase<ITicket> {
     private static ADatabase<ITicket> ticketDB;
 
     public TicketDB() {
-        // this.support = new PropertyChangeSupport(this);
+        super();
     }
 
     public static ADatabase<ITicket> getInstance() {

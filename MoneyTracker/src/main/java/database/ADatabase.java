@@ -6,16 +6,13 @@ import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
 
 public abstract class ADatabase<T> {
-
-    protected T value;
-    protected final HashMap<Integer, T> db;
-    protected PropertyChangeSupport support;
+    private T value;
+    private final HashMap<Integer, T> db;
     public ADatabase() {
         db = new HashMap<>();
     }
 
     public void setValue(T value) {
-        //support.firePropertyChange("RegisterEntry", this.value, value);
         this.value = value;
     }
 
