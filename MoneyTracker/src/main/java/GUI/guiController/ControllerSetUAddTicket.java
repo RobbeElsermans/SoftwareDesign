@@ -5,6 +5,7 @@ import GUI.helperClass.errorControl;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 
 public class ControllerSetUAddTicket extends AAddTicketController implements ChangeListener<Double> {
 
@@ -12,8 +13,8 @@ public class ControllerSetUAddTicket extends AAddTicketController implements Cha
     //source: https://stackoverflow.com/questions/58552417/how-do-i-change-this-superclass-into-an-abstract-class-without-getting-an-instan
 
     @Override
-    public void saveATicket(ActionEvent event) {
-        if(spinnerAmount.getValue() > 0)
+    protected void saveATicket(ActionEvent event) {
+        if (spinnerAmount.getValue() > 0)
             super.saveATicket(event);
         else {
             errorControl.setError(this.labelError, "Value is 0!");
@@ -21,7 +22,7 @@ public class ControllerSetUAddTicket extends AAddTicketController implements Cha
     }
 
     @Override
-    public void setForPerson(ActionEvent event) {
+    protected void setForPerson(ActionEvent event) {
         // See if the fromPerson is selected
         // And the Combobox is not empty
         // And the list of Combobox is not empty
@@ -52,36 +53,32 @@ public class ControllerSetUAddTicket extends AAddTicketController implements Cha
 
             //clear dropdown for person
             dropdownControl.clearDropdownListValue(this.dropDownForPerson);
-        }
-        else if (this.fromPersonId == -1) {
+        } else if (this.fromPersonId == -1) {
             //Warn the user
             errorControl.setError(this.labelError, "Select a from person first!");
 
             //System.out.println("Select a from person first!");
-        }
-        else if (this.dropDownForPerson.getItems().size() == 0) {
+        } else if (this.dropDownForPerson.getItems().size() == 0) {
             //Warn the user
             errorControl.setError(this.labelError, "The person list is empty!");
             //System.out.println("The person list is empty!");
-        }
-        else if (dropdownControl.getDropdownListValue(this.dropDownForPerson) == null) {
+        } else if (dropdownControl.getDropdownListValue(this.dropDownForPerson) == null) {
             //Warn the user
             errorControl.setError(this.labelError, "Select a for person!");
             //System.out.println("Select a for person!");
-        }
-        else if (dropdownControl.isDropdownListEmpty(this.dropDownForPerson)) {
+        } else if (dropdownControl.isDropdownListEmpty(this.dropDownForPerson)) {
             //Warn the user
             errorControl.setError(this.labelError, "Select a for person!");
             //System.out.println("Select a for person!");
-        }
-        else{
+        } else {
             //Warn the user
             errorControl.setError(this.labelError, "Unknown error");
             //System.out.println("Unknown error");
         }
     }
 
-    public void setFactoryType(ActionEvent event) {
+    @FXML
+    private void setFactoryType(ActionEvent event) {
         this.ticketType = dropdownControl.getDropdownListValue(this.dropDownFactoryType);
     }
 
@@ -117,7 +114,7 @@ public class ControllerSetUAddTicket extends AAddTicketController implements Cha
         }
     }
 
-    public void updateAmountPerPersonInList() {
+    private void updateAmountPerPersonInList() {
         listViewForPersons.getItems().clear();
         generateTextForPersonListView();
     }

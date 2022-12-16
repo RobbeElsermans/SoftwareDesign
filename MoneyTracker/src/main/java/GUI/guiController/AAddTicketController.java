@@ -30,17 +30,11 @@ public abstract class AAddTicketController implements Initializable, IObserver {
     @FXML
     protected Label labelError;
     @FXML
-    protected Label labelPriceType;
-    @FXML
-    protected Button buttonSaveTicket;
-    @FXML
     protected ComboBox<String> dropDownFactoryType;
     @FXML
     protected ComboBox<String> dropDownFromPerson;
     @FXML
     protected ComboBox<String> dropDownForPerson;
-    @FXML
-    protected Button buttonAddForPerson;
     @FXML
     protected Spinner<Double> spinnerAmount;
     @FXML
@@ -52,21 +46,21 @@ public abstract class AAddTicketController implements Initializable, IObserver {
      *
      * @used to populate the dropdown (Combobox) tables
      */
-    protected TicketType currentTicketType = TicketType.UNIFORM;
+    private TicketType currentTicketType = TicketType.UNIFORM;
 
     /**
      * Factory types (FactoryType) converted to string names
      *
      * @used to populate the dropdown (Combobox) tables
      */
-    protected final List<String> factoryType = new ArrayList<>();
+    private final List<String> factoryType = new ArrayList<>();
 
     /**
      * Storage of all the persons full names.
      *
      * @used to populate the ListView
      */
-    protected List<String> personsDataNames = new ArrayList<>();
+    private List<String> personsDataNames = new ArrayList<>();
 
     /**
      * Storage for the selected from person ID. It is default -1.
@@ -126,7 +120,7 @@ public abstract class AAddTicketController implements Initializable, IObserver {
     /**
      * The controller for the ticket
      */
-    AController<ITicket> ticketController;
+    protected AController<ITicket> ticketController;
 
     /**
      * Method to save a ticket.
@@ -246,9 +240,9 @@ public abstract class AAddTicketController implements Initializable, IObserver {
      * the combobox and the for persons list is not empty.
      * Afterwards we set the ListView with new users, and we calculate the correct price per user
      */
-
+    @FXML
     protected abstract void setForPerson(ActionEvent event);
-
+    @FXML
     protected void updateForPersonListView(String temp_forPerson) {
 
         errorControl.clearError(this.labelError);
@@ -280,6 +274,7 @@ public abstract class AAddTicketController implements Initializable, IObserver {
      * @param forPersonData
      * @return
      */
+    @FXML
     protected ITicket createTicket(ITicketFactory factory, int fromPersonId, HashMap<Integer, Double> forPersonData) {
         ITicket tempTicket = null;
         switch (currentTicketType) {
@@ -347,4 +342,3 @@ public abstract class AAddTicketController implements Initializable, IObserver {
         System.out.println(text);
     }
 }
-

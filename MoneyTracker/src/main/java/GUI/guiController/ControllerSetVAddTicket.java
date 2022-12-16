@@ -3,6 +3,7 @@ package GUI.guiController;
 import GUI.helperClass.dropdownControl;
 import GUI.helperClass.errorControl;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 
 public class ControllerSetVAddTicket extends AAddTicketController {
     @Override
@@ -52,28 +53,22 @@ public class ControllerSetVAddTicket extends AAddTicketController {
             this.spinnerAmount.getValueFactory().setValue(0.0);
 
             dropdownControl.clearDropdownListValue(this.dropDownForPerson);
-        }
-        else if (this.fromPersonId == -1) {
+        } else if (this.fromPersonId == -1) {
             //Warn the user
             errorControl.setError(this.labelError, "Select a from person first!");
-        }
-        else if (this.dropDownForPerson.getItems().size() == 0) {
+        } else if (this.dropDownForPerson.getItems().size() == 0) {
             //Warn the user
             errorControl.setError(this.labelError, "The person list is empty!");
-        }
-        else if (this.dropDownForPerson.getValue() == null) {
+        } else if (this.dropDownForPerson.getValue() == null) {
             //Warn the user
             errorControl.setError(this.labelError, "Select a for person!");
-        }
-        else if (this.dropDownForPerson.getValue().isEmpty()) {
+        } else if (this.dropDownForPerson.getValue().isEmpty()) {
             //Warn the user
             errorControl.setError(this.labelError, "Select a for person!");
-        }
-        else if (this.spinnerAmount.getValue() == 0.0){
+        } else if (this.spinnerAmount.getValue() == 0.0) {
             //Warn the user
             errorControl.setError(this.labelError, "Select an amount greater than 0!");
-        }
-        else{
+        } else {
             //Warn the user
             errorControl.setError(this.labelError, "Unknown error");
         }
@@ -81,10 +76,11 @@ public class ControllerSetVAddTicket extends AAddTicketController {
 
     @Override
     protected void generateTextForPersonListView() {
-        this.listViewForPersons.getItems().add(this.forPersonNamesList.get(this.numberOfForPersons-1) + " is in depth: " + decimalFormat.format(this.forPersonAmount.get(this.numberOfForPersons-1)));
+        this.listViewForPersons.getItems().add(this.forPersonNamesList.get(this.numberOfForPersons - 1) + " is in depth: " + decimalFormat.format(this.forPersonAmount.get(this.numberOfForPersons - 1)));
     }
 
-    public void setFactoryType(ActionEvent event) {
+    @FXML
+    private void setFactoryType(ActionEvent event) {
         this.ticketType = dropdownControl.getDropdownListValue(this.dropDownFactoryType);
     }
 

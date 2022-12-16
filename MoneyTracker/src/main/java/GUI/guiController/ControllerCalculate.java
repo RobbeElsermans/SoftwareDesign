@@ -31,7 +31,7 @@ public class ControllerCalculate implements Initializable, IObserver {
     @FXML
     private void calculateTicket(ActionEvent event) {
         //Calculate everything
-        if(this.listViewForPersons.getItems().isEmpty()) {
+        if (this.listViewForPersons.getItems().isEmpty()) {
             List<Triplet<Integer, Integer, Double>> tallies = Calculator.CalculateFinalTallies(Calculator.CalculateTallyPairs()); //Calculate the depths
 
             //get a list of the tallies
@@ -46,7 +46,7 @@ public class ControllerCalculate implements Initializable, IObserver {
     }
 
     @FXML
-    private void clearAllTickets(ActionEvent event){
+    private void clearAllTickets(ActionEvent event) {
         this.listViewForPersons.getItems().clear();
         this.ticketController.delAllValue();
     }

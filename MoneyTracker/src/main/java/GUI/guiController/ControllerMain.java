@@ -18,7 +18,7 @@ public class ControllerMain implements Initializable {
     private BorderPane mainPane;
 
     @FXML
-    void setCalculateView(ActionEvent event) {
+    private void setCalculateView(ActionEvent event) {
         Pane view = null;
         try {
             view = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/Calculate.fxml")));
@@ -27,8 +27,9 @@ public class ControllerMain implements Initializable {
         }
         mainPane.setCenter(view);
     }
+
     @FXML
-    void setPersonView(ActionEvent event) {
+    private void setPersonView(ActionEvent event) {
         Pane view = null;
         try {
             view = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/CreatePerson.fxml")));
@@ -39,7 +40,7 @@ public class ControllerMain implements Initializable {
     }
 
     @FXML
-    void setUniformView(ActionEvent event) {
+    private void setUniformView(ActionEvent event) {
         Pane view = null;
         try {
             view = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/UniformTicket.fxml")));
@@ -50,7 +51,7 @@ public class ControllerMain implements Initializable {
     }
 
     @FXML
-    void setVariableView(ActionEvent event) {
+    private void setVariableView(ActionEvent event) {
         Pane view = null;
         try {
             view = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/VariableTicket.fxml")));

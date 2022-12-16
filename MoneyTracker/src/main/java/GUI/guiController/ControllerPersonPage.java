@@ -20,15 +20,13 @@ import java.util.ResourceBundle;
 
 public class ControllerPersonPage implements Initializable {
     @FXML
-    ListView listViewPersons;
+    private ListView listViewPersons;
     @FXML
-    Button buttonAddPerson;
+    private TextField textFieldName;
     @FXML
-    TextField textFieldName;
+    private TextField textFieldLastName;
     @FXML
-    TextField textFieldLastName;
-    @FXML
-    Label labelError;
+    private Label labelError;
 
     @FXML
     private Label labelError2;
@@ -47,10 +45,10 @@ public class ControllerPersonPage implements Initializable {
      * Add a person
      */
     @FXML
-    private void addPerson(){
+    private void addPerson() {
         //Check if the field are filled in.
 
-        if(!this.textFieldName.getText().isEmpty() && !this.textFieldLastName.getText().isEmpty()){
+        if (!this.textFieldName.getText().isEmpty() && !this.textFieldLastName.getText().isEmpty()) {
             errorControl.clearError(this.labelError);
 
             String temp_name = this.textFieldName.getText();
@@ -65,9 +63,8 @@ public class ControllerPersonPage implements Initializable {
             this.personController.addValue(new Person(temp_name, temp_lastName));
 
             refreshPage();
-        }
-        else{
-            errorControl.setError(this.labelError,"Fill everything in!");
+        } else {
+            errorControl.setError(this.labelError, "Fill everything in!");
         }
     }
 
@@ -80,7 +77,7 @@ public class ControllerPersonPage implements Initializable {
         int deleteID = -1;
         int depthID = -1;
 
-        if(dropdownControl.getDropdownListValue(this.comboBoxDeletePerson) != null && dropdownControl.getDropdownListValue(this.comboBoxDepthPerson) != null){
+        if (dropdownControl.getDropdownListValue(this.comboBoxDeletePerson) != null && dropdownControl.getDropdownListValue(this.comboBoxDepthPerson) != null) {
 
             errorControl.clearError(labelError2);
 
@@ -96,22 +93,17 @@ public class ControllerPersonPage implements Initializable {
 
             //refresh page
             refreshPage();
-        }
-        else if(dropdownControl.getDropdownListValue(this.comboBoxDeletePerson) == null)
-        {
+        } else if (dropdownControl.getDropdownListValue(this.comboBoxDeletePerson) == null) {
             //warn the user
-            errorControl.setError(labelError2,"Fill delete person in!");
-        }
-
-        else if(dropdownControl.getDropdownListValue(this.comboBoxDepthPerson) == null)
-        {
-            errorControl.setError(labelError2,"Fill depth person in!");
+            errorControl.setError(labelError2, "Fill delete person in!");
+        } else if (dropdownControl.getDropdownListValue(this.comboBoxDepthPerson) == null) {
+            errorControl.setError(labelError2, "Fill depth person in!");
         }
     }
 
     private void setListViewPersons(List<String> temp_personNames) {
 
-        if(!this.listViewPersons.getItems().isEmpty())
+        if (!this.listViewPersons.getItems().isEmpty())
             this.listViewPersons.getItems().clear();
 
         this.listViewPersons.getItems().addAll(temp_personNames);
@@ -148,6 +140,6 @@ public class ControllerPersonPage implements Initializable {
         refreshPage();
 
         //Set onAction for deletePerson dropdown
-        dropdownControl.setDropdownListAction(this.comboBoxDeletePerson,this::refreshDepthsPersonList);
+        dropdownControl.setDropdownListAction(this.comboBoxDeletePerson, this::refreshDepthsPersonList);
     }
 }
