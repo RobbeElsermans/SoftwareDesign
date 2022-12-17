@@ -8,9 +8,13 @@ public class Person implements IPerson {
     public Person(String name, String surname) {
         this.name = name;
         this.surname = surname;
+        this.fallGuyId = -1;
     }
 
     public Person(String name, String surname, int fallGuyId) {
+        this.name = name;
+        this.surname = surname;
+        this.fallGuyId = fallGuyId;
     }
 
     @Override
@@ -29,7 +33,8 @@ public class Person implements IPerson {
     }
 
     @Override
-    public boolean setFallguyId(int id) { return true; }
+    public boolean setFallguyId(int id) { this.fallGuyId = id;
+    return true;}
 
     @Override
     public String toString() {

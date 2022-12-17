@@ -19,7 +19,7 @@ public class ControllerMain implements Initializable {
 
     @FXML
     private void setCalculateView(ActionEvent event) {
-        Pane view = null;
+        Pane view;
         try {
             view = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/Calculate.fxml")));
         } catch (IOException e) {
@@ -30,7 +30,7 @@ public class ControllerMain implements Initializable {
 
     @FXML
     private void setPersonView(ActionEvent event) {
-        Pane view = null;
+        Pane view;
         try {
             view = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/CreatePerson.fxml")));
         } catch (IOException e) {
@@ -41,7 +41,7 @@ public class ControllerMain implements Initializable {
 
     @FXML
     private void setUniformView(ActionEvent event) {
-        Pane view = null;
+        Pane view;
         try {
             view = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/UniformTicket.fxml")));
         } catch (IOException e) {
@@ -52,7 +52,7 @@ public class ControllerMain implements Initializable {
 
     @FXML
     private void setVariableView(ActionEvent event) {
-        Pane view = null;
+        Pane view;
         try {
             view = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/VariableTicket.fxml")));
         } catch (IOException e) {
@@ -63,7 +63,7 @@ public class ControllerMain implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Pane view = null;
+        Pane view;
         try {
             view = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/CreatePerson.fxml")));
         } catch (IOException e) {

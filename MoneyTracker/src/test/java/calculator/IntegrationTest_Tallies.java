@@ -18,7 +18,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class UTest_Tallies {
+public class IntegrationTest_Tallies {
 
     @Test
     public void testTwoTallies(){

@@ -1,7 +1,5 @@
 package ticket.object.plane;
 
-import ticket.object.dinner.DinnerTicket;
-
 import java.util.HashMap;
 
 public class UniPlaneTicket extends PlaneTicket {

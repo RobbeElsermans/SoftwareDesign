@@ -2,5 +2,8 @@ package factory;
 
 public enum FactoryType {
     DINNER,
-    PLANE
+    PLANE,
+    CONCERT,
+    SUPERMARKET,
+    TAXI
 }
