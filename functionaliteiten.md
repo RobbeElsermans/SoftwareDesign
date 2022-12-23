@@ -16,11 +16,12 @@
 
 ## GUI
 
-* persoon toevoegen
-* persoon verwijderen en schulden droppen/ doorgeven
-* uniform ticket toevoegen met personen
-* variabel ticket toevoegen met personen
-* bereken al de kosten
+* OK persoon toevoegen
+* OK persoon verwijderen en schulden droppen/ doorgeven
+* OK uniform ticket toevoegen met personen
+* OK variabel ticket toevoegen met personen
+* OK bereken al de kosten
+* OK verwijder al de tickets
 
 
 ## Functionaliteit
@@ -36,15 +37,11 @@
 
 
 ## design patterns
-* OK Singleton:	Database en controller van database
-* OK Observer:	Alert tonen wanneer de database geupdated wordt
-* OK Factory:	De tickets (airplane, resto, vervoer, ...)
-* OK Abstract Factory: Het soort ticket (normale verdeling, of specifieke verdeling)
+* OK Singleton:		Database en controller van database
+* OK Observer:		Alert tonen wanneer de database geupdated wordt
+* OK Factory:		De tickets (airplane, resto, vervoer, ...)
+* OK Abstract Factory: 	Het soort ticket (normale verdeling, of specifieke verdeling)
 * OK MVC:		GUI
 
-* Proxy: Wanneer we een ticket aanmaken, deze sturen naar de proxy zodat de proxy de data verder afhandeld 
 * OK Startegy:	De basis van ticketen (parent->Ticket, childs->restoTicket, AirplaneTicket, ...)
-* Facade:	De eindberekening afzonderne van het programma (Black box)
-* Iterator: 	Misschien voor tickets?
 * OK Template Method:	Database abstractie
-* Composite:	Berekenen van de schulden

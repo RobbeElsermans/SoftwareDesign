@@ -7,7 +7,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="293.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.guiController.ControllerCalculate">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="293.0" prefWidth="600.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.guiController.ControllerCalculate">
    <children>
       <ListView fx:id="listViewForPersons" layoutX="220.0" layoutY="74.0" prefHeight="210.0" prefWidth="373.0" />
       <Button fx:id="buttonCalculate" layoutX="57.0" layoutY="147.0" mnemonicParsing="false" onAction="#calculateTicket" prefHeight="24.0" prefWidth="100.0" text="Calculate" />

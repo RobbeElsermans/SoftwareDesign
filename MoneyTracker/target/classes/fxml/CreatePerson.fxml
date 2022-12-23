@@ -9,7 +9,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="293.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.guiController.ControllerPersonPage">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="293.0" prefWidth="600.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.guiController.ControllerPersonPage">
    <children>
       <ListView fx:id="listViewPersons" layoutX="333.0" layoutY="74.0" prefHeight="210.0" prefWidth="260.0" />
       <Label layoutX="333.0" layoutY="49.0" text="Persons in database" />
@@ -35,9 +35,9 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <Label layoutX="24.0" layoutY="191.0" text="delete person:" />
-      <Label layoutX="24.0" layoutY="220.0" text="fuck who?" />
-      <Button fx:id="buttonDeletePerson" layoutX="146.0" layoutY="244.0" mnemonicParsing="false" onAction="#deletePerson" prefHeight="24.0" prefWidth="171.0" text="FINISH HIM" />
+      <Label layoutX="24.0" layoutY="191.0" text="Delete person:" />
+      <Label layoutX="24.0" layoutY="220.0" text="Fallguy:" />
+      <Button fx:id="buttonDeletePerson" layoutX="146.0" layoutY="244.0" mnemonicParsing="false" onAction="#deletePerson" prefHeight="24.0" prefWidth="171.0" text="DELETE" />
       <ComboBox fx:id="comboBoxDeletePerson" layoutX="146.0" layoutY="187.0" prefHeight="24.0" prefWidth="171.0" />
       <ComboBox fx:id="comboBoxDepthPerson" layoutX="146.0" layoutY="216.0" prefHeight="24.0" prefWidth="171.0" />
       <Label fx:id="labelError2" layoutX="14.0" layoutY="248.0" prefHeight="16.0" prefWidth="123.0" text="" textFill="RED">

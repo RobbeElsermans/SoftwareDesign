@@ -9,7 +9,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="294.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.guiController.ControllerSetVAddTicket">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="294.0" prefWidth="600.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.guiController.ControllerSetVAddTicket">
    <children>
       <ListView fx:id="listViewForPersons" layoutX="333.0" layoutY="74.0" prefHeight="210.0" prefWidth="260.0" />
       <Button fx:id="buttonSaveTicket" layoutX="26.0" layoutY="253.0" mnemonicParsing="false" onAction="#saveATicket" prefHeight="24.0" prefWidth="100.0" text="SaveTicket" />
