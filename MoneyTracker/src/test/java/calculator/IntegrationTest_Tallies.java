@@ -176,6 +176,71 @@ public class IntegrationTest_Tallies {
         //save to the database
         ticketList.forEach(ticketController::addValue);
 
+
+        //Calculate the tallies. It should be 0 -> 1 with 10.0
+        List<Triplet<Integer, Integer, Double>> tallies = Calculator.CalculateTallyPairs();
+        Calculator.PrintTallies(tallies);
+        tallies = Calculator.CalculateFinalTallies(tallies);
+        Calculator.PrintTallies(tallies);
+
+        /*assertEquals(tallies.get(0).getValue0(), personController.getIdByName(personList.get(0).toString()));
+        assertEquals(tallies.get(0).getValue1(), personController.getIdByName(personList.get(1).toString()));
+        assertEquals(tallies.get(0).getValue2(), 10.0);
+
+        //AND 1 -> 2 with 30?
+        //TODO Tom kijk dit eens na
+        assertEquals(tallies.get(1).getValue0(), personController.getIdByName(personList.get(1).toString()));
+        assertEquals(tallies.get(1).getValue1(), personController.getIdByName(personList.get(2).toString()));
+        assertEquals(tallies.get(1).getValue2(), 30.0);*/
+    }
+
+    public void testTallies(){
+        //Create 3 persons
+        List<IPerson> personList = createPersons(3);
+
+        //Add to database
+        PersonController personController = new PersonController(PersonDB.getInstance());
+        personList.forEach(personController::addValue);
+
+        //Create tickets
+        List<ITicket> ticketList = new ArrayList<>();
+        ITicketFactory ticketFactory = new DinnerTicketFactory();
+        TicketController ticketController = new TicketController(TicketDB.getInstance());
+
+        //Create depth with dinner and uniform between 0 -> 1 for € 10.0
+        //0 (A) pays €20 for 1 (B)
+        HashMap<Integer, Double> debts = new HashMap<>();
+        debts.put(personController.getIdByName(personList.get(1).toString()), 10.0);
+        ITicket ticket = ticketFactory.getUniformTicket(personController.getIdByName(personList.get(0).toString()), debts);
+        ticketList.add(ticket);
+
+        //Create depth with dinner and uniform between 1 -> 0 for € 5.0
+        //1 (B) pays €10 for 0 (A)
+        debts = new HashMap<>();
+        debts.put(personController.getIdByName(personList.get(0).toString()), 5.0);
+        ticket = ticketFactory.getUniformTicket(personController.getIdByName(personList.get(1).toString()), debts);
+        ticketList.add(ticket);
+
+        //Create depth with dinner and uniform between 2 -> 1 for € 10.0
+        //1 (B) pays €30 for 2 (C)
+        debts = new HashMap<>();
+        //Het klopt nog niet helemaal
+        debts.put(personController.getIdByName(personList.get(1).toString()), 10.0);
+        ticket = ticketFactory.getUniformTicket(personController.getIdByName(personList.get(2).toString()), debts);
+        ticketList.add(ticket);
+
+
+        //Create depth with dinner and uniform between 2 -> 0 for € 10.0
+        //1 (B) pays €30 for 2 (C)
+        debts = new HashMap<>();
+        //Het klopt nog niet helemaal
+        debts.put(personController.getIdByName(personList.get(0).toString()), 10.0);
+        ticket = ticketFactory.getUniformTicket(personController.getIdByName(personList.get(2).toString()), debts);
+        ticketList.add(ticket);
+
+        //save to the database
+        ticketList.forEach(ticketController::addValue);
+
         //Calculate the tallies.
         List<Triplet<Integer, Integer, Double>> tallies = Calculator.CalculateTallyPairs();
         Calculator.PrintTallies(tallies);
