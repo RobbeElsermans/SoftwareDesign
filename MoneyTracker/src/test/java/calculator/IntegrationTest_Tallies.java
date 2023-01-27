@@ -22,6 +22,10 @@ public class IntegrationTest_Tallies {
 
     @Test
     public void testTwoTallies() {
+        //reset databases
+        TicketDB.getInstance().delAllValue();
+        PersonDB.getInstance().delAllValue();
+
         //Create 2 persons
         List<IPerson> personList = createPersons(2);
 
@@ -65,6 +69,11 @@ public class IntegrationTest_Tallies {
 
     @Test
     public void testTreeTallies(){
+        //reset databases
+        TicketDB.getInstance().delAllValue();
+        PersonDB.getInstance().delAllValue();
+
+
         //Create 3 persons
         List<IPerson> personList = createPersons(3);
 
@@ -76,6 +85,7 @@ public class IntegrationTest_Tallies {
         List<ITicket> ticketList = new ArrayList<>();
         ITicketFactory ticketFactory = new DinnerTicketFactory();
         TicketController ticketController = new TicketController(TicketDB.getInstance());
+
 
         //Create depth with dinner and uniform between 0 -> 1 for € 20.0
         //0 (A) pays €20 for 1 (B)
@@ -150,6 +160,10 @@ public class IntegrationTest_Tallies {
 
     @Test
     public void testTreeTalliesWithRemoval(){
+        //reset databases
+        TicketDB.getInstance().delAllValue();
+        PersonDB.getInstance().delAllValue();
+
         //Create 3 persons
         List<IPerson> personList = createPersons(3);
 
