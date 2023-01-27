@@ -194,7 +194,7 @@ public class Calculator {
         // Check tallies where payer owes money
         List<Triplet<Integer, Integer, Double>> toPayList = tallies.stream().filter(tally ->
                 tally.getValue1() == payerId).collect(Collectors.toList());
-        // PrintTallies(toPayList);
+        PrintTallies(toPayList);
 
         // Pass the debts to the next person
         // Loop through the entire list until the debt is clear or there are no people to give the debt to
@@ -210,6 +210,8 @@ public class Calculator {
                     tallies.add(debtReceiver);
                 }
             }
+            System.out.printf(debtReceiver + "\n");
+
             int index;
             double externalDebt = toPayEntry.getValue2();   // payer    -> external payer debt
             double internalDebt = debtGiver.getValue2();    // spender  -> payer debt
@@ -247,7 +249,7 @@ public class Calculator {
 
             // add the debt to the debt receiver
             index = tallies.indexOf(debtReceiver);
-            tallies.set(index, debtReceiver.setAt2(newLinkedDebt));
+            tallies.set(index, debtReceiver.setAt2(debtGiver.getValue2() + newLinkedDebt));
         }
 
         while (tallies.stream().filter(tally -> tally.getValue2() == 0.0).findFirst().orElse(null) != null){

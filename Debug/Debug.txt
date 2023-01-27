@@ -1,0 +1,9 @@
+Caculator-Min-Max:
+	Calculator->CalculateFinalTallies()
+	line 104-115
+	Min- & max-entry would be switched from time to time
+
+Caculator-Settle-Debts:
+	Calculator->PassDebts()
+	line 252
+	The new debt would replace the old debt, and not be added
