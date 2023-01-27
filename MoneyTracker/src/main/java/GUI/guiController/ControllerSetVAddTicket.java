@@ -2,10 +2,19 @@ package GUI.guiController;
 
 import GUI.helperClass.dropdownControl;
 import GUI.helperClass.errorControl;
+import database.PersonDB;
+import database.TicketDB;
+import database.dbController.PersonController;
+import database.dbController.TicketController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import ticket.TicketType;
 
-public class ControllerSetVAddTicket extends AAddTicketController {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class ControllerSetVAddTicket extends AAddTicketController implements Initializable {
     @Override
     protected void setFromPerson(ActionEvent event) {
         super.setFromPerson(event);
@@ -89,4 +98,9 @@ public class ControllerSetVAddTicket extends AAddTicketController {
         super.saveATicket(event);
     }
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location, resources);
+        this.currentTicketType = TicketType.VARIABLE;
+    }
 }

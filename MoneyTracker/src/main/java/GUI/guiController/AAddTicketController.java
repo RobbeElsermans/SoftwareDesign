@@ -46,7 +46,7 @@ public abstract class AAddTicketController implements Initializable, IObserver {
      *
      * @used to populate the dropdown (Combobox) tables
      */
-    private TicketType currentTicketType = TicketType.UNIFORM;
+    protected TicketType currentTicketType;
 
     /**
      * Factory types (FactoryType) converted to string names

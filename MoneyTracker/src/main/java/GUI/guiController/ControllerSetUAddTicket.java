@@ -6,6 +6,10 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import ticket.TicketType;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 public class ControllerSetUAddTicket extends AAddTicketController implements ChangeListener<Double> {
 
@@ -129,5 +133,11 @@ public class ControllerSetUAddTicket extends AAddTicketController implements Cha
         for (int i = 0; i < this.numberOfForPersons; i++) {
             this.listViewForPersons.getItems().add(this.forPersonNamesList.get(i) + " is in depth: " + decimalFormat.format(this.forPersonAmount.get(i)));
         }
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location, resources);
+        this.currentTicketType = TicketType.UNIFORM;
     }
 }

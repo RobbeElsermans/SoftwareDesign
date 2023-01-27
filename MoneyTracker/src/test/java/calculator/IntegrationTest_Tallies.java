@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class IntegrationTest_Tallies {
 
     @Test
-    public void testTwoTallies(){
+    public void testTwoTallies() {
         //Create 2 persons
         List<IPerson> personList = createPersons(2);
 
@@ -53,7 +53,6 @@ public class IntegrationTest_Tallies {
         //save to the database
         ticketList.forEach(ticketController::addValue);
 
-
         //Calculate the tallies. It should be 1 (B) is in depth with 0 (A) with 10.0
         List<Triplet<Integer, Integer, Double>> tallies = Calculator.CalculateFinalTallies(Calculator.CalculateTallyPairs());
         // System.out.println(tallies);
@@ -65,7 +64,7 @@ public class IntegrationTest_Tallies {
     }
 
     @Test
-    public void testTreeTallies(){
+    public void testTreeTallies() {
         //Create 3 persons
         List<IPerson> personList = createPersons(3);
 
@@ -95,8 +94,6 @@ public class IntegrationTest_Tallies {
         //Create depth with dinner and uniform between 1 -> 2 for € 30.0
         //1 (B) pays €30 for 2 (C)
         debts = new HashMap<>();
-        //TODO als dit verhoogt, dan zal depths onder 0 gaan waardoor er een null pointer komt.
-        //Het klopt nog niet helemaal
         debts.put(personController.getIdByName(personList.get(2).toString()), 30.0);
         ticket = ticketFactory.getUniformTicket(personController.getIdByName(personList.get(1).toString()), debts);
         ticketList.add(ticket);
@@ -105,29 +102,58 @@ public class IntegrationTest_Tallies {
         ticketList.forEach(ticketController::addValue);
 
 
-        //Calculate the tallies. It should be 0 -> 1 with 10.0
+        //Calculate the tallies.
         List<Triplet<Integer, Integer, Double>> tallies = Calculator.CalculateTallyPairs();
         Calculator.PrintTallies(tallies);
+
+        //It should be 1 -> 2 with 30.0
+        if ((personController.getNameById(tallies.get(0).getValue0()).equalsIgnoreCase("A") &&
+                personController.getNameById(tallies.get(0).getValue1()).equalsIgnoreCase("B"))) {
+            assertEquals(tallies.get(0).getValue2(), 10.0);
+        } else if ((personController.getNameById(tallies.get(1).getValue0()).equalsIgnoreCase("A") &&
+                personController.getNameById(tallies.get(1).getValue1()).equalsIgnoreCase("B"))) {
+            assertEquals(tallies.get(1).getValue2(), 10.0);
+        }
+
+        //AND 0 -> 1 with 10?
+        if (personController.getNameById(tallies.get(0).getValue0()).equalsIgnoreCase("B") &&
+                personController.getNameById(tallies.get(0).getValue1()).equalsIgnoreCase("C")) {
+            assertEquals(tallies.get(0).getValue2(), 30.0);
+        } else if (personController.getNameById(tallies.get(1).getValue0()).equalsIgnoreCase("B") &&
+                personController.getNameById(tallies.get(1).getValue1()).equalsIgnoreCase("C")) {
+            assertEquals(tallies.get(1).getValue2(), 30.0);
+        }
+
+        //Calculate again to make it less complex
+        //TODO De 1ne keer geeft die wel een minder complexe oplossing en de andere keer niet. Is dit plaats afhankelijk?
         tallies = Calculator.CalculateFinalTallies(tallies);
         Calculator.PrintTallies(tallies);
 
-        /*assertEquals(tallies.get(0).getValue0(), personController.getIdByName(personList.get(0).toString()));
-        assertEquals(tallies.get(0).getValue1(), personController.getIdByName(personList.get(1).toString()));
-        assertEquals(tallies.get(0).getValue2(), 10.0);
+        //It should be 0 -> 1 with 10.0
+        if ((personController.getNameById(tallies.get(0).getValue0()).equalsIgnoreCase("A") &&
+                personController.getNameById(tallies.get(0).getValue1()).equalsIgnoreCase("B"))) {
+            assertEquals(tallies.get(0).getValue2(), 10.0);
+        } else if ((personController.getNameById(tallies.get(1).getValue0()).equalsIgnoreCase("A") &&
+                personController.getNameById(tallies.get(1).getValue1()).equalsIgnoreCase("B"))) {
+            assertEquals(tallies.get(1).getValue2(), 10.0);
+        }
 
-        //AND 1 -> 2 with 30?
-        //TODO Tom kijk dit eens na
-        assertEquals(tallies.get(1).getValue0(), personController.getIdByName(personList.get(1).toString()));
-        assertEquals(tallies.get(1).getValue1(), personController.getIdByName(personList.get(2).toString()));
-        assertEquals(tallies.get(1).getValue2(), 30.0);*/
+        //It should be 1 -> 2 with 20.0
+        if ((personController.getNameById(tallies.get(0).getValue0()).equalsIgnoreCase("B") &&
+                personController.getNameById(tallies.get(0).getValue1()).equalsIgnoreCase("C"))) {
+            assertEquals(tallies.get(0).getValue2(), 20.0);
+        } else if ((personController.getNameById(tallies.get(1).getValue0()).equalsIgnoreCase("B") &&
+                personController.getNameById(tallies.get(1).getValue1()).equalsIgnoreCase("C"))) {
+            assertEquals(tallies.get(1).getValue2(), 20.0);
+        }
     }
 
-    private List<IPerson> createPersons(int amount){
+    private List<IPerson> createPersons(int amount) {
         List<IPerson> personsList = new ArrayList<>();
 
         if (amount > 1) {
-            for (int i = 0; i < amount ; i++){
-                personsList.add(new Person(String.valueOf((char)(i+65)),String.valueOf((char)(i+65))));
+            for (int i = 0; i < amount; i++) {
+                personsList.add(new Person(String.valueOf((char) (i + 65)), String.valueOf((char) (i + 65))));
             }
         } else if (amount == 1) {
             personsList.add(new Person("A", "A"));
