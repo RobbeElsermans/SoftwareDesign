@@ -132,7 +132,7 @@ public class Calculator {
             // Find a tallies where ones spender matches the others payer
             Triplet<Integer, Integer, Double> dualPath = tallies.stream().filter(debt ->
                     debt.getValue0() == spenderId).findFirst().orElse(null);
-            System.out.printf(dualPath + "\n");
+            //System.out.printf(dualPath + "\n");
             if (dualPath != null) return true;
         }
         return false;
@@ -170,7 +170,7 @@ public class Calculator {
 
             amounts.put(id, owed);
         }
-        for(Map.Entry<Integer, Double> entry : amounts.entrySet()) { System.out.printf("%s is owed €%.2f\n", pCtrl.getNameById(entry.getKey()), entry.getValue()); }
+        //for(Map.Entry<Integer, Double> entry : amounts.entrySet()) { System.out.printf("%s is owed €%.2f\n", pCtrl.getNameById(entry.getKey()), entry.getValue()); }
         return amounts;
     }
 
@@ -194,7 +194,7 @@ public class Calculator {
         // Check tallies where payer owes money
         List<Triplet<Integer, Integer, Double>> toPayList = tallies.stream().filter(tally ->
                 tally.getValue1() == payerId).collect(Collectors.toList());
-        PrintTallies(toPayList);
+        //PrintTallies(toPayList);
 
         // Pass the debts to the next person
         // Loop through the entire list until the debt is clear or there are no people to give the debt to
@@ -210,7 +210,7 @@ public class Calculator {
                     tallies.add(debtReceiver);
                 }
             }
-            System.out.printf(debtReceiver + "\n");
+            //System.out.printf(debtReceiver + "\n");
 
             int index;
             double externalDebt = toPayEntry.getValue2();   // payer    -> external payer debt
