@@ -101,25 +101,38 @@ public class Calculator {
             for (Map.Entry<Integer, Double> entry : GetTotalDebtToPerson(tallies).entrySet()) { // Step 2
                 // Check if the entry owes money to someone else
                 if (tallies.stream().filter(tally -> tally.getValue1().equals(entry.getKey())).findFirst().orElse(null) != null){
-                    // minEntry == maxEntry crashes the application -> Avoid it!
-                    if ((minEntry == null || entry.getValue().compareTo(minEntry.getValue()) < 0) && entry != maxEntry) minEntry = entry;
-                    if ((maxEntry == null || entry.getValue().compareTo(maxEntry.getValue()) > 0) && entry != minEntry) maxEntry = entry;
+                    // First place minimum value
+                    if (minEntry == null || entry.getValue().compareTo(minEntry.getValue()) < 0) {
+                        // In case minimum value gets overwritten compare with maximum value for possible overwrite
+                        if (maxEntry == null || entry.getValue().compareTo(maxEntry.getValue()) > 0) {
+                            maxEntry = entry;
+                        }
+                        // Overwrite minimum value
+                        minEntry = entry;
+                    } else if (maxEntry == null || entry.getValue().compareTo(maxEntry.getValue()) > 0) {
+                        // Overwrite minimum value
+                        maxEntry = entry;
+                    }
                 }
             }
-            if (minEntry != null && maxEntry != null) PassDebts(minEntry.getKey(), maxEntry.getKey(), tallies); // Step 3
-            else return tallies;
-            ReverseNegativeTallies(tallies);
-            tallies = CalculateFinalTallies(tallies);   // Step 4
+            // minEntry == maxEntry crashes the application -> Avoid it!
+            if ((minEntry != maxEntry) && minEntry != null && maxEntry != null) {
+                PassDebts(minEntry.getKey(), maxEntry.getKey(), tallies); // Step 3
+                ReverseNegativeTallies(tallies);
+                tallies = CalculateFinalTallies(tallies);   // Step 4
+            }
         }
         return tallies;
     }
 
     private static boolean CheckForDualStepDebts(List<Triplet<Integer, Integer, Double>> tallies){
+        List<Triplet<Integer, Integer, Double>> steps = new ArrayList<>();
         for (Triplet<Integer, Integer, Double> tally: tallies) {
             int spenderId = tally.getValue1();
             // Find a tallies where ones spender matches the others payer
             Triplet<Integer, Integer, Double> dualPath = tallies.stream().filter(debt ->
                     debt.getValue0() == spenderId).findFirst().orElse(null);
+            System.out.printf(dualPath + "\n");
             if (dualPath != null) return true;
         }
         return false;
@@ -157,7 +170,7 @@ public class Calculator {
 
             amounts.put(id, owed);
         }
-        // for(Map.Entry<Integer, Double> entry : amounts.entrySet()) { System.out.printf("%s is owed €%.2f\n", pCtrl.getNameById(entry.getKey()), entry.getValue()); }
+        for(Map.Entry<Integer, Double> entry : amounts.entrySet()) { System.out.printf("%s is owed €%.2f\n", pCtrl.getNameById(entry.getKey()), entry.getValue()); }
         return amounts;
     }
 
