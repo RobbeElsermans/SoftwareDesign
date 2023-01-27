@@ -249,7 +249,7 @@ public class Calculator {
 
             // add the debt to the debt receiver
             index = tallies.indexOf(debtReceiver);
-            tallies.set(index, debtReceiver.setAt2(debtGiver.getValue2() + newLinkedDebt));
+            tallies.set(index, debtReceiver.setAt2(debtReceiver.getValue2() + newLinkedDebt));
         }
 
         while (tallies.stream().filter(tally -> tally.getValue2() == 0.0).findFirst().orElse(null) != null){
