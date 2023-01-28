@@ -47,7 +47,14 @@ public class TicketController extends AController<ITicket>{
                 // If the person who owes money falls away, then the fall guy must take over their debt
                 if (value.getDebs().get(deletedPersonId) != null) {
                     double debt = value.getDebs().remove(deletedPersonId);
-                    value.getDebs().put(fallGuyId, debt);
+                    if (value.getDebs().containsKey(fallGuyId)) {
+                        // If there was a previous debt --> add debt
+                        double oldDebt = value.getDebs().get(fallGuyId);
+                        value.getDebs().put(fallGuyId, oldDebt + debt);
+                    } else {
+                        // If there was no previous debt --> create debt
+                        value.getDebs().put(fallGuyId, debt);
+                    }
                 }
             }
         }

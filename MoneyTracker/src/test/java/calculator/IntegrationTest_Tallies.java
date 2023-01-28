@@ -521,12 +521,9 @@ public class IntegrationTest_Tallies {
         //1 (B) pays €10 for 0 (A)
         debts = new HashMap<>();
         debts.put(personController.getIdByName(personList.get(0).toString()), 20.0);
-        ticket = ticketFactory.getUniformTicket(personController.getIdByName(personList.get(1).toString()), debts);
-        ticketList.add(ticket);
 
         //Create depth with dinner and uniform between 1 -> 2 for € 30.0
         //1 (B) pays €30 for 2 (C)
-        debts = new HashMap<>();
         debts.put(personController.getIdByName(personList.get(2).toString()), 30.0);
         ticket = ticketFactory.getUniformTicket(personController.getIdByName(personList.get(1).toString()), debts);
         ticketList.add(ticket);
