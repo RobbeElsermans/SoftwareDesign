@@ -91,6 +91,7 @@ public class ControllerPersonPage implements Initializable {
             //de kosten verdelen in Ticket Controller
             this.ticketController.distributeDebts(deleteID, depthID);
 
+
             //refresh page
             refreshPage();
         } else if (dropdownControl.getDropdownListValue(this.comboBoxDeletePerson) == null) {
