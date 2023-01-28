@@ -543,7 +543,6 @@ public class IntegrationTest_Tallies {
         List<Triplet<Integer, Integer, Double>> tallies = Calculator.CalculateTallyPairs();
         tallies = Calculator.CalculateFinalTallies(tallies);
         Calculator.PrintTallies(tallies);
-
     }
 
     private List<IPerson> createPersons(int amount) {
